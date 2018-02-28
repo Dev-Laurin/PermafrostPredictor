@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		49A780A320472330002BBBFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A220472330002BBBFD /* AppDelegate.swift */; };
+		49A780A520472330002BBBFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A420472330002BBBFD /* ViewController.swift */; };
+		49A780A820472330002BBBFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A780A620472330002BBBFD /* Main.storyboard */; };
+		49A780AA20472330002BBBFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A780A920472330002BBBFD /* Assets.xcassets */; };
+		49A780AD20472330002BBBFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A780AB20472330002BBBFD /* LaunchScreen.storyboard */; };
+		49A780B820472330002BBBFD /* PermafrostPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */; };
+		49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49A780B420472330002BBBFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A7809720472330002BBBFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49A7809E20472330002BBBFD;
+			remoteInfo = PermafrostPredictor;
+		};
+		49A780BF20472330002BBBFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A7809720472330002BBBFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49A7809E20472330002BBBFD;
+			remoteInfo = PermafrostPredictor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		49A7809F20472330002BBBFD /* PermafrostPredictor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PermafrostPredictor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A780A220472330002BBBFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		49A780A420472330002BBBFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		49A780A720472330002BBBFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		49A780A920472330002BBBFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		49A780AC20472330002BBBFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		49A780AE20472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49A780B320472330002BBBFD /* PermafrostPredictorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PermafrostPredictorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermafrostPredictorTests.swift; sourceTree = "<group>"; };
+		49A780B920472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49A780BE20472330002BBBFD /* PermafrostPredictorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PermafrostPredictorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermafrostPredictorUITests.swift; sourceTree = "<group>"; };
+		49A780C420472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		49A7809C20472330002BBBFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780B020472330002BBBFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780BB20472330002BBBFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49A7809620472330002BBBFD = {
+			isa = PBXGroup;
+			children = (
+				49A780A120472330002BBBFD /* PermafrostPredictor */,
+				49A780B620472330002BBBFD /* PermafrostPredictorTests */,
+				49A780C120472330002BBBFD /* PermafrostPredictorUITests */,
+				49A780A020472330002BBBFD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		49A780A020472330002BBBFD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49A7809F20472330002BBBFD /* PermafrostPredictor.app */,
+				49A780B320472330002BBBFD /* PermafrostPredictorTests.xctest */,
+				49A780BE20472330002BBBFD /* PermafrostPredictorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		49A780A120472330002BBBFD /* PermafrostPredictor */ = {
+			isa = PBXGroup;
+			children = (
+				49A780A220472330002BBBFD /* AppDelegate.swift */,
+				49A780A420472330002BBBFD /* ViewController.swift */,
+				49A780A620472330002BBBFD /* Main.storyboard */,
+				49A780A920472330002BBBFD /* Assets.xcassets */,
+				49A780AB20472330002BBBFD /* LaunchScreen.storyboard */,
+				49A780AE20472330002BBBFD /* Info.plist */,
+			);
+			path = PermafrostPredictor;
+			sourceTree = "<group>";
+		};
+		49A780B620472330002BBBFD /* PermafrostPredictorTests */ = {
+			isa = PBXGroup;
+			children = (
+				49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */,
+				49A780B920472330002BBBFD /* Info.plist */,
+			);
+			path = PermafrostPredictorTests;
+			sourceTree = "<group>";
+		};
+		49A780C120472330002BBBFD /* PermafrostPredictorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */,
+				49A780C420472330002BBBFD /* Info.plist */,
+			);
+			path = PermafrostPredictorUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49A7809E20472330002BBBFD /* PermafrostPredictor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49A780C720472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictor" */;
+			buildPhases = (
+				49A7809B20472330002BBBFD /* Sources */,
+				49A7809C20472330002BBBFD /* Frameworks */,
+				49A7809D20472330002BBBFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PermafrostPredictor;
+			productName = PermafrostPredictor;
+			productReference = 49A7809F20472330002BBBFD /* PermafrostPredictor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49A780B220472330002BBBFD /* PermafrostPredictorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49A780CA20472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictorTests" */;
+			buildPhases = (
+				49A780AF20472330002BBBFD /* Sources */,
+				49A780B020472330002BBBFD /* Frameworks */,
+				49A780B120472330002BBBFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49A780B520472330002BBBFD /* PBXTargetDependency */,
+			);
+			name = PermafrostPredictorTests;
+			productName = PermafrostPredictorTests;
+			productReference = 49A780B320472330002BBBFD /* PermafrostPredictorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		49A780BD20472330002BBBFD /* PermafrostPredictorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49A780CD20472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictorUITests" */;
+			buildPhases = (
+				49A780BA20472330002BBBFD /* Sources */,
+				49A780BB20472330002BBBFD /* Frameworks */,
+				49A780BC20472330002BBBFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49A780C020472330002BBBFD /* PBXTargetDependency */,
+			);
+			name = PermafrostPredictorUITests;
+			productName = PermafrostPredictorUITests;
+			productReference = 49A780BE20472330002BBBFD /* PermafrostPredictorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		49A7809720472330002BBBFD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Geophysical Institute";
+				TargetAttributes = {
+					49A7809E20472330002BBBFD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					49A780B220472330002BBBFD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 49A7809E20472330002BBBFD;
+					};
+					49A780BD20472330002BBBFD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 49A7809E20472330002BBBFD;
+					};
+				};
+			};
+			buildConfigurationList = 49A7809A20472330002BBBFD /* Build configuration list for PBXProject "PermafrostPredictor" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 49A7809620472330002BBBFD;
+			productRefGroup = 49A780A020472330002BBBFD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				49A7809E20472330002BBBFD /* PermafrostPredictor */,
+				49A780B220472330002BBBFD /* PermafrostPredictorTests */,
+				49A780BD20472330002BBBFD /* PermafrostPredictorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		49A7809D20472330002BBBFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49A780AD20472330002BBBFD /* LaunchScreen.storyboard in Resources */,
+				49A780AA20472330002BBBFD /* Assets.xcassets in Resources */,
+				49A780A820472330002BBBFD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780B120472330002BBBFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780BC20472330002BBBFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		49A7809B20472330002BBBFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49A780A520472330002BBBFD /* ViewController.swift in Sources */,
+				49A780A320472330002BBBFD /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780AF20472330002BBBFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49A780B820472330002BBBFD /* PermafrostPredictorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49A780BA20472330002BBBFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49A780B520472330002BBBFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49A7809E20472330002BBBFD /* PermafrostPredictor */;
+			targetProxy = 49A780B420472330002BBBFD /* PBXContainerItemProxy */;
+		};
+		49A780C020472330002BBBFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49A7809E20472330002BBBFD /* PermafrostPredictor */;
+			targetProxy = 49A780BF20472330002BBBFD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		49A780A620472330002BBBFD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49A780A720472330002BBBFD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		49A780AB20472330002BBBFD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49A780AC20472330002BBBFD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		49A780C520472330002BBBFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		49A780C620472330002BBBFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49A780C820472330002BBBFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49A780C920472330002BBBFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		49A780CB20472330002BBBFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PermafrostPredictor.app/PermafrostPredictor";
+			};
+			name = Debug;
+		};
+		49A780CC20472330002BBBFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PermafrostPredictor.app/PermafrostPredictor";
+			};
+			name = Release;
+		};
+		49A780CE20472330002BBBFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PermafrostPredictor;
+			};
+			name = Debug;
+		};
+		49A780CF20472330002BBBFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = PermafrostPredictorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PermafrostPredictor;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		49A7809A20472330002BBBFD /* Build configuration list for PBXProject "PermafrostPredictor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49A780C520472330002BBBFD /* Debug */,
+				49A780C620472330002BBBFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49A780C720472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49A780C820472330002BBBFD /* Debug */,
+				49A780C920472330002BBBFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49A780CA20472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49A780CB20472330002BBBFD /* Debug */,
+				49A780CC20472330002BBBFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49A780CD20472330002BBBFD /* Build configuration list for PBXNativeTarget "PermafrostPredictorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49A780CE20472330002BBBFD /* Debug */,
+				49A780CF20472330002BBBFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 49A7809720472330002BBBFD /* Project object */;
+}
