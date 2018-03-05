@@ -18,25 +18,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-Dc-vdb">
-                                <rect key="frame" x="0.0" y="542" width="375" height="125"/>
-                            </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="ePc-iR-VPj">
-                                <rect key="frame" x="0.0" y="524" width="375" height="10"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1Jv-nx-7ZM">
+                                <rect key="frame" x="0.0" y="532" width="375" height="135"/>
+                                <subviews>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="ePc-iR-VPj">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="10"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-Dc-vdb">
+                                        <rect key="frame" x="0.0" y="10" width="375" height="125"/>
+                                    </imageView>
+                                </subviews>
                                 <gestureRecognizers/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="YNT-tF-oPU" appends="YES" id="9ie-hE-zPw"/>
+                                    <outletCollection property="gestureRecognizers" destination="bDE-3H-HIw" appends="YES" id="bIl-rU-kKl"/>
                                 </connections>
-                            </imageView>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ef7-Dc-vdb" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="H0s-em-tlj"/>
-                            <constraint firstItem="ef7-Dc-vdb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HLq-eB-7CM"/>
-                            <constraint firstItem="ef7-Dc-vdb" firstAttribute="top" secondItem="ePc-iR-VPj" secondAttribute="bottom" constant="8" symbolic="YES" id="SZS-Hw-pzf"/>
-                            <constraint firstItem="ePc-iR-VPj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dZ7-3h-HN8"/>
-                            <constraint firstItem="ePc-iR-VPj" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="jv1-c7-U4P"/>
-                            <constraint firstItem="ef7-Dc-vdb" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="roO-Dq-eG1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1Jv-nx-7ZM" secondAttribute="bottom" id="8t6-o8-Cc0"/>
+                            <constraint firstItem="1Jv-nx-7ZM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Uoe-iq-AGz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1Jv-nx-7ZM" secondAttribute="trailing" id="kqr-Qq-7gd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -46,9 +49,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="YNT-tF-oPU">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="bDE-3H-HIw">
                     <connections>
-                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="Tci-x8-r7E"/>
+                        <action selector="stackViewHandleGestureWithRecognizer:" destination="BYZ-38-t0r" id="fli-7c-xET"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
