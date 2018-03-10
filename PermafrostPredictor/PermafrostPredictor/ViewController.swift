@@ -129,5 +129,21 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //This function resizes the previous image views in order to keep the screen filled correctly
+        //and correspond to the new movement of the selected view.
+    /**
+        Call this function in the pan gesture handler to keep previous image views the right
+        size by resizing.
+     
+        -Parameters :
+            - :
+     
+     ### Usage Example: ###
+        
+    */
+    private func resizePreviousImageViews(){
+        
+    }
 }
 

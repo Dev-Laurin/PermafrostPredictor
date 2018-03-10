@@ -1,0 +1,6 @@
+version: "Apple Swift version 4.0.3 (swiftlang-900.0.74.1 clang-900.0.39.2)"
+options: "fa020c06b226daa6432a55bcf62af5a8"
+build_time: [1520642207, 168645000]
+inputs:
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/AppDelegate.swift": [9223372036, 854775807]
