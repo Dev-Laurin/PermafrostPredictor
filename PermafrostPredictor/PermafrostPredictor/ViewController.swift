@@ -20,105 +20,75 @@ class ViewController: UIViewController {
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
     @IBAction func handleGesture(recognizer:UIPanGestureRecognizer){
         
-        //Bounds for movement
-            //Image should be at least
-        let imageHeightBound: CGFloat = 40
-      
         //get the translation movement from the recognizer
         let translation = recognizer.translation(in: self.view)
+        
         //move the view
         if let view = recognizer.view{
+            
+            //The new yVal of the line
             var yVal = view.center.y + translation.y
 
             //Bounding
-            let bottomConstraint = self.view.frame.height-40
-            let topConstraint = CGFloat(60)
+                //An image shouldn't be smaller than...
+            let imageHeightBound: CGFloat = 40
             
-            if(yVal < topConstraint){
-                yVal = topConstraint
-            }
-            else if( yVal > bottomConstraint){
-                yVal = bottomConstraint
-            }
-            else{
-                //Set the coordinates
-                view.center = CGPoint(x:view.center.x, //only move vertically, don't change x
-                                      y:yVal)
-            }
-
-            let screenSize : CGRect = UIScreen.main.bounds
-            let screenHeight = screenSize.height
-            
-            yVal += view.bounds.height/2
-            
+            //Find where this view is inside the parent view
+                //so we can resize the previous view when we change size
             var imageView = view.superview?.subviews[0]
             var index = 0
-            
+            var lineView = view.superview?.subviews[0]
             //find where this view is in the parent (overall view)
             for v in (view.superview?.subviews)! {
                 if(v == view){
                     imageView = view.superview?.subviews[index+1]
+                    lineView = view.superview?.subviews[index]
                     break
                 }
                 index += 1
             }
-            //Lower bound
-            var lowerBound = screenHeight
             
-            if(index+2 < (view.superview?.subviews.count)!){
-                //lowerbound is the screenheight
-                lowerBound = (view.superview?.subviews[index+2].frame.minY)!
-            }
+            //The view below it's line y position (for imageview height determination)
+            var lowerBoundOfImageHeight = view.superview?.subviews[index+2].frame.minY
             
-            let heightChange = lowerBound - yVal
+            //The image yVal
+            yVal += view.bounds.height/2
+            var newHeight = lowerBoundOfImageHeight! - yVal
+            let heightChange = newHeight - (imageView?.frame.height)!
             
+            //The previous image (will be re-sized in some way)
+            var previousImageView = (view.superview?.subviews[index-1])!
             
-            //Calculate equal movement of previous subviews (resizing)
-                //Get Height of each image
-            
-            //for each previous view, resize it to fit the new size
-            //view = current line clicked on
-            //view.superview = stackview
-            //view.superview.subviews[index] = our line view
-            //index + 1 = imgView corresponding to line view
-            //index + 2 = next line view up
-            //index + 3 its img
-            //index + 4 next line ...
-            //0 1, 2 3, 3 4, 5 6, ...
-            var superviewSubviews = view.superview?.subviews
-            
-            var heightLeftOver: CGFloat = 0
-            let amountOfViewsAbove = ((superviewSubviews?.count)! - index)/2
-            for var i in index+2..<(view.superview!.subviews.count){
-                //resizeView(view: view, )
-                //superviewSubviews[index]
-                
-                //Move the amount moved with respect to bounds and other views
-                let inParentImageView = superviewSubviews![i+1]
-                let inParentLineView = superviewSubviews![i]
-                var aboveImageHeightChange = inParentImageView.frame.height - heightChange/CGFloat(amountOfViewsAbove)
-                
-                if(aboveImageHeightChange > imageHeightBound){
-                    //the height change can occur
-                    inParentImageView.frame = CGRect(origin: CGPoint(x: inParentLineView.center.x - inParentImageView.frame.width/2, y: inParentImageView.frame.minY), size: CGSize(width: (inParentImageView.frame.width),height: aboveImageHeightChange))
-                }
-                else{
-                    //the height change cannot occur
-                    heightLeftOver = -(aboveImageHeightChange)
+            //Bound the movement & Draw
+            if(yVal < (previousImageView.frame.minY + imageHeightBound)){
+                //The previous image is at its smallest
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: imageHeightBound))
 
-                    //The most we can move
-                    aboveImageHeightChange = aboveImageHeightChange - imageHeightBound
-                    heightLeftOver -= aboveImageHeightChange
-                    
-                    //Move a smaller amount if possible
-                    inParentImageView.frame = CGRect(origin: CGPoint(x: inParentLineView.center.x - inParentImageView.frame.width/2, y: inParentImageView.frame.minY), size: CGSize(width: (inParentImageView.frame.width),height: aboveImageHeightChange))
-                    
-                }
-                i+=1 //skip the imageviews
-                
+                //Set the line & image view y values and height appropriately
+                yVal = previousImageView.frame.minY + imageHeightBound
+                newHeight = lowerBoundOfImageHeight! - yVal
+
+            }
+            else if(newHeight < imageHeightBound){
+                //The moving view (this view's) lower bound. This is the smallest image and
+                    //shouldn't move anymore
+
+                newHeight = imageHeightBound
+                yVal = (imageView?.frame.maxY)! - imageHeightBound
+
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (lineView?.frame.minY)! - previousImageView.bounds.minY))
+            }
+            else{
+                //We are free to move the amount translated
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (lineView?.frame.minY)! - previousImageView.bounds.minY))
             }
             
-            imageView!.frame = CGRect(origin: CGPoint(x: view.center.x - imageView!.frame.width/2, y: yVal), size: CGSize(width: (imageView?.frame.width)!,height: heightChange)) // screenHeight - yVal
+            
+            view.center = CGPoint(x:view.center.x, //only move vertically, don't change x
+                y:yVal - view.bounds.height/2)
+            
+            imageView!.frame = CGRect(origin: CGPoint(x: view.center.x - imageView!.frame.width/2, y: yVal), size: CGSize(width: (imageView?.frame.width)!,height: newHeight))
+            
         }
         //Don't have image keep moving, set translation to zero because we are done
         recognizer.setTranslation(CGPoint.zero, in: self.view)
@@ -128,22 +98,6 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    //This function resizes the previous image views in order to keep the screen filled correctly
-        //and correspond to the new movement of the selected view.
-    /**
-        Call this function in the pan gesture handler to keep previous image views the right
-        size by resizing.
-     
-        -Parameters :
-            - :
-     
-     ### Usage Example: ###
-        
-    */
-    private func resizePreviousImageViews(){
-        
     }
 }
 
