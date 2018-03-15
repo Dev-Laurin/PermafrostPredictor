@@ -57,12 +57,14 @@ class ViewController: UIViewController {
             let heightChange = newHeight - (imageView?.frame.height)!
             
             //The previous image (will be re-sized in some way)
-            var previousImageView = (view.superview?.subviews[index-1])!
+            var previousImageView : UIImageView = (view.superview?.subviews[index-1])! as! UIImageView
             
             //Bound the movement & Draw
             if(yVal < (previousImageView.frame.minY + imageHeightBound)){
                 //The previous image is at its smallest
                 previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: imageHeightBound))
+                previousImageView.image = cropImage(image: previousImageView.image!, newWidth: previousImageView.bounds.width, newHeight: imageHeightBound)
+
 
                 //Set the line & image view y values and height appropriately
                 yVal = previousImageView.frame.minY + imageHeightBound
@@ -75,18 +77,23 @@ class ViewController: UIViewController {
 
                 newHeight = imageHeightBound
                 yVal = (imageView?.frame.maxY)! - imageHeightBound
+                
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (view.frame.minY) - previousImageView.bounds.minY))
+                previousImageView.image = cropImage(image: previousImageView.image! , newWidth: previousImageView.bounds.width, newHeight: (lineView?.frame.minY)! - previousImageView.bounds.minY)
 
-                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (lineView?.frame.minY)! - previousImageView.bounds.minY))
             }
             else{
                 //We are free to move the amount translated
-                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (lineView?.frame.minY)! - previousImageView.bounds.minY))
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (view.frame.minY) - previousImageView.bounds.minY))
+                previousImageView.image = cropImage(image: previousImageView.image!, newWidth: previousImageView.bounds.width, newHeight: (lineView?.frame.minY)! - previousImageView.bounds.minY)
+
             }
             
             
             view.center = CGPoint(x:view.center.x, //only move vertically, don't change x
                 y:yVal - view.bounds.height/2)
             
+//            cropImage(imageView: imageView as! UIImageView, newHeight: newHeight)
             imageView!.frame = CGRect(origin: CGPoint(x: view.center.x - imageView!.frame.width/2, y: yVal), size: CGSize(width: (imageView?.frame.width)!,height: newHeight))
             
         }
@@ -98,6 +105,15 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func cropImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat)->UIImage{
+        //Make the new rectangle
+        let rect : CGRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: newHeight)
+        //Do the crop
+        var img = image
+        img = UIImage(cgImage: (image.cgImage?.cropping(to: rect))!)
+        return img
     }
 }
 

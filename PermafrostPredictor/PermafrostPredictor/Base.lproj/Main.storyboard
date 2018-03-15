@@ -21,25 +21,39 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="RIf-I1-znR">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LTc-oy-sNk">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="157"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="ofX-57-mDo">
+                                                <rect key="frame" x="263" y="0.0" width="112" height="99"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="ZOq-H5-ZVn">
+                                                <rect key="frame" x="0.0" y="0.0" width="105" height="99"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="fHS-IK-DU7">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="10"/>
+                                        <rect key="frame" x="0.0" y="157" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="iqQ-ui-b5Z" appends="YES" id="Xz2-rt-1c2"/>
                                         </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="iWA-au-xEc">
-                                        <rect key="frame" x="0.0" y="10" width="375" height="232"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="iWA-au-xEc">
+                                        <rect key="frame" x="0.0" y="167" width="375" height="125"/>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="5c9-eC-oqz">
-                                        <rect key="frame" x="0.0" y="242" width="375" height="10"/>
+                                        <rect key="frame" x="0.0" y="292" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="u2J-h5-NQt" appends="YES" id="wg2-tS-35w"/>
                                         </connections>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="p6w-Tf-6ml">
-                                        <rect key="frame" x="0.0" y="252" width="375" height="125"/>
+                                        <rect key="frame" x="0.0" y="302" width="375" height="75"/>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="bgA-w8-93Z">
                                         <rect key="frame" x="0.0" y="377" width="375" height="10"/>
@@ -48,7 +62,7 @@
                                             <outletCollection property="gestureRecognizers" destination="ewa-F7-0cA" appends="YES" id="Gtc-NA-7i0"/>
                                         </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="JJb-f0-Qdk">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="JJb-f0-Qdk">
                                         <rect key="frame" x="0.0" y="387" width="375" height="125"/>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="XSa-oY-8yr">
@@ -58,7 +72,7 @@
                                             <outletCollection property="gestureRecognizers" destination="666-Yf-PfO" appends="YES" id="cGm-7J-myY"/>
                                         </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="afM-Ya-gQU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="afM-Ya-gQU">
                                         <rect key="frame" x="0.0" y="522" width="375" height="125"/>
                                     </imageView>
                                 </subviews>
@@ -100,7 +114,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Ground" width="125" height="125"/>
+        <image name="Ground" width="75" height="75"/>
         <image name="Line" width="150" height="10"/>
+        <image name="Placeholder" width="125" height="125"/>
+        <image name="test" width="971" height="777"/>
     </resources>
 </document>

@@ -10,10 +10,12 @@ import XCTest
 @testable import PermafrostPredictor
 
 class PermafrostPredictorTests: XCTestCase {
-    
+    var vc : ViewController! 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        vc = storyboard.instantiateInitialViewController() as! ViewController
     }
     
     override func tearDown() {
@@ -31,6 +33,19 @@ class PermafrostPredictorTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+    func testcropImage(){
+        
+        //Test function
+        let image = UIImage(named: "test")
+        let imageView = UIImageView(image: image)
+        vc.cropImage(imageView: imageView, newHeight: 50)
+        //Assert
+        print("In test crop image")
+        print(imageView.image?.size.height)
+        XCTAssert(imageView.image?.size.height == 50)
+        
     }
     
 }
