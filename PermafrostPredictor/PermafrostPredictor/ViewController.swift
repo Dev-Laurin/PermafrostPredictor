@@ -8,13 +8,32 @@
 
 import UIKit
 
+//Extend the UIImageView class so it can remember its image's filename
+extension UIImageView {
+    var imageName : String {
+        set {
+            self.imageName = newValue
+        }
+        get {
+            return self.imageName
+        }
+    }
+}
+
+//View Controller for our 1 screen app
 class ViewController: UIViewController {
-    let screenSize : CGRect = UIScreen.main.bounds
-    
+    @IBOutlet weak var snowLayerImageView: UIImageView!
+    @IBOutlet weak var permafrostLayerImageView: UIImageView!
+    @IBOutlet weak var groundLayerImageView: UIImageView!
     //MARK: viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //Setup the image views so they know their image filenames
+//        snowLayerImageView.imageName = "snow"
+//        groundLayerImageView.imageName = "ground"
+//        permafrostLayerImageView.imageName = "permafrost"
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -78,7 +97,11 @@ class ViewController: UIViewController {
                 newHeight = imageHeightBound
                 yVal = (imageView?.frame.maxY)! - imageHeightBound
                 
+                //Resize the image view
                 previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (view.frame.minY) - previousImageView.bounds.minY))
+                
+                
+                //Setup with the new cropped image
                 previousImageView.image = cropImage(image: previousImageView.image! , newWidth: previousImageView.bounds.width, newHeight: (lineView?.frame.minY)! - previousImageView.bounds.minY)
 
             }
