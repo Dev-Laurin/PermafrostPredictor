@@ -8,32 +8,21 @@
 
 import UIKit
 
-//Extend the UIImageView class so it can remember its image's filename
-extension UIImageView {
-    var imageName : String {
-        set {
-            self.imageName = newValue
-        }
-        get {
-            return self.imageName
-        }
-    }
-}
-
 //View Controller for our 1 screen app
 class ViewController: UIViewController {
     @IBOutlet weak var snowLayerImageView: UIImageView!
     @IBOutlet weak var permafrostLayerImageView: UIImageView!
     @IBOutlet weak var groundLayerImageView: UIImageView!
+    
+    //0, 1, 2 = snow image view
+    //3, 4 = next image view
+    //5, 6 == next image view
+    // index/2 - 1
+    var imgNames = ["Snow", "Ground", "Permafrost"]
     //MARK: viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        //Setup the image views so they know their image filenames
-//        snowLayerImageView.imageName = "snow"
-//        groundLayerImageView.imageName = "ground"
-//        permafrostLayerImageView.imageName = "permafrost"
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -54,36 +43,34 @@ class ViewController: UIViewController {
             
             //Find where this view is inside the parent view
                 //so we can resize the previous view when we change size
-            var imageView = view.superview?.subviews[0]
+            var imageView :UIImageView = view.superview?.subviews[4] as! UIImageView
             var index = 0
-            var lineView = view.superview?.subviews[0]
+
             //find where this view is in the parent (overall view)
             for v in (view.superview?.subviews)! {
                 if(v == view){
-                    imageView = view.superview?.subviews[index+1]
-                    lineView = view.superview?.subviews[index]
+                    imageView = view.superview?.subviews[index+1] as! UIImageView
                     break
                 }
                 index += 1
             }
             
             //The view below it's line y position (for imageview height determination)
-            var lowerBoundOfImageHeight = view.superview?.subviews[index+2].frame.minY
+            let lowerBoundOfImageHeight = view.superview?.subviews[index+2].frame.minY
             
             //The image yVal
             yVal += view.bounds.height/2
             var newHeight = lowerBoundOfImageHeight! - yVal
-            let heightChange = newHeight - (imageView?.frame.height)!
             
             //The previous image (will be re-sized in some way)
-            var previousImageView : UIImageView = (view.superview?.subviews[index-1])! as! UIImageView
+            let previousImageView : UIImageView = (view.superview?.subviews[index-1])! as! UIImageView
             
+            var previousImageNewHeight :CGFloat = (view.frame.minY) - previousImageView.frame.minY
             //Bound the movement & Draw
             if(yVal < (previousImageView.frame.minY + imageHeightBound)){
+                print("yVal < ")
                 //The previous image is at its smallest
-                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: imageHeightBound))
-                previousImageView.image = cropImage(image: previousImageView.image!, newWidth: previousImageView.bounds.width, newHeight: imageHeightBound)
-
+                previousImageNewHeight = imageHeightBound
 
                 //Set the line & image view y values and height appropriately
                 yVal = previousImageView.frame.minY + imageHeightBound
@@ -93,31 +80,29 @@ class ViewController: UIViewController {
             else if(newHeight < imageHeightBound){
                 //The moving view (this view's) lower bound. This is the smallest image and
                     //shouldn't move anymore
-
+                print("<" )
                 newHeight = imageHeightBound
-                yVal = (imageView?.frame.maxY)! - imageHeightBound
-                
-                //Resize the image view
-                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (view.frame.minY) - previousImageView.bounds.minY))
-                
-                
-                //Setup with the new cropped image
-                previousImageView.image = cropImage(image: previousImageView.image! , newWidth: previousImageView.bounds.width, newHeight: (lineView?.frame.minY)! - previousImageView.bounds.minY)
+                yVal = (imageView.frame.maxY) - imageHeightBound
+                previousImageNewHeight = yVal - view.frame.height/2 - previousImageView.frame.minY //(view.frame.minY) - previousImageView.bounds.minY
 
             }
             else{
+                print("Free to move")
                 //We are free to move the amount translated
-                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.center.x - previousImageView.frame.width/2, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: (view.frame.minY) - previousImageView.bounds.minY))
-                previousImageView.image = cropImage(image: previousImageView.image!, newWidth: previousImageView.bounds.width, newHeight: (lineView?.frame.minY)! - previousImageView.bounds.minY)
-
+                previousImageNewHeight = (view.frame.minY) - previousImageView.frame.minY
             }
+            print(previousImageNewHeight)
+            previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
             
-            
+            previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
+            previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
+
             view.center = CGPoint(x:view.center.x, //only move vertically, don't change x
-                y:yVal - view.bounds.height/2)
+                y:yVal - view.frame.height/2)
             
-//            cropImage(imageView: imageView as! UIImageView, newHeight: newHeight)
-            imageView!.frame = CGRect(origin: CGPoint(x: view.center.x - imageView!.frame.width/2, y: yVal), size: CGSize(width: (imageView?.frame.width)!,height: newHeight))
+            imageView.frame = CGRect(origin: CGPoint(x: view.center.x - imageView.frame.width/2, y: yVal), size: CGSize(width: (imageView.frame.width),height: newHeight))
+            imageView.image = UIImage(named: imgNames[(index+1)/2 - 1])
+            imageView.frame = CGRect(origin: CGPoint(x: view.center.x - imageView.frame.width/2, y: yVal), size: CGSize(width: (imageView.frame.width),height: newHeight))
             
         }
         //Don't have image keep moving, set translation to zero because we are done
