@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var permafrostLayerImageView: UIImageView!
     @IBOutlet weak var groundLayerImageView: UIImageView!
     
+    @IBOutlet weak var sunImageView: UIImageView!
+    @IBOutlet weak var cloudyImageView: UIImageView!
+    
     //0, 1, 2 = snow image view
     //3, 4 = next image view
     //5, 6 == next image view
@@ -39,7 +42,7 @@ class ViewController: UIViewController {
 
             //Bounding
                 //An image shouldn't be smaller than...
-            let imageHeightBound: CGFloat = 40
+            var imageHeightBound: CGFloat = 40
             
             //Find where this view is inside the parent view
                 //so we can resize the previous view when we change size
@@ -63,39 +66,71 @@ class ViewController: UIViewController {
             var newHeight = lowerBoundOfImageHeight! - yVal
             
             //The previous image (will be re-sized in some way)
-            let previousImageView : UIImageView = (view.superview?.subviews[index-1])! as! UIImageView
-            
-            var previousImageNewHeight :CGFloat = (view.frame.minY) - previousImageView.frame.minY
-            //Bound the movement & Draw
-            if(yVal < (previousImageView.frame.minY + imageHeightBound)){
-                print("yVal < ")
-                //The previous image is at its smallest
-                previousImageNewHeight = imageHeightBound
-
-                //Set the line & image view y values and height appropriately
-                yVal = previousImageView.frame.minY + imageHeightBound
-                newHeight = lowerBoundOfImageHeight! - yVal
-
-            }
-            else if(newHeight < imageHeightBound){
-                //The moving view (this view's) lower bound. This is the smallest image and
+            if let previousImageView = (view.superview?.subviews[index-1])! as? UIImageView {
+                var previousImageNewHeight :CGFloat = (view.frame.minY) - previousImageView.frame.minY
+                //Bound the movement & Draw
+                if(yVal < (previousImageView.frame.minY + imageHeightBound)){
+                    //The previous image is at its smallest
+                    previousImageNewHeight = imageHeightBound
+                    
+                    //Set the line & image view y values and height appropriately
+                    yVal = previousImageView.frame.minY + imageHeightBound
+                    newHeight = lowerBoundOfImageHeight! - yVal
+                    
+                }
+                else if(newHeight < imageHeightBound){
+                    //The moving view (this view's) lower bound. This is the smallest image and
                     //shouldn't move anymore
-                print("<" )
-                newHeight = imageHeightBound
-                yVal = (imageView.frame.maxY) - imageHeightBound
-                previousImageNewHeight = yVal - view.frame.height/2 - previousImageView.frame.minY //(view.frame.minY) - previousImageView.bounds.minY
+                    newHeight = imageHeightBound
+                    yVal = (imageView.frame.maxY) - imageHeightBound
+                    previousImageNewHeight = yVal - view.frame.height/2 - previousImageView.frame.minY //(view.frame.minY) - previousImageView.bounds.minY
+                    
+                }
+                else{
 
+                    //We are free to move the amount translated
+                    previousImageNewHeight = (view.frame.minY) - previousImageView.frame.minY
+                }
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
+                
+                previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
+                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
             }
-            else{
-                print("Free to move")
-                //We are free to move the amount translated
-                previousImageNewHeight = (view.frame.minY) - previousImageView.frame.minY
+            //The previous view is not an image view (the sky)
+            else {
+                let previousView = (view.superview?.subviews[index-1])!
+                var previousImageNewHeight :CGFloat = (view.frame.minY) - previousView.frame.minY
+                imageHeightBound = previousView.subviews[0].bounds.height
+                //Bound the movement & Draw
+                if(yVal < (previousView.frame.minY + imageHeightBound)){
+                    //The previous image is at its smallest
+                    previousImageNewHeight = imageHeightBound
+                    
+                    //Set the line & image view y values and height appropriately
+                    yVal = previousView.frame.minY + imageHeightBound
+                    newHeight = lowerBoundOfImageHeight! - yVal
+                    
+                }
+                else if(newHeight < imageHeightBound){
+                    //The moving view (this view's) lower bound. This is the smallest image and
+                    //shouldn't move anymore
+                    newHeight = imageHeightBound
+                    yVal = (imageView.frame.maxY) - imageHeightBound
+                    previousImageNewHeight = yVal - view.frame.height/2 - previousView.frame.minY //(view.frame.minY) - previousImageView.bounds.minY
+                    
+                }
+                else{
+                    //We are free to move the amount translated
+                    previousImageNewHeight = (view.frame.minY) - previousView.frame.minY
+                }
+
+                previousView.frame = CGRect(origin: CGPoint(x: previousView.frame.minX, y: previousView.frame.minY), size: CGSize(width: (previousView.frame.width),height: previousImageNewHeight))
+                
+//                previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
+//                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
             }
-            print(previousImageNewHeight)
-            previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
             
-            previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
-            previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
+           
 
             view.center = CGPoint(x:view.center.x, //only move vertically, don't change x
                 y:yVal - view.frame.height/2)

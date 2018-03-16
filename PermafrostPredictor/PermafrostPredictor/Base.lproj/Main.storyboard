@@ -87,9 +87,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cloudyImageView" destination="7eY-xP-sfh" id="JJn-B5-EuL"/>
                         <outlet property="groundLayerImageView" destination="bE5-dd-YsS" id="t28-PN-3iO"/>
                         <outlet property="permafrostLayerImageView" destination="l4s-yd-K4N" id="mFH-Yo-QTz"/>
                         <outlet property="snowLayerImageView" destination="akj-ek-UMi" id="dJV-nS-pOQ"/>
+                        <outlet property="sunImageView" destination="zFC-rf-xu3" id="mUa-h2-ecf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
