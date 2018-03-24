@@ -37,14 +37,24 @@ class PermafrostPredictorTests: XCTestCase {
     
     func testcropImage(){
         
-        //Test function
+        //Test If the image is sized correctly
+        let newImageSize : CGFloat = 50
         let image = UIImage(named: "test")
         let imageView = UIImageView(image: image)
-        vc.cropImage(imageView: imageView, newHeight: 50)
+        let newImage = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: newImageSize)
         //Assert
-        print("In test crop image")
-        print(imageView.image?.size.height)
-        XCTAssert(imageView.image?.size.height == 50)
+        XCTAssert(newImage.size.height == newImageSize)
+        
+        
+        //Test if imageview sized, then image cropped, then imageView sized again works?
+        imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: imageView.frame.width, height: newImageSize))
+        imageView.image = newImage
+        imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: imageView.frame.width, height: newImageSize))
+        //Assert
+        XCTAssert(newImage.size.height == newImageSize)
+        XCTAssert(imageView.image?.size.height == newImageSize)
+        
+        
         
     }
     

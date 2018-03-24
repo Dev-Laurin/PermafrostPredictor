@@ -7,12 +7,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "ground_small-1.png",
+      "filename" : "ground_medium.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ground_small-2.png",
+      "filename" : "ground_large.png",
       "scale" : "3x"
     }
   ],
