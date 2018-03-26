@@ -37,6 +37,7 @@ class PermafrostPredictorTests: XCTestCase {
     
     func testIfViewsHaveCorrectImages(){
         
+<<<<<<< HEAD
     }
     
     func testcropImage(){
@@ -45,10 +46,26 @@ class PermafrostPredictorTests: XCTestCase {
         var imageView = UIImageView(image: image)
         imageView.image = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 50)
 
+=======
+        //Test If the image is sized correctly
+        let newImageSize : CGFloat = 50
+        let image = UIImage(named: "test")
+        let imageView = UIImageView(image: image)
+        let newImage = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: newImageSize)
+>>>>>>> d4a3041a6824f5f96b1d9f3545974db3b28309b7
         //Assert
-        print("In test crop image")
-        print(imageView.image?.size.height)
-        XCTAssert(imageView.image?.size.height == 50)
+        XCTAssert(newImage.size.height == newImageSize)
+        
+        
+        //Test if imageview sized, then image cropped, then imageView sized again works?
+        imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: imageView.frame.width, height: newImageSize))
+        imageView.image = newImage
+        imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: imageView.frame.width, height: newImageSize))
+        //Assert
+        XCTAssert(newImage.size.height == newImageSize)
+        XCTAssert(imageView.image?.size.height == newImageSize)
+        
+        
         
         //Test uploading the image again, cropping, and changing imageView bounds
         var img = UIImage(named: "test")
