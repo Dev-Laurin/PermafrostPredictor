@@ -35,17 +35,28 @@ class PermafrostPredictorTests: XCTestCase {
         }
     }
     
-    func testcropImage(){
+    func testIfViewsHaveCorrectImages(){
         
+    }
+    
+    func testcropImage(){
         //Test function
         let image = UIImage(named: "test")
-        let imageView = UIImageView(image: image)
-        vc.cropImage(imageView: imageView, newHeight: 50)
+        var imageView = UIImageView(image: image)
+        imageView.image = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 50)
+
         //Assert
         print("In test crop image")
         print(imageView.image?.size.height)
         XCTAssert(imageView.image?.size.height == 50)
         
+        //Test uploading the image again, cropping, and changing imageView bounds
+        var img = UIImage(named: "test")
+        imageView = UIImageView(image: img)
+        imageView.image = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 20)
+        imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: (imageView.frame.width),height: 20))
+        
+        XCTAssert(imageView.image?.size.height == 20)
     }
     
 }

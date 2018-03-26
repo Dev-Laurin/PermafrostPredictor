@@ -14,6 +14,7 @@
 		49A780AD20472330002BBBFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A780AB20472330002BBBFD /* LaunchScreen.storyboard */; };
 		49A780B820472330002BBBFD /* PermafrostPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */; };
 		49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */; };
+		49C717DB206960C40002C64C /* SunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C717DA206960C40002C64C /* SunView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		49A780BE20472330002BBBFD /* PermafrostPredictorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PermafrostPredictorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermafrostPredictorUITests.swift; sourceTree = "<group>"; };
 		49A780C420472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49C717DA206960C40002C64C /* SunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				49A780A220472330002BBBFD /* AppDelegate.swift */,
 				49A780A420472330002BBBFD /* ViewController.swift */,
+				49C717DA206960C40002C64C /* SunView.swift */,
 				49A780A620472330002BBBFD /* Main.storyboard */,
 				49A780A920472330002BBBFD /* Assets.xcassets */,
 				49A780AB20472330002BBBFD /* LaunchScreen.storyboard */,
@@ -261,6 +264,7 @@
 			files = (
 				49A780A520472330002BBBFD /* ViewController.swift in Sources */,
 				49A780A320472330002BBBFD /* AppDelegate.swift in Sources */,
+				49C717DB206960C40002C64C /* SunView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

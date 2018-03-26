@@ -21,57 +21,42 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9Zk-gL-234">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQw-Jy-hCh">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="462"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cloudy" translatesAutoresizingMaskIntoConstraints="NO" id="7eY-xP-sfh">
-                                                <rect key="frame" x="0.0" y="0.0" width="128" height="117"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="128" id="H6F-NL-ts9"/>
-                                                </constraints>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sun" translatesAutoresizingMaskIntoConstraints="NO" id="zFC-rf-xu3">
-                                                <rect key="frame" x="256" y="0.0" width="119" height="117"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="117" id="dFP-R3-cn0"/>
-                                                    <constraint firstAttribute="width" constant="119" id="iVH-h8-Jxa"/>
-                                                </constraints>
-                                            </imageView>
-                                        </subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xxh-WT-ggT">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="154"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="zFC-rf-xu3" firstAttribute="top" secondItem="7eY-xP-sfh" secondAttribute="top" id="CFB-fj-ZUM"/>
-                                            <constraint firstItem="zFC-rf-xu3" firstAttribute="top" secondItem="tQw-Jy-hCh" secondAttribute="top" id="VAS-N5-fLy"/>
-                                            <constraint firstItem="7eY-xP-sfh" firstAttribute="leading" secondItem="tQw-Jy-hCh" secondAttribute="leading" id="av8-AW-hwr"/>
-                                            <constraint firstItem="zFC-rf-xu3" firstAttribute="bottom" secondItem="7eY-xP-sfh" secondAttribute="bottom" id="bEv-zR-SiS"/>
-                                            <constraint firstAttribute="trailing" secondItem="zFC-rf-xu3" secondAttribute="trailing" id="gy5-uS-a47"/>
-                                        </constraints>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="mH9-FL-ZEy">
-                                        <rect key="frame" x="0.0" y="462" width="375" height="10"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="2gJ-Sf-W09">
+                                        <rect key="frame" x="0.0" y="154" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Qod-co-kkD" appends="YES" id="8Xq-Gl-NRl"/>
+                                            <outletCollection property="gestureRecognizers" destination="asn-Ha-Rnk" appends="YES" id="J35-7R-5Fd"/>
                                         </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" image="Snow" translatesAutoresizingMaskIntoConstraints="NO" id="akj-ek-UMi">
-                                        <rect key="frame" x="0.0" y="472" width="375" height="50"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Snow" translatesAutoresizingMaskIntoConstraints="NO" id="fMy-1V-GDf">
+                                        <rect key="frame" x="0.0" y="164" width="375" height="50"/>
                                     </imageView>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="mBd-vg-2q5">
-                                        <rect key="frame" x="0.0" y="522" width="375" height="10"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="bSN-eG-QRd">
+                                        <rect key="frame" x="0.0" y="214" width="375" height="10"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="Hem-F0-V8W">
+                                        <rect key="frame" x="0.0" y="224" width="375" height="75"/>
+                                    </imageView>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="QHo-nQ-bTa">
+                                        <rect key="frame" x="0.0" y="299" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="ojQ-oG-R7K" appends="YES" id="Knr-5c-YnR"/>
+                                            <outletCollection property="gestureRecognizers" destination="RDq-0l-ESX" appends="YES" id="lpJ-5a-q3b"/>
                                         </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="bE5-dd-YsS">
-                                        <rect key="frame" x="0.0" y="532" width="375" height="75"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="249" image="Ground" translatesAutoresizingMaskIntoConstraints="NO" id="stJ-aJ-yYo">
+                                        <rect key="frame" x="0.0" y="309" width="375" height="298"/>
                                     </imageView>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="iSV-6H-H4m">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="V4M-Kf-SvR">
                                         <rect key="frame" x="0.0" y="607" width="375" height="10"/>
                                         <gestureRecognizers/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Permafrost" translatesAutoresizingMaskIntoConstraints="NO" id="l4s-yd-K4N">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="252" image="Permafrost" translatesAutoresizingMaskIntoConstraints="NO" id="W5r-me-a6n">
                                         <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                     </imageView>
                                 </subviews>
@@ -87,34 +72,36 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="cloudyImageView" destination="7eY-xP-sfh" id="JJn-B5-EuL"/>
-                        <outlet property="groundLayerImageView" destination="bE5-dd-YsS" id="t28-PN-3iO"/>
-                        <outlet property="permafrostLayerImageView" destination="l4s-yd-K4N" id="mFH-Yo-QTz"/>
-                        <outlet property="snowLayerImageView" destination="akj-ek-UMi" id="dJV-nS-pOQ"/>
-                        <outlet property="sunImageView" destination="zFC-rf-xu3" id="mUa-h2-ecf"/>
+                        <outlet property="groundImageView" destination="stJ-aJ-yYo" id="76s-i8-n0D"/>
+                        <outlet property="lineGround" destination="QHo-nQ-bTa" id="Qf1-R3-wfb"/>
+                        <outlet property="permafrostImageView" destination="W5r-me-a6n" id="Vje-f0-HfQ"/>
+                        <outlet property="permafrostLine" destination="V4M-Kf-SvR" id="YNK-O2-eAb"/>
+                        <outlet property="skyView" destination="Xxh-WT-ggT" id="UP6-Mx-KjT"/>
+                        <outlet property="snowImageView" destination="fMy-1V-GDf" id="qe9-41-Paf"/>
+                        <outlet property="snowLineView" destination="2gJ-Sf-W09" id="h5M-Nk-ru3"/>
+                        <outlet property="staticGroundLayer" destination="Hem-F0-V8W" id="rMW-dH-9Pb"/>
+                        <outlet property="staticLineGround" destination="bSN-eG-QRd" id="s45-lx-h0Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="ojQ-oG-R7K">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="RDq-0l-ESX">
                     <connections>
-                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="Zo0-nL-GwU"/>
+                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="Mt2-De-fRh"/>
                     </connections>
                 </panGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="Qod-co-kkD">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="asn-Ha-Rnk">
                     <connections>
-                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="DeU-bh-rhv"/>
+                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="b7s-PS-vsE"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="32.799999999999997" y="47.226386806596707"/>
+            <point key="canvasLocation" x="-102" y="-41"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Cloudy" width="50" height="50"/>
         <image name="Ground" width="75" height="75"/>
         <image name="Line" width="150" height="10"/>
         <image name="Permafrost" width="50" height="50"/>
         <image name="Snow" width="50" height="50"/>
-        <image name="Sun" width="50" height="50"/>
     </resources>
 </document>
