@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     //View containing Sun
     @IBOutlet weak var skyView: UIView!
+    @IBOutlet weak var sunLabel: UILabel!
     
     //Snow Image View
     @IBOutlet weak var snowLineView: UIImageView!
@@ -31,72 +32,93 @@ class ViewController: UIViewController {
     @IBOutlet weak var permafrostImageView: UIImageView!
     
 
-    var sunLabel: UILabel = UILabel()
     var padding: CGFloat = 40.0
+    var sunIntensity: CGFloat
+    var sunView: SunView
     //0, 1, 2 = snow image view
     //3, 4 = next image view
     //5, 6 == next image view
     // index/2 - 1
     var imgNames = ["Snow", "Ground", "Permafrost"]
+    //MARK: Initialization
+    required init(coder: NSCoder){
+        sunIntensity = 30.0
+        sunView = SunView()
+        super.init(coder: coder )!
+
+    }
+    
     //MARK: viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var padding: CGFloat = 40
-        sunLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0.0, y: 0.0) , size: CGSize(width: 30, height: 30)))
-        sunLabel.text = "T = 1deg"
-        sunLabel.sizeToFit()
         
-        var imageView = UIImageView(image: UIImage(named: "Placeholder"))
+        //Initialize Temperate Label
+        let padding: CGFloat = 40
+        sunLabel.text = "T = " + String(describing: sunIntensity) + "°C"
+        //sunLabel.sizeToFit()
+        sunLabel.backgroundColor = .white
+
+        //Make the Sun in its own view
+        let sunViewSize: CGFloat = skyView.frame.width/3
+        sunView = SunView(frame: CGRect(x:0.0, y: 0.0, width: sunViewSize, height: sunViewSize))
+        //Add to the sky view
+        skyView.addSubview(sunView)
+        //Update the location in the sky view
+        sunView.frame = CGRect(x: skyView.frame.width - sunViewSize, y: padding, width: sunViewSize, height: sunViewSize)
+        sunView.backgroundColor = .white 
+        //Setup the gesture recognizer for user interaction
+        sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
+        
+        
+        //Set the background of the skyView
+       // skyView.backgroundColor = .cyan
+        let imageView = UIImageView(image: UIImage(named: "Placeholder"))
         imageView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: skyView.frame.width, height: skyView.frame.height))
         
         skyView.backgroundColor = UIColor(patternImage: UIImage(named: "Placeholder")!)
-        var sunView = UIView()
-        skyView.addSubview(sunLabel)
-        skyView.addSubview(sunView)
-        
-        var sunViewSize: CGFloat = 100.0
-        sunView.frame = CGRect(origin: CGPoint(x: skyView.frame.width - sunViewSize, y: 0.0), size: CGSize(width: sunViewSize, height: sunViewSize))
-        var rect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: sunViewSize, height: sunViewSize))
-        let path = UIBezierPath(ovalIn: rect)
-        UIColor.yellow.setFill()
-        path.fill()
-        sunView.frame = rect 
-        sunLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.width - sunLabel.frame.width - padding, y: skyView.frame.maxY ), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        var sunViewSize: CGFloat = 100.0
-        var padding: CGFloat = 40
-        let sunView = SunView(frame: CGRect(x:0.0, y: 0.0, width: sunViewSize, height: sunViewSize))
-        skyView.addSubview(sunView)
-        sunView.frame = CGRect(x: skyView.frame.width - sunViewSize, y: padding, width: sunViewSize, height: sunViewSize)
-        skyView.backgroundColor = .cyan
-        
-        sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
+        var rect = sunView.frame
+        rect.origin = CGPoint(x: skyView.frame.width - rect.width, y: rect.minY)
+        sunView.frame = rect
     }
     
     //MARK: To handle when the sun is being interacted with
     //objective C selector & function doesn't create memory errors like Swift version
     @objc func sunPanGestureRecognizer(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
-        print("In Sun Gesture Recognizer")
-        
-        var x = translation.x
-        var y = translation.y
+
+        //Find the vector magnitude of translation (hypotenuse of right triangle)
+        let x = translation.x
+        let y = translation.y
         var hypotenuse = x*x + y*y
         hypotenuse = hypotenuse.squareRoot()
-        print(hypotenuse)
-        hypotenuse = round(hypotenuse * 100.0) / 100.0
-        print(hypotenuse)
         
-        sunLabel.text = String("T = " + String(describing: hypotenuse) + "°")
-        var padding: CGFloat = 40
-        sunLabel.sizeToFit()
-        sunLabel.frame = CGRect(x: skyView.frame.width - sunLabel.frame.width - padding/2, y: skyView.frame.maxY - sunLabel.frame.height * 2, width: sunLabel.frame.width, height: sunLabel.frame.height)
-        sunLabel.backgroundColor = .white
-        sunLabel.layer.borderColor = UIColor.black.cgColor
+        //Translate the vector magnitude (hypotenuse) of the difference in movement
+        //into units of temperature
+        let degreesPerUnitOfMovement:CGFloat = 1/5.0
+        let degrees = degreesPerUnitOfMovement * hypotenuse
+        
+        var temp = degrees + sunIntensity
+        
+        //If the user has let go, add this value to the previous one
+        if recognizer.state == UIGestureRecognizerState.ended {
+            sunIntensity = temp
+        }
+
+        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
+        sunLabel.text = String("T = " + String(describing: temp) + "°C")
+
+    }
+    
+    //MARK: SkyView Gesture recognizer
+        //Decrease the Sun Temperature based on movement
+    @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
+        let translation = recognizer.translation(in: self.view)
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -251,6 +273,10 @@ class ViewController: UIViewController {
         let imgCopy = image
         let img = UIImage(cgImage: (imgCopy.cgImage?.cropping(to: rect))!)
         return img
+    }
+    
+    func roundToHundredths(num: CGFloat, format: String)->String{
+        return String(format: "%\(format)f", num)
     }
 }
 

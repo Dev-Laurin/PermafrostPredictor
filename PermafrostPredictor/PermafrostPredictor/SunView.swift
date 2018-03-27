@@ -11,33 +11,46 @@ import UIKit
 class SunView: UIView {
 
     var path: UIBezierPath!
+    var color: UIColor
     
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+    //MARK: Initialization
+    override init(frame: CGRect){
+        self.color = UIColor.yellow
+        super.init(frame: frame )
+        //Make the background transparent
+        self.backgroundColor = .clear
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder){
+        self.color = UIColor.yellow
+        super.init(coder: aDecoder)
+    }
+    
+    //MARK: Draw the sun
     override func draw(_ rect: CGRect) {
         // Drawing code
         
+        var strokeLineWidth: CGFloat = 3.0
         //Draw Circle representing the sun
-        self.path = UIBezierPath(ovalIn: CGRect(x: self.frame.width/2 - self.frame.height/2, y: 0.0, width: self.frame.size.height, height: self.frame.size.height))
+        let frameWidth = self.frame.width - strokeLineWidth*2
+        self.path = UIBezierPath(ovalIn: CGRect(x: strokeLineWidth/2, y: strokeLineWidth/2, width: self.frame.size.height - strokeLineWidth, height: self.frame.size.height - strokeLineWidth))
         //Shape fill color
-        UIColor.yellow.setFill()
+        color.setFill()
         path.fill()
         
         //Stroke color
-        UIColor.orange.setStroke()
+        UIColor.black.setStroke()
+        path.lineWidth = strokeLineWidth
         path.stroke()
         
     }
     
-    override init(frame: CGRect){
-        super.init(frame: frame )
-        //Make the background transparent
-        self.backgroundColor = .clear 
+    func setColor(newColor: UIColor){
+        color = newColor
     }
     
-    required init?(coder aDecoder: NSCoder){
-        super.init(coder: aDecoder)
-    }
+
     
 
 }
