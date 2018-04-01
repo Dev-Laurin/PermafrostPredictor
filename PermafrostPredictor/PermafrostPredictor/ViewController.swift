@@ -17,21 +17,20 @@ class ViewController: UIViewController {
     
     //Snow Image View
     @IBOutlet weak var snowLineView: UIImageView!
-    @IBOutlet weak var snowImageView: UIImageView!
+    @IBOutlet weak var snowImageView: UIView!
     
     //Non-Moving Ground Layer
     @IBOutlet weak var staticLineGround: UIImageView!
-    @IBOutlet weak var staticGroundLayer: UIImageView!
+    @IBOutlet weak var staticGroundLayer: UIView!
     
     //Moving Ground Layer
     @IBOutlet weak var lineGround: UIImageView!
-    @IBOutlet weak var groundImageView: UIImageView!
+    @IBOutlet weak var groundImageView: UIView!
     
     //Permafrost Layer
     @IBOutlet weak var permafrostLine: UIImageView!
-    @IBOutlet weak var permafrostImageView: UIImageView!
+    @IBOutlet weak var permafrostImageView: UIView!
     
-
     var padding: CGFloat = 40.0
     var sunIntensity: CGFloat
     var sunView: SunView
@@ -77,6 +76,12 @@ class ViewController: UIViewController {
         imageView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: skyView.frame.width, height: skyView.frame.height))
         
         skyView.backgroundColor = UIColor(patternImage: UIImage(named: "Placeholder")!)
+        
+        //Set the backgrounds of the views
+        snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
+        staticGroundLayer.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
+        groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
+        permafrostImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Permafrost")!)
 
     }
     
@@ -92,6 +97,20 @@ class ViewController: UIViewController {
     @objc func sunPanGestureRecognizer(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
 
+        //Get difference of movement in degrees
+        var temp = getDifference(translation: translation) + sunIntensity
+        
+        //If the user has let go, add this value to the previous one
+        if recognizer.state == UIGestureRecognizerState.ended {
+            sunIntensity = temp
+        }
+        //Round and display in temp label
+        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
+        sunLabel.text = String("T = " + String(describing: temp) + "°C")
+
+    }
+    
+    func getDifference(translation: CGPoint)->CGFloat{
         //Find the vector magnitude of translation (hypotenuse of right triangle)
         let x = translation.x
         let y = translation.y
@@ -102,23 +121,29 @@ class ViewController: UIViewController {
         //into units of temperature
         let degreesPerUnitOfMovement:CGFloat = 1/5.0
         let degrees = degreesPerUnitOfMovement * hypotenuse
+    
+        return degrees
         
-        var temp = degrees + sunIntensity
-        
-        //If the user has let go, add this value to the previous one
-        if recognizer.state == UIGestureRecognizerState.ended {
-            sunIntensity = temp
-        }
-
-        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
-        sunLabel.text = String("T = " + String(describing: temp) + "°C")
-
     }
     
     //MARK: SkyView Gesture recognizer
         //Decrease the Sun Temperature based on movement
     @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
+        
+        //Get the movement difference in degrees
+        var temp = getDifference(translation: translation)
+        //The temperature is subtracting from the sun intensity
+        temp = temp * -1
+        //Add the difference to our last temp value
+        temp += sunIntensity
+        //If the user has let go, add this value to the previous one
+        if recognizer.state == UIGestureRecognizerState.ended {
+            sunIntensity = temp
+        }
+        //Round to the Hundredths place
+        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
+        sunLabel.text = String("T = " + String(describing: temp) + "°C")
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -165,13 +190,6 @@ class ViewController: UIViewController {
                 
               //  groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
                 staticGroundLayer.frame = CGRect(origin: CGPoint(x: staticGroundLayer.frame.minX, y: staticGroundLayer.frame.minY), size: CGSize(width: (staticGroundLayer.frame.width),height: previousViewHeight))
-                var imageCopy = UIImage(named: imgNames[1])
-                groundImageView.image = cropImage(image: imageCopy!, newWidth: groundImageView.frame.width, newHeight: newImageViewHeight)
-                print(imageCopy == groundImageView.image)
-                groundImageView.frame = CGRect(origin: CGPoint(x: groundImageView.frame.minX, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
-                
-                print(groundImageView.frame.height)
-                print(newImageViewHeight)
 
             }
             //We are moving the snow layer
