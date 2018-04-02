@@ -18,11 +18,13 @@ class ViewController: UIViewController {
     //Snow Image View
     @IBOutlet weak var snowLineView: UIImageView!
     @IBOutlet weak var snowImageView: UIView!
+    @IBOutlet weak var snowLabel: UILabel!
     
     //Non-Moving Ground Layer
     @IBOutlet weak var staticLineGround: UIImageView!
     @IBOutlet weak var staticGroundLayer: UIView!
     
+    @IBOutlet weak var groundLabel: UILabel!
     //Moving Ground Layer
     @IBOutlet weak var lineGround: UIImageView!
     @IBOutlet weak var groundImageView: UIView!
@@ -30,6 +32,7 @@ class ViewController: UIViewController {
     //Permafrost Layer
     @IBOutlet weak var permafrostLine: UIImageView!
     @IBOutlet weak var permafrostImageView: UIView!
+    @IBOutlet weak var permafrostLabel: UILabel!
     
     var padding: CGFloat = 40.0
     var sunIntensity: CGFloat
@@ -55,7 +58,7 @@ class ViewController: UIViewController {
         //Initialize Temperate Label
         let padding: CGFloat = 40
         sunLabel.text = "T = " + String(describing: sunIntensity) + "°C"
-        //sunLabel.sizeToFit()
+        sunLabel.sizeToFit()
         sunLabel.backgroundColor = .white
 
         //Make the Sun in its own view
@@ -75,13 +78,18 @@ class ViewController: UIViewController {
         let imageView = UIImageView(image: UIImage(named: "Placeholder"))
         imageView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: skyView.frame.width, height: skyView.frame.height))
         
-        skyView.backgroundColor = UIColor(patternImage: UIImage(named: "Placeholder")!)
+     //   skyView.backgroundColor = UIColor(patternImage: UIImage(named: "Placeholder")!)
         
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
         staticGroundLayer.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
         groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
         permafrostImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Permafrost")!)
+        
+        //Have white "boxes" around the labels for better text readability
+        snowLabel.backgroundColor = .white
+        groundLabel.backgroundColor = .white
+        permafrostLabel.backgroundColor = .white
 
     }
     
@@ -107,6 +115,7 @@ class ViewController: UIViewController {
         //Round and display in temp label
         temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
         sunLabel.text = String("T = " + String(describing: temp) + "°C")
+        sunLabel.sizeToFit()
 
     }
     
@@ -144,11 +153,11 @@ class ViewController: UIViewController {
         //Round to the Hundredths place
         temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
         sunLabel.text = String("T = " + String(describing: temp) + "°C")
+        sunLabel.sizeToFit()
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
     @IBAction func handleGesture(recognizer:UIPanGestureRecognizer){
-        
         //get the translation movement from the recognizer
         let translation = recognizer.translation(in: self.view)
         
@@ -158,7 +167,6 @@ class ViewController: UIViewController {
             //The new yVal of the line
             var newLineYValue = view.frame.minY + translation.y
 
-            
             //We are moving the ground layer
             if view == lineGround {
                 var previousView = staticGroundLayer
@@ -168,35 +176,53 @@ class ViewController: UIViewController {
                 var newImageViewHeight = permafrostLine.frame.minY - (newLineYValue + view.frame.height)
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
-                
-                //If the new Y value of the moving ground would make the static ground image too small
-                if(newLineYValue < (previousView!.frame.minY + staticGroundHeightBound)){
-                    //Set the Y value to go no further than the static ground image's ending Y value
-                    previousViewHeight = staticGroundHeightBound
-                    newLineYValue = (previousView?.frame.minY)! + previousViewHeight
-                    newImageViewHeight = permafrostLine.frame.minY - newLineYValue
-                }
-                else if newImageViewHeight < groundLayerHeightBound {
-                    newImageViewHeight = groundLayerHeightBound
-                    newLineYValue = permafrostLine.frame.minY - groundLayerHeightBound - lineGround.frame.height
-                    previousViewHeight = newLineYValue - (previousView?.frame.minY)!
-                }
-                else {
-                    previousViewHeight = newLineYValue - (previousView?.frame.minY)!
-                }
-                
+
+                getMovement(previousView: staticGroundLayer, previousHeightBound: staticGroundHeightBound, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingLineView: permafrostLine, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+
                 view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
                     y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
                 
-              //  groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
+                groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
                 staticGroundLayer.frame = CGRect(origin: CGPoint(x: staticGroundLayer.frame.minX, y: staticGroundLayer.frame.minY), size: CGSize(width: (staticGroundLayer.frame.width),height: previousViewHeight))
-
+                
+                //Re-draw label with new coordinates
+                var num = NumberFormatter().number(from: roundToHundredths(num: translation.y, format: ".1")) as! CGFloat
+                groundLabel.text = "A = " + String(describing: num) + "m"
+                groundLabel.sizeToFit()
+                let padding: CGFloat = 20
+                var groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/2
+                var groundLabelNewY: CGFloat = previousViewHeight - padding
+                groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
+                
+                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/2, y: newImageViewHeight - permafrostLabel.frame.height - padding/2), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
             }
             //We are moving the snow layer
             else if view == snowLineView {
+                let previousView = skyView
+                let padding: CGFloat = 20
+                //How small the static ground plant layer image is allowed to be
+                let skyViewHeightBound: CGFloat = sunView.frame.maxY + sunLabel.frame.height + padding*2
+                let heightBound: CGFloat = 40
+                var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
+                
+                var previousViewHeight: CGFloat = (previousView?.frame.height)!
+                
+                getMovement(previousView: skyView, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, view: view, followingLineView: staticLineGround, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+                
+                view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
+                    y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))
+                
+                snowImageView.frame = CGRect(origin: CGPoint(x: view.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
+                skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
+                
+                //Update label
+                sunLabel.sizeToFit()
+                sunLabel.frame = CGRect(origin: CGPoint(x: sunLabel.frame.minX, y: previousViewHeight - padding), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
+                
+                
+                snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/2, y: newImageViewHeight - snowLabel.frame.height - padding/2), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
                 
             }
-            
             
         }
         //Don't have image keep moving, set translation to zero because we are done
@@ -209,79 +235,30 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func previousViewIsImageView(index: Int, yVal: inout CGFloat, newHeight: inout CGFloat, previousImageView: inout UIImageView, lowerBoundOfImageHeight: CGFloat, imageHeightBound: CGFloat, view: inout UIView){
+    func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingLineView: UIImageView, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  ){
         
-        print("Previous image y before: " + String(describing: previousImageView.frame.minY))
+        var newImageViewHeight: CGFloat = followingLineView.frame.minY - (newLineYValue + view.frame.height)
         
-        var previousImageNewHeight :CGFloat = (view.frame.minY) - previousImageView.frame.minY
-
-        //Bound the movement & Draw
-        if(yVal < (previousImageView.frame.minY + imageHeightBound)){
-            print("<")
-            //The previous image is at its smallest
-            previousImageNewHeight = imageHeightBound
-            
-            //Set the line & image view y values and height appropriately
-            yVal = previousImageView.frame.minY + imageHeightBound
-            newHeight = lowerBoundOfImageHeight - yVal
-            
-        }
-        else if(newHeight < imageHeightBound){
-            print("smallest this view")
-            //The moving view (this view's) lower bound. This is the smallest image and
-            //shouldn't move anymore
-            newHeight = imageHeightBound
-            yVal = (lowerBoundOfImageHeight) - imageHeightBound
-            previousImageNewHeight = yVal - view.frame.height/2 - previousImageView.frame.minY //(view.frame.minY) - previousImageView.bounds.minY
-            
-        }
-        else{
-            print("Free to move")
-            //We are free to move the amount translated
-            previousImageNewHeight = (view.frame.minY) - previousImageView.frame.minY
-        }
-        print(previousImageNewHeight)
-  //      previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
+        var previousViewHeight: CGFloat = (previousView.frame.height)
         
-        previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
-        previousImageView.image = cropImage(image: previousImageView.image!, newWidth: previousImageView.frame.width, newHeight: previousImageNewHeight)
-        print("Previous ImageView y: " + String(describing: previousImageView.frame.minY))
-        previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
-    }
-    
-    func previousViewNotImageView(index: Int, yVal: inout CGFloat, newHeight: inout CGFloat, imageView: inout UIImageView, lowerBoundOfImageHeight: CGFloat, view: UIView){
-        
-        let previousView = (view.superview?.subviews[index-1])!
-        var previousImageNewHeight :CGFloat = (view.frame.minY) - previousView.frame.minY
-        let imageHeightBound = previousView.subviews[0].bounds.height
-        
-        let lowerImageHeightBound: CGFloat = 40
-        //Bound the movement & Draw
-        if(yVal < (previousView.frame.minY + imageHeightBound)){
-            //The previous image is at its smallest
-            previousImageNewHeight = imageHeightBound
-            
-            //Set the line & image view y values and height appropriately
-            yVal = previousView.frame.minY + imageHeightBound
-            newHeight = lowerBoundOfImageHeight - yVal
-            
+        //If the new Y value of the moving ground would make the static ground image too small
+        if(newLineYValue < (previousView.frame.minY + previousHeightBound)){
+            //Set the Y value to go no further than the static ground image's ending Y value
+            previousViewHeight = previousHeightBound
+            newLineYValue = (previousView.frame.minY) + previousViewHeight
+            newImageViewHeight = permafrostLine.frame.minY - newLineYValue
         }
-        else if(newHeight < lowerImageHeightBound){
-            //The moving view (this view's) lower bound. This is the smallest image and
-            //shouldn't move anymore
-            newHeight = lowerImageHeightBound
-            yVal = (imageView.frame.maxY) - lowerImageHeightBound
-            previousImageNewHeight = yVal - view.frame.height/2 - previousView.frame.minY
+        else if newImageViewHeight < heightBound {
+            newImageViewHeight = heightBound
+            newLineYValue = followingLineView.frame.minY - heightBound - view.frame.height
+            previousViewHeight = newLineYValue - (previousView.frame.minY)
         }
-        else{
-            //We are free to move the amount translated
-            previousImageNewHeight = (view.frame.minY) - previousView.frame.minY
+        else {
+            previousViewHeight = newLineYValue - (previousView.frame.minY)
         }
         
-        previousView.frame = CGRect(origin: CGPoint(x: previousView.frame.minX, y: previousView.frame.minY), size: CGSize(width: (previousView.frame.width),height: previousImageNewHeight))
-        
-        //                previousImageView.image = UIImage(named: imgNames[(index-1)/2 - 1])
-        //                previousImageView.frame = CGRect(origin: CGPoint(x: previousImageView.frame.minX, y: previousImageView.frame.minY), size: CGSize(width: (previousImageView.frame.width),height: previousImageNewHeight))
+        newHeight = newImageViewHeight
+        previousViewNewHeight = previousViewHeight
     }
     
     func cropImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat)->UIImage{

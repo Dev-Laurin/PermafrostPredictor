@@ -24,8 +24,9 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wM-bF-rCP">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="243"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T = °C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kv-pd-BAr">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="T = °C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kv-pd-BAr">
                                                 <rect key="frame" x="317.5" y="222.5" width="49.5" height="20.5"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -33,18 +34,28 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="6Kv-pd-BAr" secondAttribute="bottom" id="4h7-kY-sfe"/>
-                                            <constraint firstAttribute="trailing" secondItem="6Kv-pd-BAr" secondAttribute="trailing" constant="8" id="FlY-0m-Osn"/>
-                                            <constraint firstItem="6Kv-pd-BAr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0wM-bF-rCP" secondAttribute="leading" constant="20" symbolic="YES" id="uFh-Sx-r76"/>
-                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="d41-uI-E7T" appends="YES" id="tEY-sO-iP4"/>
+                                        </connections>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="Z0a-7G-S5u">
                                         <rect key="frame" x="0.0" y="243" width="375" height="10"/>
                                         <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="ICg-Ca-Hir" appends="YES" id="aU0-aL-cOa"/>
+                                        </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cn0-zi-DZ8">
                                         <rect key="frame" x="0.0" y="253" width="375" height="91"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="S = 0.2 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYL-G6-dCn">
+                                                <rect key="frame" x="294" y="62" width="73" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
@@ -53,14 +64,35 @@
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
                                         <rect key="frame" x="0.0" y="354" width="375" height="88"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A = 0.1 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRe-Ku-g2u">
+                                                <rect key="frame" x="296" y="59" width="71" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
                                         <rect key="frame" x="0.0" y="442" width="375" height="10"/>
                                         <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="THI-wG-9b9" appends="YES" id="nHs-sN-fai"/>
+                                        </connections>
                                     </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-kn-9uy">
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-kn-9uy">
                                         <rect key="frame" x="0.0" y="452" width="375" height="79"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ALT = 0.2 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqp-td-gdh">
+                                                <rect key="frame" x="275" y="50" width="92" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="zVT-zl-CGa">
@@ -91,11 +123,14 @@
                     </view>
                     <connections>
                         <outlet property="groundImageView" destination="8ZF-kn-9uy" id="Ka9-IO-nQI"/>
+                        <outlet property="groundLabel" destination="TRe-Ku-g2u" id="gFJ-rX-hcQ"/>
                         <outlet property="lineGround" destination="qS6-gi-v45" id="Awm-X4-CHY"/>
                         <outlet property="permafrostImageView" destination="tB3-PQ-qbd" id="llH-rM-IZJ"/>
+                        <outlet property="permafrostLabel" destination="bqp-td-gdh" id="NgY-oT-5E8"/>
                         <outlet property="permafrostLine" destination="zVT-zl-CGa" id="V3x-Ib-eEP"/>
                         <outlet property="skyView" destination="0wM-bF-rCP" id="kKp-a5-atI"/>
                         <outlet property="snowImageView" destination="Cn0-zi-DZ8" id="xjE-wP-2aU"/>
+                        <outlet property="snowLabel" destination="UYL-G6-dCn" id="1MV-GE-bcz"/>
                         <outlet property="snowLineView" destination="Z0a-7G-S5u" id="wTe-1a-oq7"/>
                         <outlet property="staticGroundLayer" destination="TDS-Rh-zlw" id="v2z-QL-NxN"/>
                         <outlet property="staticLineGround" destination="SLd-XY-nLR" id="TGn-jQ-Xq8"/>
@@ -103,19 +138,19 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="RDq-0l-ESX">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="THI-wG-9b9">
                     <connections>
-                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="Mt2-De-fRh"/>
+                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="oAT-7W-Fgp"/>
                     </connections>
                 </panGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="asn-Ha-Rnk">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="ICg-Ca-Hir">
                     <connections>
-                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="b7s-PS-vsE"/>
+                        <action selector="handleGestureWithRecognizer:" destination="BYZ-38-t0r" id="peR-sk-M6x"/>
                     </connections>
                 </panGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="QvL-N7-I3A">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="d41-uI-E7T">
                     <connections>
-                        <action selector="handleSkyGestureWithRecognizer:" destination="BYZ-38-t0r" id="f2c-MB-dhm"/>
+                        <action selector="handleSkyGestureWithRecognizer:" destination="BYZ-38-t0r" id="jWK-A4-Pgj"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
