@@ -202,6 +202,7 @@ class ViewController: UIViewController {
                 let padding: CGFloat = 20
                 //How small the static ground plant layer image is allowed to be
                 let skyViewHeightBound: CGFloat = sunView.frame.maxY + sunLabel.frame.height + padding*2
+                print("skyView heightBound: " + String(describing: skyViewHeightBound))
                 let heightBound: CGFloat = 40
                 var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
                 
@@ -220,7 +221,13 @@ class ViewController: UIViewController {
                 sunLabel.frame = CGRect(origin: CGPoint(x: sunLabel.frame.minX, y: previousViewHeight - padding), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
                 
                 
-                snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/2, y: newImageViewHeight - snowLabel.frame.height - padding/2), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+                snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/2, y: snowImageView.frame.height - snowLabel.frame.height - padding/2), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+                print("ImageViewNewHeight: " + String(describing: newImageViewHeight))
+                print("width: " + String(describing: snowLabel.frame.width))
+                print("height: " + String(describing: snowLabel.frame.height))
+                print("x: " + String(describing: snowLabel.frame.minX))
+                print("y: " + String(describing: snowLabel.frame.minY))
+                print("skyBound: " + String(describing: skyViewHeightBound))
                 
             }
             
@@ -246,7 +253,7 @@ class ViewController: UIViewController {
             //Set the Y value to go no further than the static ground image's ending Y value
             previousViewHeight = previousHeightBound
             newLineYValue = (previousView.frame.minY) + previousViewHeight
-            newImageViewHeight = permafrostLine.frame.minY - newLineYValue
+            newImageViewHeight = followingLineView.frame.minY - newLineYValue - view.frame.height 
         }
         else if newImageViewHeight < heightBound {
             newImageViewHeight = heightBound
