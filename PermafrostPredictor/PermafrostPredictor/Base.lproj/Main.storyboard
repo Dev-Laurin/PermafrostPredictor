@@ -38,7 +38,7 @@
                                             <outletCollection property="gestureRecognizers" destination="d41-uI-E7T" appends="YES" id="tEY-sO-iP4"/>
                                         </connections>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="Z0a-7G-S5u">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="Z0a-7G-S5u">
                                         <rect key="frame" x="0.0" y="243" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -46,7 +46,7 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cn0-zi-DZ8">
-                                        <rect key="frame" x="0.0" y="253" width="375" height="91"/>
+                                        <rect key="frame" x="0.0" y="253" width="375" height="95"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="S = 0.2 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYL-G6-dCn">
                                                 <rect key="frame" x="294" y="62" width="73" height="21"/>
@@ -59,11 +59,11 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
-                                        <rect key="frame" x="0.0" y="344" width="375" height="10"/>
+                                        <rect key="frame" x="0.0" y="348" width="375" height="6"/>
                                         <gestureRecognizers/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
-                                        <rect key="frame" x="0.0" y="354" width="375" height="88"/>
+                                        <rect key="frame" x="0.0" y="354" width="375" height="92"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A = 0.1 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRe-Ku-g2u">
                                                 <rect key="frame" x="296" y="59" width="71" height="21"/>
@@ -75,8 +75,8 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
-                                        <rect key="frame" x="0.0" y="442" width="375" height="10"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
+                                        <rect key="frame" x="0.0" y="446" width="375" height="6"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="THI-wG-9b9" appends="YES" id="nHs-sN-fai"/>
@@ -158,6 +158,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="DashedLine" width="50" height="10"/>
         <image name="Line" width="150" height="10"/>
     </resources>
 </document>

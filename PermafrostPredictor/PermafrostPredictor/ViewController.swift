@@ -37,15 +37,18 @@ class ViewController: UIViewController {
     var padding: CGFloat = 40.0
     var sunIntensity: CGFloat
     var sunView: SunView
-    //0, 1, 2 = snow image view
-    //3, 4 = next image view
-    //5, 6 == next image view
-    // index/2 - 1
+    var snowLevel: CGFloat
+
     var imgNames = ["Snow", "Ground", "Permafrost"]
     //MARK: Initialization
     required init(coder: NSCoder){
+        //initialize starting sun temperature
         sunIntensity = 30.0
         sunView = SunView()
+        
+        //init snow/ground levels
+        snowLevel = 30.0
+        
         super.init(coder: coder )!
 
     }
@@ -88,6 +91,8 @@ class ViewController: UIViewController {
         
         //Have white "boxes" around the labels for better text readability
         snowLabel.backgroundColor = .white
+        snowLabel.text = "S = " + String(describing: snowLevel) + " m"
+        snowLabel.sizeToFit()
         groundLabel.backgroundColor = .white
         permafrostLabel.backgroundColor = .white
 
@@ -113,27 +118,13 @@ class ViewController: UIViewController {
             sunIntensity = temp
         }
         //Round and display in temp label
-        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
+        temp = roundToHundredths(num: temp)
         sunLabel.text = String("T = " + String(describing: temp) + "°C")
         sunLabel.sizeToFit()
 
     }
     
-    func getDifference(translation: CGPoint)->CGFloat{
-        //Find the vector magnitude of translation (hypotenuse of right triangle)
-        let x = translation.x
-        let y = translation.y
-        var hypotenuse = x*x + y*y
-        hypotenuse = hypotenuse.squareRoot()
-        
-        //Translate the vector magnitude (hypotenuse) of the difference in movement
-        //into units of temperature
-        let degreesPerUnitOfMovement:CGFloat = 1/5.0
-        let degrees = degreesPerUnitOfMovement * hypotenuse
-    
-        return degrees
-        
-    }
+
     
     //MARK: SkyView Gesture recognizer
         //Decrease the Sun Temperature based on movement
@@ -151,7 +142,7 @@ class ViewController: UIViewController {
             sunIntensity = temp
         }
         //Round to the Hundredths place
-        temp = NumberFormatter().number(from: roundToHundredths(num: temp, format: ".1")) as! CGFloat
+        temp = roundToHundredths(num: temp)
         sunLabel.text = String("T = " + String(describing: temp) + "°C")
         sunLabel.sizeToFit()
     }
@@ -162,17 +153,17 @@ class ViewController: UIViewController {
         let translation = recognizer.translation(in: self.view)
         
         //move the view
-        if var view = recognizer.view{
+        if let view = recognizer.view{
             
             //The new yVal of the line
             var newLineYValue = view.frame.minY + translation.y
 
             //We are moving the ground layer
             if view == lineGround {
-                var previousView = staticGroundLayer
+                let previousView = staticGroundLayer
                 //How small the static ground plant layer image is allowed to be
-                var staticGroundHeightBound: CGFloat = 40
-                var groundLayerHeightBound: CGFloat = 40
+                let staticGroundHeightBound: CGFloat = 40
+                let groundLayerHeightBound: CGFloat = 40
                 var newImageViewHeight = permafrostLine.frame.minY - (newLineYValue + view.frame.height)
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
@@ -186,7 +177,7 @@ class ViewController: UIViewController {
                 staticGroundLayer.frame = CGRect(origin: CGPoint(x: staticGroundLayer.frame.minX, y: staticGroundLayer.frame.minY), size: CGSize(width: (staticGroundLayer.frame.width),height: previousViewHeight))
                 
                 //Re-draw label with new coordinates
-                var num = NumberFormatter().number(from: roundToHundredths(num: translation.y, format: ".1")) as! CGFloat
+                var num = roundToHundredths(num: translation.y)
                 groundLabel.text = "A = " + String(describing: num) + "m"
                 groundLabel.sizeToFit()
                 let padding: CGFloat = 20
@@ -202,7 +193,6 @@ class ViewController: UIViewController {
                 let padding: CGFloat = 20
                 //How small the static ground plant layer image is allowed to be
                 let skyViewHeightBound: CGFloat = sunView.frame.maxY + sunLabel.frame.height + padding*2
-                print("skyView heightBound: " + String(describing: skyViewHeightBound))
                 let heightBound: CGFloat = 40
                 var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
                 
@@ -220,14 +210,20 @@ class ViewController: UIViewController {
                 sunLabel.sizeToFit()
                 sunLabel.frame = CGRect(origin: CGPoint(x: sunLabel.frame.minX, y: previousViewHeight - padding), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
                 
-                
+                //y grows down, but in the app we want it to grow up
+                var num = snowLevel + (-translation.y * 1/5.0 )
+                num = roundToHundredths(num: num)
                 snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/2, y: snowImageView.frame.height - snowLabel.frame.height - padding/2), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
-                print("ImageViewNewHeight: " + String(describing: newImageViewHeight))
-                print("width: " + String(describing: snowLabel.frame.width))
-                print("height: " + String(describing: snowLabel.frame.height))
-                print("x: " + String(describing: snowLabel.frame.minX))
-                print("y: " + String(describing: snowLabel.frame.minY))
-                print("skyBound: " + String(describing: skyViewHeightBound))
+                
+                snowLevel = num
+                //Our gesture ended, save the ending level here. If we save it elsewhere,
+                    //the number will be exponentially changed, which we don't want.
+                if recognizer.state == UIGestureRecognizerState.ended {
+                    snowLevel = num
+                }
+                snowLabel.text = "S = " + String(describing: snowLevel) + " m"
+                snowLabel.sizeToFit()
+
                 
             }
             
@@ -241,6 +237,8 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: Helper Functions
     
     func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingLineView: UIImageView, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  ){
         
@@ -266,19 +264,94 @@ class ViewController: UIViewController {
         
         newHeight = newImageViewHeight
         previousViewNewHeight = previousViewHeight
+        
     }
     
+    /**
+        To handle the difference in x and y translation from the sun while panning to change temperature. This takes the translation point, finds the hypotenuse of the right triangle, and turns its value into a temperature degrees value.
+     
+        - parameter translation: The movement of the user's finger as given by a gesture recognizer.
+     
+         # Usage Example: #
+         ````
+         @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
+             let translation = recognizer.translation(in: self.view)
+     
+             //Get the movement difference in degrees
+             var temp = turnTranslationIntoTemp(translation: translation)
+         }
+         ````
+    */
+    func turnTranslationIntoTemp(translation: CGPoint)->CGFloat{
+        //Find the vector magnitude of translation (hypotenuse of right triangle)
+        let x = translation.x
+        let y = translation.y
+        var hypotenuse = x*x + y*y
+        hypotenuse = hypotenuse.squareRoot()
+        
+        //Translate the vector magnitude (hypotenuse) of the difference in movement
+        //into units of temperature
+        return turnMovementIntoUnits(movement: hypotenuse)
+    }
+    
+    /**
+        Turns the movement tracked by the device (how much the finger moved on the screen) into units we want for our UI. We don't want huge changes from really small gestures.
+     
+        - parameter movement: The translation, in gesture recognizer units. (Is a number, not a recognizer translation. So no .x or .y).
+     
+         # Usage Example: #
+         ````
+         var translated = translation.x
+         var degrees = turnMovementIntoUnits(movement: translated)
+         ````
+    */
+    func turnMovementIntoUnits(movement: CGFloat)->CGFloat{
+        //For every 5 units of movement translation, have our unit go up 1
+        //Example: My finger swiped 25 movement in x direction, but I only want the temperature to change by 5
+        let unitPerMovement:CGFloat = 1/5.0
+        let units = unitPerMovement * movement
+        return units
+    }
+    
+    /**
+        This function, given an image, makes a copy of the image, crops it, and returns the new cropped image of the new width and height.
+     
+        - parameter image: A valid, croppable, UIImage.
+        - parameter newWidth: The desired new width of the cropped image.
+        - parameter newHeight: The desired new height of the cropped image.
+     
+        # Usage Example: #
+        ````
+        let image = UIImage(named: "testImage")
+        var croppedWidth = 500
+        var croppedHeight = 400
+        var croppedImage = cropImage(image: image, newWidth: croppedWidth, newHeight: croppedHeight)
+        ````
+    */
     func cropImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat)->UIImage{
         //Make the new rectangle
         let rect : CGRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: newHeight)
         //Do the crop
-        let imgCopy = image
-        let img = UIImage(cgImage: (imgCopy.cgImage?.cropping(to: rect))!)
+        let img = UIImage(cgImage: (image.cgImage?.cropping(to: rect))!)
         return img
     }
     
-    func roundToHundredths(num: CGFloat, format: String)->String{
-        return String(format: "%\(format)f", num)
+    /**
+        Given a CGFloat, return a string of the number rounded to the hundredths place.
+     
+        - parameter num: A CGFloat to be rounded.
+     
+         # Usage Example: #
+         ````
+         var temp = 4.5654654
+         temp = roundToHundredths(num: temp)
+         //temp now is 4.56
+         ````
+    */
+    func roundToHundredths(num: CGFloat)->CGFloat{
+        //Round to the Hundredths place, this is the format string
+        let format = ".1"
+        return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
     }
 }
 
