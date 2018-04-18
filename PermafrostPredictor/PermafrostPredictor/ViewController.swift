@@ -8,7 +8,9 @@
 
 import UIKit
 
-//View Controller for our 1 screen app
+/**
+    Our one-page app. This is where everything happens, the view controller.
+*/
 class ViewController: UIViewController {
     
     //View containing Sun
@@ -23,34 +25,49 @@ class ViewController: UIViewController {
     //Non-Moving Ground Layer
     @IBOutlet weak var staticLineGround: UIImageView!
     @IBOutlet weak var staticGroundLayer: UIView!
-    
     @IBOutlet weak var groundLabel: UILabel!
+    
     //Moving Ground Layer
     @IBOutlet weak var lineGround: UIImageView!
     @IBOutlet weak var groundImageView: UIView!
     
     //Permafrost Layer
-    @IBOutlet weak var permafrostLine: UIImageView!
-    @IBOutlet weak var permafrostImageView: UIView!
     @IBOutlet weak var permafrostLabel: UILabel!
     
+    //Padding is for drawing within a view so it's not touching the edges (labels)
     var padding: CGFloat = 40.0
+    //The temperature the sun is giving off
     var sunIntensity: CGFloat
+    //The sun itself is a special view, see SunView.swift
     var sunView: SunView
+    //Keep track of how deep the snow is
     var snowLevel: CGFloat
+    //How deep the ground layer is
+    var groundLevel: CGFloat
+    //How deep the permafrost is
+    var permafrostLevel: CGFloat
 
-    var imgNames = ["Snow", "Ground", "Permafrost"]
     //MARK: Initialization
+    /**
+         Initializer for the View Controller. Use to initialize the label values, can be used to assign them from storage or set to default values.
+     
+         # Example: #
+         ````
+         //Set how deep the snow level is when the app first starts
+         snowLevel = 2.0 //meters
+         ````
+    */
     required init(coder: NSCoder){
         //initialize starting sun temperature
         sunIntensity = 30.0
+        //init the sun itself
         sunView = SunView()
-        
         //init snow/ground levels
         snowLevel = 30.0
-        
+        groundLevel = 20.2
+        permafrostLevel = max(snowLevel/10 + sunIntensity, 0)
+        //Call the super version, recommended
         super.init(coder: coder )!
-
     }
     
     //MARK: viewDidLoad()
@@ -58,12 +75,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //Initialize Temperate Label
-        let padding: CGFloat = 40
-        sunLabel.text = "T = " + String(describing: sunIntensity) + "°C"
+        //Initialize Temperature Label
+        sunLabel.text = "T = " + String(describing: sunIntensity) + " °C"
         sunLabel.sizeToFit()
         sunLabel.backgroundColor = .white
-
+        
         //Make the Sun in its own view
         let sunViewSize: CGFloat = skyView.frame.width/3
         sunView = SunView(frame: CGRect(x:0.0, y: 0.0, width: sunViewSize, height: sunViewSize))
@@ -75,34 +91,51 @@ class ViewController: UIViewController {
         //Setup the gesture recognizer for user interaction
         sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
         
-        
-        //Set the background of the skyView
-       // skyView.backgroundColor = .cyan
-        let imageView = UIImageView(image: UIImage(named: "Placeholder"))
-        imageView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: skyView.frame.width, height: skyView.frame.height))
-        
-     //   skyView.backgroundColor = UIColor(patternImage: UIImage(named: "Placeholder")!)
-        
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
         staticGroundLayer.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
-        groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
-        permafrostImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Permafrost")!)
+        groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
+      //  permafrostImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Permafrost")!)
         
-        //Have white "boxes" around the labels for better text readability
+        //Initialize Labels
+            //Have white "boxes" around the labels for better text readability
         snowLabel.backgroundColor = .white
         snowLabel.text = "S = " + String(describing: snowLevel) + " m"
         snowLabel.sizeToFit()
+        
+        groundLabel.text = "A = " + String(describing: groundLevel) + " m"
         groundLabel.backgroundColor = .white
+        groundLabel.sizeToFit()
+        
+        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.backgroundColor = .white
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //Draw initial here
         var rect = sunView.frame
         rect.origin = CGPoint(x: skyView.frame.width - rect.width, y: rect.minY)
         sunView.frame = rect
+        
+        //put labels in initial spots
+        var tempRect = sunLabel.frame
+        tempRect.origin = CGPoint(x: skyView.frame.width - sunLabel.frame.width - padding/2, y: skyView.frame.height - sunLabel.frame.height - padding/4)
+        sunLabel.frame = tempRect
+        
+        var snowRect = snowLabel.frame
+        snowRect.origin = CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/4, y: snowImageView.frame.height - snowLabel.frame.height - padding/4)
+        snowLabel.frame = snowRect
+        
+        var groundRect = groundLabel.frame
+        groundRect.origin = CGPoint(x: staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4, y: staticGroundLayer.frame.height - groundLabel.frame.height - padding/4)
+        groundLabel.frame = groundRect
+        
+        var permafrostRect = permafrostLabel.frame
+        permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: groundImageView.frame.height - permafrostLabel.frame.height - padding/4)
+        permafrostLabel.frame = permafrostRect
     }
     
     //MARK: To handle when the sun is being interacted with
@@ -111,7 +144,7 @@ class ViewController: UIViewController {
         let translation = recognizer.translation(in: self.view)
 
         //Get difference of movement in degrees
-        var temp = getDifference(translation: translation) + sunIntensity
+        var temp = turnTranslationIntoTemp(translation: translation) + sunIntensity
         
         //If the user has let go, add this value to the previous one
         if recognizer.state == UIGestureRecognizerState.ended {
@@ -121,18 +154,26 @@ class ViewController: UIViewController {
         temp = roundToHundredths(num: temp)
         sunLabel.text = String("T = " + String(describing: temp) + "°C")
         sunLabel.sizeToFit()
-
+        
+        //update the permafrost
+        updatePermafrostLabel()
+        
     }
     
+    func updatePermafrostLabel(){
+        //update the value
+        permafrostLevel = max(snowLevel/10 + sunIntensity, 0)
+        //update the display
+        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
+    }
 
-    
     //MARK: SkyView Gesture recognizer
         //Decrease the Sun Temperature based on movement
     @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
         
         //Get the movement difference in degrees
-        var temp = getDifference(translation: translation)
+        var temp = turnTranslationIntoTemp(translation: translation)
         //The temperature is subtracting from the sun intensity
         temp = temp * -1
         //Add the difference to our last temp value
@@ -143,8 +184,10 @@ class ViewController: UIViewController {
         }
         //Round to the Hundredths place
         temp = roundToHundredths(num: temp)
-        sunLabel.text = String("T = " + String(describing: temp) + "°C")
+        sunLabel.text = String("T = " + String(describing: temp) + " °C")
         sunLabel.sizeToFit()
+        
+        updatePermafrostLabel()
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -163,12 +206,14 @@ class ViewController: UIViewController {
                 let previousView = staticGroundLayer
                 //How small the static ground plant layer image is allowed to be
                 let staticGroundHeightBound: CGFloat = 40
-                let groundLayerHeightBound: CGFloat = 40
-                var newImageViewHeight = permafrostLine.frame.minY - (newLineYValue + view.frame.height)
+                let screenHeight = UIScreen.main.bounds.height
+                let groundLayerHeightBound: CGFloat = padding*2 + permafrostLabel.frame.height
+                
+                var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
 
-                getMovement(previousView: staticGroundLayer, previousHeightBound: staticGroundHeightBound, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingLineView: permafrostLine, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+                getMovement(previousView: staticGroundLayer, previousHeightBound: staticGroundHeightBound, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
 
                 view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
                     y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
@@ -180,25 +225,23 @@ class ViewController: UIViewController {
                 var num = roundToHundredths(num: translation.y)
                 groundLabel.text = "A = " + String(describing: num) + "m"
                 groundLabel.sizeToFit()
-                let padding: CGFloat = 20
-                var groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/2
-                var groundLabelNewY: CGFloat = previousViewHeight - padding
+                var groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4
+                var groundLabelNewY: CGFloat = previousViewHeight - groundLabel.frame.height - padding/4
                 groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
                 
-                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/2, y: newImageViewHeight - permafrostLabel.frame.height - padding/2), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
+                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newImageViewHeight - permafrostLabel.frame.height - padding), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
             }
             //We are moving the snow layer
             else if view == snowLineView {
                 let previousView = skyView
-                let padding: CGFloat = 20
                 //How small the static ground plant layer image is allowed to be
-                let skyViewHeightBound: CGFloat = sunView.frame.maxY + sunLabel.frame.height + padding*2
+                let skyViewHeightBound: CGFloat = sunView.frame.maxY + sunLabel.frame.height + padding
                 let heightBound: CGFloat = 40
                 var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
                 
-                getMovement(previousView: skyView, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, view: view, followingLineView: staticLineGround, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+                getMovement(previousView: skyView, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, view: view, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
                 
                 view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
                     y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))
@@ -208,12 +251,12 @@ class ViewController: UIViewController {
                 
                 //Update label
                 sunLabel.sizeToFit()
-                sunLabel.frame = CGRect(origin: CGPoint(x: sunLabel.frame.minX, y: previousViewHeight - padding), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
+                sunLabel.frame = CGRect(origin: CGPoint(x: sunLabel.frame.minX, y: previousViewHeight - padding/2), size: CGSize(width: sunLabel.frame.width, height: sunLabel.frame.height))
                 
                 //y grows down, but in the app we want it to grow up
                 var num = snowLevel + (-translation.y * 1/5.0 )
                 num = roundToHundredths(num: num)
-                snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/2, y: snowImageView.frame.height - snowLabel.frame.height - padding/2), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+                snowLabel.frame = CGRect(origin: CGPoint(x: snowImageView.frame.maxX - snowLabel.frame.width - padding/4, y: snowImageView.frame.height - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
                 
                 snowLevel = num
                 //Our gesture ended, save the ending level here. If we save it elsewhere,
@@ -226,6 +269,8 @@ class ViewController: UIViewController {
 
                 
             }
+            
+            updatePermafrostLabel()
             
         }
         //Don't have image keep moving, set translation to zero because we are done
@@ -240,9 +285,9 @@ class ViewController: UIViewController {
     
     //MARK: Helper Functions
     
-    func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingLineView: UIImageView, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  ){
+    func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingMinY: CGFloat, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  ){
         
-        var newImageViewHeight: CGFloat = followingLineView.frame.minY - (newLineYValue + view.frame.height)
+        var newImageViewHeight: CGFloat = followingMinY - (newLineYValue + view.frame.height)
         
         var previousViewHeight: CGFloat = (previousView.frame.height)
         
@@ -251,11 +296,11 @@ class ViewController: UIViewController {
             //Set the Y value to go no further than the static ground image's ending Y value
             previousViewHeight = previousHeightBound
             newLineYValue = (previousView.frame.minY) + previousViewHeight
-            newImageViewHeight = followingLineView.frame.minY - newLineYValue - view.frame.height 
+            newImageViewHeight = followingMinY - newLineYValue - view.frame.height
         }
         else if newImageViewHeight < heightBound {
             newImageViewHeight = heightBound
-            newLineYValue = followingLineView.frame.minY - heightBound - view.frame.height
+            newLineYValue = followingMinY - heightBound - view.frame.height
             previousViewHeight = newLineYValue - (previousView.frame.minY)
         }
         else {
