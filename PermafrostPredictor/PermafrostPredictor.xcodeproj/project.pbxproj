@@ -15,6 +15,7 @@
 		49A780B820472330002BBBFD /* PermafrostPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */; };
 		49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */; };
 		49C717DB206960C40002C64C /* SunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C717DA206960C40002C64C /* SunView.swift */; };
+		49FAFCF92090F40A00200B49 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FAFCF82090F40A00200B49 /* HelperFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermafrostPredictorUITests.swift; sourceTree = "<group>"; };
 		49A780C420472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C717DA206960C40002C64C /* SunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunView.swift; sourceTree = "<group>"; };
+		49FAFCF82090F40A00200B49 /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				49A780A220472330002BBBFD /* AppDelegate.swift */,
 				49A780A420472330002BBBFD /* ViewController.swift */,
+				49FAFCF82090F40A00200B49 /* HelperFunctions.swift */,
 				49C717DA206960C40002C64C /* SunView.swift */,
 				49A780A620472330002BBBFD /* Main.storyboard */,
 				49A780A920472330002BBBFD /* Assets.xcassets */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A780A520472330002BBBFD /* ViewController.swift in Sources */,
+				49FAFCF92090F40A00200B49 /* HelperFunctions.swift in Sources */,
 				49A780A320472330002BBBFD /* AppDelegate.swift in Sources */,
 				49C717DB206960C40002C64C /* SunView.swift in Sources */,
 			);
