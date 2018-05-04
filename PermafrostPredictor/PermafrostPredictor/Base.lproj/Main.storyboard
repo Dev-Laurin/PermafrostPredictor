@@ -69,12 +69,6 @@
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
                                         <rect key="frame" x="0.0" y="361" width="375" height="96"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PermafrostLine" translatesAutoresizingMaskIntoConstraints="NO" id="UeP-oa-KDu">
-                                                <rect key="frame" x="0.0" y="38" width="375" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </imageView>
-                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
@@ -87,13 +81,6 @@
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-kn-9uy">
                                         <rect key="frame" x="0.0" y="467" width="375" height="180"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ALT = 0.2 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqp-td-gdh">
-                                                <rect key="frame" x="243" y="151" width="92" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A = 0.1 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRe-Ku-g2u">
                                                 <rect key="frame" x="284" y="16" width="71" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -122,12 +109,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="atmosphericTemp" destination="J5Z-KC-ESF" id="AOl-F5-nam"/>
+                        <outlet property="atmosphericTempLabel" destination="J5Z-KC-ESF" id="YJM-yY-hek"/>
                         <outlet property="groundImageView" destination="8ZF-kn-9uy" id="Ka9-IO-nQI"/>
                         <outlet property="groundLabel" destination="TRe-Ku-g2u" id="gFJ-rX-hcQ"/>
                         <outlet property="lineGround" destination="qS6-gi-v45" id="Awm-X4-CHY"/>
-                        <outlet property="permafrostImageView" destination="UeP-oa-KDu" id="xZf-jF-cCp"/>
-                        <outlet property="permafrostLabel" destination="bqp-td-gdh" id="NgY-oT-5E8"/>
                         <outlet property="skyView" destination="0wM-bF-rCP" id="kKp-a5-atI"/>
                         <outlet property="snowImageView" destination="Cn0-zi-DZ8" id="xjE-wP-2aU"/>
                         <outlet property="snowLabel" destination="UYL-G6-dCn" id="1MV-GE-bcz"/>
@@ -160,6 +145,5 @@
     <resources>
         <image name="DashedLine" width="150" height="10"/>
         <image name="Line" width="150" height="10"/>
-        <image name="PermafrostLine" width="150" height="10"/>
     </resources>
 </document>

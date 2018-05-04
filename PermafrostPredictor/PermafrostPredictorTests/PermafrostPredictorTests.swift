@@ -35,24 +35,14 @@ class PermafrostPredictorTests: XCTestCase {
         }
     }
     
-    func testIfViewsHaveCorrectImages(){
-        
-<<<<<<< HEAD
-    }
-    
+    //test the crop image helper function
     func testcropImage(){
-        //Test function
-        let image = UIImage(named: "test")
-        var imageView = UIImageView(image: image)
-        imageView.image = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 50)
-
-=======
         //Test If the image is sized correctly
         let newImageSize : CGFloat = 50
         let image = UIImage(named: "test")
-        let imageView = UIImageView(image: image)
-        let newImage = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: newImageSize)
->>>>>>> d4a3041a6824f5f96b1d9f3545974db3b28309b7
+        var imageView = UIImageView(image: image)
+        let newImage = cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: newImageSize)
+
         //Assert
         XCTAssert(newImage.size.height == newImageSize)
         
@@ -70,10 +60,15 @@ class PermafrostPredictorTests: XCTestCase {
         //Test uploading the image again, cropping, and changing imageView bounds
         var img = UIImage(named: "test")
         imageView = UIImageView(image: img)
-        imageView.image = vc.cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 20)
+        imageView.image = cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 20)
         imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: (imageView.frame.width),height: 20))
         
         XCTAssert(imageView.image?.size.height == 20)
+    }
+    
+    //test the getmovement helper function
+    func testGetMovement(){
+         
     }
     
 }

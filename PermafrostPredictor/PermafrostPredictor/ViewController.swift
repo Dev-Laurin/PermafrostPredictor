@@ -16,7 +16,8 @@ class ViewController: UIViewController {
     //View containing Sun
     @IBOutlet weak var skyView: UIView!
     @IBOutlet weak var sunLabel: UILabel!
-    @IBOutlet weak var atmosphericTemp: UILabel!
+    @IBOutlet weak var atmosphericTempLabel: UILabel!
+    
     
     //Snow Image View
     @IBOutlet weak var snowLineView: UIImageView!
@@ -33,8 +34,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var groundImageView: UIView!
     
     //Permafrost Layer
-    @IBOutlet weak var permafrostLabel: UILabel!
-    @IBOutlet weak var permafrostImageView: UIImageView!
+    var permafrostLabel: UILabel
+    var permafrostImageView: UIImageView
     
     //Padding is for drawing within a view so it's not touching the edges (labels)
     var padding: CGFloat = 40.0
@@ -59,6 +60,9 @@ class ViewController: UIViewController {
         //This is for drawing purposes and setting the units, device independently
     var maxSnowHeight: CGFloat
     var maxGroundHeight: CGFloat
+    var groundHeightPercentage: CGFloat
+    var groundTopAverageValue: CGFloat
+    var groundMaxUnitHeight: CGFloat
     
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
@@ -81,7 +85,7 @@ class ViewController: UIViewController {
         //init the sun itself
         sunView = SunView()
         //init snow/ground levels
-        snowLevel = 30.0
+        snowLevel = 1.0
         groundLevel = 20.2
         permafrostLevel = max(snowLevel/10 + sunIntensity, 0)
         
@@ -90,9 +94,15 @@ class ViewController: UIViewController {
         
         maxSnowHeight = 0.0
         maxGroundHeight = 0.0
+        groundHeightPercentage = 0.5
+        groundTopAverageValue = 2.0
+        groundMaxUnitHeight = 10.0
         
         let screenHeight = UIScreen.main.bounds.height
         heightBasedOffPercentage = screenHeight * (0.5)
+        
+        permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
+        permafrostLabel = UILabel()
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -102,6 +112,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        view.addSubview(permafrostImageView)
+        view.addSubview(permafrostLabel)
         
         //Initialize Temperature Label (Mean Temperature)
         sunLabel.text = "T = " + String(describing: sunIntensity) + " °C"
@@ -109,7 +121,7 @@ class ViewController: UIViewController {
         sunLabel.backgroundColor = .white
         
         //Atmospheric Temperature
-        updateAtmosphericTemperatureLabel()
+        updateAtmosphericTemperatureLabel(newText: String(describing: atmosphericTemperature))
         
         //Make the Sun in its own view
         let sunViewSize: CGFloat = skyView.frame.width/3
@@ -120,7 +132,7 @@ class ViewController: UIViewController {
         sunView.frame = CGRect(x: skyView.frame.width - sunViewSize, y: padding/2, width: sunViewSize, height: sunViewSize)
         sunView.backgroundColor = .white 
         //Setup the gesture recognizer for user interaction
-        sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
+      //  sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
         
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
@@ -174,7 +186,7 @@ class ViewController: UIViewController {
     func drawInitLabels(){
         sunView = changeViewsYValue(view: sunView, newX: skyView.frame.width - sunView.frame.width, newY: sunView.frame.minY) as! SunView
         
-        atmosphericTemp = changeViewsYValue(view: atmosphericTemp, newX: skyView.frame.minX + padding/2, newY: sunView.frame.minY) as! UILabel
+        atmosphericTempLabel = changeViewsYValue(view: atmosphericTempLabel, newX: skyView.frame.minX + padding/2, newY: sunView.frame.minY) as! UILabel
         
         sunLabel = changeViewsYValue(view: sunLabel, newX: skyView.frame.minX + padding/2, newY: sunView.frame.minY + sunLabel.frame.height + padding/4) as! UILabel
         
@@ -182,7 +194,7 @@ class ViewController: UIViewController {
         
         groundLabel = changeViewsYValue(view: groundLabel, newX: staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4, newY: padding/4) as! UILabel
         
-        permafrostLabel = changeViewsYValue(view: permafrostLabel, newX: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, newY: groundImageView.frame.height - permafrostLabel.frame.height - padding) as! UILabel
+        permafrostLabel = changeViewsYValue(view: permafrostLabel, newX: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, newY: groundImageView.frame.maxY - permafrostLabel.frame.height - padding) as! UILabel
 
     }
     
@@ -202,26 +214,26 @@ class ViewController: UIViewController {
     
     //MARK: To handle when the sun is being interacted with
     //objective C selector & function doesn't create memory errors like Swift version
-    @objc func sunPanGestureRecognizer(recognizer: UIPanGestureRecognizer){
-        let translation = recognizer.translation(in: self.view)
-
-        //Get difference of movement in degrees
-        var temp = turnTranslationIntoTemp(translation: translation) + sunIntensity
-        
-        //Round and display in temp label
-        temp = roundToHundredths(num: temp)
-        sunLabel.text = String("T = " + String(describing: temp) + "°C")
-        sunLabel.sizeToFit()
-        
-        //If the user has let go, add this value to the previous one
-        if recognizer.state == UIGestureRecognizerState.ended {
-            sunIntensity = temp
-        }
-
-        //update the permafrost
-        updatePermafrostLabel()
-        
-    }
+//    @objc func sunPanGestureRecognizer(recognizer: UIPanGestureRecognizer){
+//        let translation = recognizer.translation(in: self.view)
+//
+//        //Get difference of movement in degrees
+//        var temp = turnTranslationIntoTemp(translation: translation) + sunIntensity
+//        
+//        //Round and display in temp label
+//        temp = roundToHundredths(num: temp)
+//        sunLabel.text = String("T = " + String(describing: temp) + "°C")
+//        sunLabel.sizeToFit()
+//        
+//        //If the user has let go, add this value to the previous one
+//        if recognizer.state == UIGestureRecognizerState.ended {
+//            sunIntensity = temp
+//        }
+//
+//        //update the permafrost
+//        updatePermafrostLabel()
+//        
+//    }
     
     func updatePermafrostLabel(){
         //update the value
@@ -231,7 +243,7 @@ class ViewController: UIViewController {
         permafrostLabel.sizeToFit()
         //redraw
         var permafrostRect = permafrostLabel.frame
-        permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: groundImageView.frame.height - permafrostLabel.frame.height - padding)
+        permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: padding/4 + permafrostImageView.frame.maxY)
         permafrostLabel.frame = permafrostRect
     }
 
@@ -248,11 +260,14 @@ class ViewController: UIViewController {
         
         
         //Get the movement difference in degrees
-        var temp = turnTranslationIntoTemp(translation: translation)
+        var temp = turnMovementIntoUnits(movement: translation.x)
+        var atmosTemp = turnMovementIntoUnits(movement: translation.y)
         //The temperature is subtracting from the sun intensity
+        atmosTemp = atmosTemp * -1
         temp = temp * -1
         //Add the difference to our last temp value
         temp += sunIntensity
+        atmosTemp += atmosphericTemperature
 
        
         //Round to the Hundredths place
@@ -260,11 +275,15 @@ class ViewController: UIViewController {
         sunLabel.text = String("T = " + String(describing: temp) + " °C")
         sunLabel.sizeToFit()
         
+        atmosTemp = roundToHundredths(num: atmosTemp)
+        updateAtmosphericTemperatureLabel(newText: String(describing: atmosTemp))
+        
         //If the user has let go
         if recognizer.state == UIGestureRecognizerState.ended {
             sunIntensity = temp
+            atmosphericTemperature = atmosTemp
         }
-        updatePermafrostLabel()
+        drawPermafrost()
     }
     
     //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
@@ -302,7 +321,7 @@ class ViewController: UIViewController {
                 
                 //Re-draw label with new coordinates
                 if(validMovement){
-                    var num = 10.0 - getUnits(topAverageValue: 2.0, maxValue: 10.0, maxHeight: maxGroundHeight, newHeight: newImageViewHeight, percentage: 0.5)
+                    var num = 10.0 - getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: maxGroundHeight, newHeight: newImageViewHeight, percentage: groundHeightPercentage)
                     num = roundToHundredths(num: num)
                     groundLevel = num
                     
@@ -312,7 +331,7 @@ class ViewController: UIViewController {
                         groundLabel.text = "A = " + String(describing: num) + "m"
                     }
                     groundLabel.sizeToFit()
-                    updatePermafrostLabel()
+                    drawPermafrost()
                 }
                 
                 var groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4
@@ -321,7 +340,8 @@ class ViewController: UIViewController {
                 
                 permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newImageViewHeight - permafrostLabel.frame.height - padding), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
                 
-                updatePermafrostLabel()
+                
+                drawPermafrost()
             }
             //We are moving the snow layer
             else if view == snowLineView {
@@ -354,7 +374,7 @@ class ViewController: UIViewController {
                 //only update the snow level if the movement is valid
                 if(validMovement){
                     
-                    snowLevel = getUnits(topAverageValue: 2.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.75)
+                    snowLevel = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66)
                     snowLevel = roundToHundredths(num: snowLevel)
                     
                     if(snowLevel == 0.0){
@@ -366,7 +386,8 @@ class ViewController: UIViewController {
                         snowLabel.sizeToFit()
                     }
 
-                    updatePermafrostLabel()
+                  //  updatePermafrostLabel()
+                    drawPermafrost()
                 }
                 
                 //Our gesture ended, save the ending level here. If we save it elsewhere,
@@ -379,7 +400,8 @@ class ViewController: UIViewController {
                 
             }
             
-            updatePermafrostLabel()
+            //updatePermafrostLabel()
+            drawPermafrost()
             
         }
         //Don't have image keep moving, set translation to zero because we are done
@@ -430,14 +452,14 @@ class ViewController: UIViewController {
         updateAtmosphericTemperatureLabel()
         ````
     */
-    func updateAtmosphericTemperatureLabel(){
+    func updateAtmosphericTemperatureLabel(newText: String){
         let aTemp = "A"
         let subATemp = "t"
-        let restOfString = " = " + String(describing: atmosphericTemperature) + " °C"
+        let restOfString = " = " + String(describing: newText) + " °C"
         let bigFont = UIFont(name: "Helvetica", size: 17)
         let smFont = UIFont(name: "Helvetica", size: 14)
-        atmosphericTemp.attributedText = subscriptTheString(str: aTemp, toSub: subATemp, strAtEnd: restOfString, bigFont: bigFont!, smallFont: smFont!)
-        atmosphericTemp.sizeToFit()
+        atmosphericTempLabel.attributedText = subscriptTheString(str: aTemp, toSub: subATemp, strAtEnd: restOfString, bigFont: bigFont!, smallFont: smFont!)
+        atmosphericTempLabel.sizeToFit()
     }
     
     func drawPermafrost(){
@@ -445,6 +467,52 @@ class ViewController: UIViewController {
 //        var newY =
 //        var rect = permafrostImageView.frame
 //        rect.origin = CGRect(x: 0.0, y: )
+        
+//        var newHeight = getHeightFromUnit(permafrostLevel)
+        updatePermafrostLabel()
+        
+        var borderHeight = maxGroundHeight * groundHeightPercentage
+        var heightFromUnits: CGFloat = 0.0 
+        if(permafrostLevel > groundTopAverageValue){
+            print("non average")
+            //non average
+            heightFromUnits = permafrostLevel * (maxGroundHeight/groundMaxUnitHeight)
+            print("MaxGroundHeight: " + String(describing: maxGroundHeight))
+            print("GroundMaxUnitHeight: " + String(describing: groundMaxUnitHeight))
+            print(permafrostLevel)
+            print(heightFromUnits)
+        }
+        else{
+            print("average")
+            //in the average
+            heightFromUnits = permafrostLevel * ((maxGroundHeight - borderHeight)/groundMaxUnitHeight)
+        }
+       
+        
+        var startingPos = staticLineGround.frame.maxY //ground 0.0m
+        var rect = permafrostImageView.frame
+        print("Screen height below: ")
+        print(UIScreen.main.bounds.height)
+        if(startingPos + heightFromUnits > (groundImageView.frame.maxY - permafrostLabel.frame.height - padding)){
+            
+            rect.origin = CGPoint(x: 0.0, y: groundImageView.frame.maxY - permafrostLabel.frame.height - padding)
+            permafrostImageView.frame = rect
+        }
+        else{
+            rect.origin = CGPoint(x: 0.0, y: startingPos + heightFromUnits)
+            permafrostImageView.frame = rect
+        }
+        
+        //make the permafrost line extend to the full width of the screen
+        rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: permafrostImageView.frame.minY), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
+        permafrostImageView.frame = rect
+        
+        print("In draw permafrost")
+        print(startingPos)
+        print(heightFromUnits)
+        
+        updatePermafrostLabel()
+
     }
 
 }
