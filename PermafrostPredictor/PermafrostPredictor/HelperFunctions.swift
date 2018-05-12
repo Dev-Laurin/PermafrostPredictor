@@ -64,6 +64,7 @@ func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound
 func turnMovementIntoUnits(movement: CGFloat)->CGFloat{
     //For every 5 units of movement translation, have our unit go up 1
     //Example: My finger swiped 25 movement in x direction, but I only want the temperature to change by 5
+
     let unitPerMovement:CGFloat = 1/5.0
     let units = unitPerMovement * movement
     return units

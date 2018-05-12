@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var staticLineGround: UIImageView!
     @IBOutlet weak var staticGroundLayer: UIView!
     @IBOutlet weak var groundLabel: UILabel!
+
     
     //Moving Ground Layer
     @IBOutlet weak var lineGround: UIImageView!
@@ -42,8 +43,8 @@ class ViewController: UIViewController {
     //The temperature the sun is giving off
     var sunIntensity: CGFloat
     var atmosphericTemperature : CGFloat
-    //The sun itself is a special view, see SunView.swift
-    var sunView: SunView
+    //The sun itself
+    @IBOutlet weak var sunView: UIImageView!
     //Keep track of how deep the snow is
     var snowLevel: CGFloat
     //How deep the ground layer is
@@ -52,6 +53,7 @@ class ViewController: UIViewController {
     var permafrostLevel: CGFloat
     //The permafrost line that is placed on screen based on user's input
     
+    @IBOutlet weak var stackView: UIStackView!
     
     var handleSkyXPos: CGFloat
     var handleSkyYPos: CGFloat
@@ -67,6 +69,16 @@ class ViewController: UIViewController {
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
     
+    //MARK: Notification
+    func setupNotification(){
+        //Setup an Observer to know when device is rotated
+       // NotificationCenter.default.addObserver(self, selector: Selector(ViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    //Deinitializer
+    deinit {
+     //   NotificationCenter.default.removeObserver(self)
+    }
     
     //MARK: Initialization
     /**
@@ -82,8 +94,7 @@ class ViewController: UIViewController {
         //initialize starting sun temperature
         sunIntensity = 30.0
         atmosphericTemperature = 30.0
-        //init the sun itself
-        sunView = SunView()
+
         //init snow/ground levels
         snowLevel = 1.0
         groundLevel = 20.2
@@ -98,8 +109,7 @@ class ViewController: UIViewController {
         groundTopAverageValue = 2.0
         groundMaxUnitHeight = 10.0
         
-        let screenHeight = UIScreen.main.bounds.height
-        heightBasedOffPercentage = screenHeight * (0.5)
+        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
         
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
         permafrostLabel = UILabel()
@@ -122,18 +132,7 @@ class ViewController: UIViewController {
         
         //Atmospheric Temperature
         updateAtmosphericTemperatureLabel(newText: String(describing: atmosphericTemperature))
-        
-        //Make the Sun in its own view
-        let sunViewSize: CGFloat = skyView.frame.width/3
-        sunView = SunView(frame: CGRect(x:0.0, y: 0.0, width: sunViewSize, height: sunViewSize))
-        //Add to the sky view
-        skyView.addSubview(sunView)
-        //Update the location in the sky view
-        sunView.frame = CGRect(x: skyView.frame.width - sunViewSize, y: padding/2, width: sunViewSize, height: sunViewSize)
-        sunView.backgroundColor = .white 
-        //Setup the gesture recognizer for user interaction
-      //  sunView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(sunPanGestureRecognizer)))
-        
+
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
         staticGroundLayer.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
@@ -160,21 +159,60 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+       draw()
+        
+    }
+    
+    func draw(){
         //Draw initial here
         drawInitViews()
-       
+        
         //put labels in initial spots
         drawInitLabels()
         
         //Get the maximum our view heights can be based on this screen/device
         findMaxHeightsBasedOnScreen()
+    }
+    
+//    func rotated(){
+//        print("ROTATED.")
+//        print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
+//        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
+//        draw()
+//        print("Rotate func end")
+//    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if UIDevice.current.orientation.isLandscape {
+            
+           print("Landscape")
+        print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
+            
+        } else {
+            
+           print("portrait")
+            print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
+            
+        } // else
+        
+        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
+        draw()
+        
+        print("Snow level height: ")
+        print(snowLabel.frame.height)
         
     }
     
     func drawInitViews(){
         //Draw views on screen
-
-        changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage)
+        //Make the Sun in its own view
+        let sunViewSize: CGFloat = skyView.frame.width/3
+        sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
+     //   sunView = changeViewsYValue(view: sunView, newX: skyView.frame.width - sunView.frame.width, newY: sunView.frame.minY) as! UIImageView
+        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         snowImageView = changeViewsYValue(view: snowImageView, newX: 0.0, newY: staticLineGround.frame.minY - snowImageView.frame.height)
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as! UIImageView
         staticGroundLayer = changeViewsYValue(view: staticGroundLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
@@ -184,8 +222,7 @@ class ViewController: UIViewController {
     }
     
     func drawInitLabels(){
-        sunView = changeViewsYValue(view: sunView, newX: skyView.frame.width - sunView.frame.width, newY: sunView.frame.minY) as! SunView
-        
+   
         atmosphericTempLabel = changeViewsYValue(view: atmosphericTempLabel, newX: skyView.frame.minX + padding/2, newY: sunView.frame.minY) as! UILabel
         
         sunLabel = changeViewsYValue(view: sunLabel, newX: skyView.frame.minX + padding/2, newY: sunView.frame.minY + sunLabel.frame.height + padding/4) as! UILabel
@@ -210,31 +247,6 @@ class ViewController: UIViewController {
         maxGroundHeight = screenHeight - heightBasedOffPercentage //the minimum the grey view can be
     }
     
-
-    
-    //MARK: To handle when the sun is being interacted with
-    //objective C selector & function doesn't create memory errors like Swift version
-//    @objc func sunPanGestureRecognizer(recognizer: UIPanGestureRecognizer){
-//        let translation = recognizer.translation(in: self.view)
-//
-//        //Get difference of movement in degrees
-//        var temp = turnTranslationIntoTemp(translation: translation) + sunIntensity
-//        
-//        //Round and display in temp label
-//        temp = roundToHundredths(num: temp)
-//        sunLabel.text = String("T = " + String(describing: temp) + "°C")
-//        sunLabel.sizeToFit()
-//        
-//        //If the user has let go, add this value to the previous one
-//        if recognizer.state == UIGestureRecognizerState.ended {
-//            sunIntensity = temp
-//        }
-//
-//        //update the permafrost
-//        updatePermafrostLabel()
-//        
-//    }
-    
     func updatePermafrostLabel(){
         //update the value
         permafrostLevel = roundToHundredths(num: max(snowLevel/10 + sunIntensity, 0))
@@ -246,6 +258,78 @@ class ViewController: UIViewController {
         permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: padding/4 + permafrostImageView.frame.maxY)
         permafrostLabel.frame = permafrostRect
     }
+    
+    @IBAction func staticGroundLayerTapGesture(_ sender: UITapGestureRecognizer) {
+        
+        //Make a new view with the necessary text fields
+        var textBoxPopup = UIView()
+        textBoxPopup.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        
+        var currentYVal = padding/4
+        var xPadding = padding/4
+        //Title of box
+        var title = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &title, text: "Thermal Conductivity", yValSoFar: currentYVal, x: xPadding)
+        currentYVal += title.frame.height + xPadding
+        
+        //Kvt - thermal conductivity "thawed"
+            //Make the static label
+        var KvtLabel = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvtLabel, text: "thawed", yValSoFar: currentYVal, x: xPadding)
+        
+        //Kvf - "frozen"
+        var KvfLabel = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvfLabel, text: "frozen", yValSoFar: currentYVal, x: xPadding + KvtLabel.frame.width + xPadding)
+        currentYVal += KvfLabel.frame.height + xPadding
+        
+            //Make the editable field for user input
+        var KvtField = UITextField()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvtField, text: "enter here", yValSoFar: currentYVal, x: xPadding)
+
+        var KvfField = UITextField()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvfField, text: "enter here", yValSoFar: currentYVal, x: xPadding + KvtField.frame.width + xPadding)
+        currentYVal += KvfField.frame.height + xPadding
+        
+        //Volumetric Heat capacity
+        var title2 = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &title2, text: "Volumetric Heat Capacity", yValSoFar: currentYVal, x: xPadding)
+        currentYVal += title2.frame.height + xPadding
+        
+        //Cvt - "thawed" volumetric heat capacity
+        var CvtLabel = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvtLabel, text: "thawed", yValSoFar: currentYVal, x: xPadding)
+        
+        var CvfLabel = UILabel()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvfLabel, text: "frozen", yValSoFar: currentYVal, x: xPadding + CvtLabel.frame.width + xPadding)
+        currentYVal += CvfLabel.frame.height + xPadding
+        
+        var CvtField = UITextField()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvtField, text: "enter", yValSoFar: currentYVal, x: xPadding)
+        
+        var CvfField = UITextField()
+        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvfField, text: "enter", yValSoFar: currentYVal, x: xPadding + CvtField.frame.width + xPadding)
+        
+        var textBoxWidth = padding/2 + title2.frame.width
+        var textBoxHeight = textBoxWidth
+        textBoxPopup.frame = CGRect(origin: CGPoint(x: UIScreen.main.bounds.width/2 - textBoxWidth/2 , y: UIScreen.main.bounds.height/2 - textBoxHeight/2), size: CGSize(width: textBoxWidth, height: textBoxHeight))
+        
+        self.view.addSubview(textBoxPopup)
+    }
+    
+    func addToViewVertical(view: inout UIView, viewToAdd: inout UILabel, text: String, yValSoFar: CGFloat, x: CGFloat){
+        viewToAdd.text = text
+        viewToAdd.sizeToFit()
+        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
+        view.addSubview(viewToAdd)
+    }
+    
+    func addToViewVertical(view: inout UIView, viewToAdd: inout UITextField, text: String, yValSoFar: CGFloat, x: CGFloat){
+        viewToAdd.text = text
+        viewToAdd.sizeToFit()
+        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
+        view.addSubview(viewToAdd)
+    }
+    
 
     //MARK: SkyView Gesture recognizer
         //Decrease the Sun Temperature based on movement

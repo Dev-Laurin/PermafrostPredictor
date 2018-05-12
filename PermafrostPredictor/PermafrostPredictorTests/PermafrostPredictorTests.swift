@@ -68,7 +68,49 @@ class PermafrostPredictorTests: XCTestCase {
     
     //test the getmovement helper function
     func testGetMovement(){
-         
+         //returns valid movement
+        
+        //gives the previous height, new height, and new Y value
+        
+        
+    }
+    
+    func testMovementIntoUnits(){
+       //Units should be both negative and positive numbers
+        XCTAssert(turnMovementIntoUnits(movement: 35) == 7)
+        XCTAssert(turnMovementIntoUnits(movement: 0) == 0)
+        XCTAssert(turnMovementIntoUnits(movement: 5) == 1)
+        XCTAssert(turnMovementIntoUnits(movement: -5) == -1)
+        XCTAssert(turnMovementIntoUnits(movement: -30) == -6)
+    }
+    
+    func testTurnTranslationIntoTemp(){
+        XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: 3, y: 4)) == 1)
+        
+        XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: -3, y: -4)) == 1)
+        
+        XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: 0, y:0)) == 0)
+        
+    }
+    
+    func testRoundToHundredths(){
+        XCTAssert(roundToHundredths(num: 1.55555) == 1.6)
+        XCTAssert(roundToHundredths(num: 0.05) == 0.1)
+        XCTAssert(roundToHundredths(num: -3.356) == -3.4)
+        XCTAssert(roundToHundredths(num: 1.22222) == 1.2)
+    }
+    
+    func testChangeViewsYValue(){
+        //changes the frame values
+        var tempView = UIView()
+        tempView = changeViewsYValue(view: tempView, newX: 50, newY: 50)
+        XCTAssert(tempView.frame.minX == 50)
+        XCTAssert(tempView.frame.minY == 50)
+        
+        tempView = changeViewsYValue(view: tempView, newX: -50, newY: 0)
+        XCTAssert(tempView.frame.minX == -50)
+        XCTAssert(tempView.frame.minY == 0)
+        
     }
     
 }

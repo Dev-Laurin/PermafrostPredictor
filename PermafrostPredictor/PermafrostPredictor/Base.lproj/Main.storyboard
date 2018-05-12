@@ -45,6 +45,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Sun" translatesAutoresizingMaskIntoConstraints="NO" id="fND-Zu-XgT">
+                                                <rect key="frame" x="219" y="8" width="148" height="141"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
@@ -62,6 +66,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cn0-zi-DZ8">
                                         <rect key="frame" x="0.0" y="256" width="375" height="95"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
                                         <rect key="frame" x="0.0" y="351" width="375" height="10"/>
@@ -70,6 +75,10 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
                                         <rect key="frame" x="0.0" y="361" width="375" height="96"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="3Ib-hR-Dem" appends="YES" id="Cwi-hJ-4Ah"/>
+                                        </connections>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
                                         <rect key="frame" x="0.0" y="457" width="375" height="10"/>
@@ -117,9 +126,11 @@
                         <outlet property="snowImageView" destination="Cn0-zi-DZ8" id="xjE-wP-2aU"/>
                         <outlet property="snowLabel" destination="UYL-G6-dCn" id="1MV-GE-bcz"/>
                         <outlet property="snowLineView" destination="Z0a-7G-S5u" id="wTe-1a-oq7"/>
+                        <outlet property="stackView" destination="EvR-eo-3Zq" id="d0x-Ss-J4h"/>
                         <outlet property="staticGroundLayer" destination="TDS-Rh-zlw" id="v2z-QL-NxN"/>
                         <outlet property="staticLineGround" destination="SLd-XY-nLR" id="TGn-jQ-Xq8"/>
                         <outlet property="sunLabel" destination="6Kv-pd-BAr" id="aBp-KF-INc"/>
+                        <outlet property="sunView" destination="fND-Zu-XgT" id="6T9-nX-fGj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -138,6 +149,11 @@
                         <action selector="handleSkyGestureWithRecognizer:" destination="BYZ-38-t0r" id="jWK-A4-Pgj"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="3Ib-hR-Dem">
+                    <connections>
+                        <action selector="staticGroundLayerTapGesture:" destination="BYZ-38-t0r" id="1Jq-uq-hWD"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-146.40000000000001" y="-75.112443778110944"/>
         </scene>
@@ -145,5 +161,6 @@
     <resources>
         <image name="DashedLine" width="150" height="10"/>
         <image name="Line" width="150" height="10"/>
+        <image name="Sun" width="1024" height="1024"/>
     </resources>
 </document>
