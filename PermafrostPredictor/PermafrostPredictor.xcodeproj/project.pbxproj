@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49643F2420AB13A00038A972 /* matlabConvertedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */; };
 		49A780A320472330002BBBFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A220472330002BBBFD /* AppDelegate.swift */; };
 		49A780A520472330002BBBFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A420472330002BBBFD /* ViewController.swift */; };
 		49A780A820472330002BBBFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A780A620472330002BBBFD /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 		49A780B820472330002BBBFD /* PermafrostPredictorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780B720472330002BBBFD /* PermafrostPredictorTests.swift */; };
 		49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */; };
 		49C717DB206960C40002C64C /* SunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C717DA206960C40002C64C /* SunView.swift */; };
+		49E5714C20BF39D00055B21E /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E5714B20BF39D00055B21E /* PopUpView.swift */; };
 		49FAFCF92090F40A00200B49 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FAFCF82090F40A00200B49 /* HelperFunctions.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matlabConvertedFunctions.swift; sourceTree = "<group>"; };
 		49A7809F20472330002BBBFD /* PermafrostPredictor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PermafrostPredictor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A780A220472330002BBBFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49A780A420472330002BBBFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +53,7 @@
 		49A780C220472330002BBBFD /* PermafrostPredictorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermafrostPredictorUITests.swift; sourceTree = "<group>"; };
 		49A780C420472330002BBBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C717DA206960C40002C64C /* SunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunView.swift; sourceTree = "<group>"; };
+		49E5714B20BF39D00055B21E /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
 		49FAFCF82090F40A00200B49 /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +107,8 @@
 			children = (
 				49A780A220472330002BBBFD /* AppDelegate.swift */,
 				49A780A420472330002BBBFD /* ViewController.swift */,
+				49E5714B20BF39D00055B21E /* PopUpView.swift */,
+				49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */,
 				49FAFCF82090F40A00200B49 /* HelperFunctions.swift */,
 				49C717DA206960C40002C64C /* SunView.swift */,
 				49A780A620472330002BBBFD /* Main.storyboard */,
@@ -265,8 +271,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49643F2420AB13A00038A972 /* matlabConvertedFunctions.swift in Sources */,
 				49A780A520472330002BBBFD /* ViewController.swift in Sources */,
 				49FAFCF92090F40A00200B49 /* HelperFunctions.swift in Sources */,
+				49E5714C20BF39D00055B21E /* PopUpView.swift in Sources */,
 				49A780A320472330002BBBFD /* AppDelegate.swift in Sources */,
 				49C717DB206960C40002C64C /* SunView.swift in Sources */,
 			);

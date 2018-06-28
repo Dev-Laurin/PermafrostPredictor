@@ -65,20 +65,23 @@ class ViewController: UIViewController {
     var groundHeightPercentage: CGFloat
     var groundTopAverageValue: CGFloat
     var groundMaxUnitHeight: CGFloat
+    var skyHeight: CGFloat
+    var skyWidth: CGFloat
     
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
     
-    //MARK: Notification
-    func setupNotification(){
-        //Setup an Observer to know when device is rotated
-       // NotificationCenter.default.addObserver(self, selector: Selector(ViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-    }
-    
-    //Deinitializer
-    deinit {
-     //   NotificationCenter.default.removeObserver(self)
-    }
+    //Inputs for permafrost levels
+    var Kvf: Double
+    var Kvt: Double
+    var Kmf: Double
+    var Kmt: Double
+    var Cmf: Double
+    var Cmt: Double
+    var Cvf: Double
+    var Cvt: Double
+    var Hs: Double
+    var Hv: Double
     
     //MARK: Initialization
     /**
@@ -105,14 +108,29 @@ class ViewController: UIViewController {
         
         maxSnowHeight = 0.0
         maxGroundHeight = 0.0
-        groundHeightPercentage = 0.5
-        groundTopAverageValue = 2.0
-        groundMaxUnitHeight = 10.0
+        groundHeightPercentage = 0.0
+        groundTopAverageValue = 0.0
+        groundMaxUnitHeight = 0.25
         
         heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
         
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
         permafrostLabel = UILabel()
+        
+        skyHeight = 0.0
+        skyWidth = 0.0
+        
+        
+        Kvf = 0.0
+        Kvt = 0.0
+        Kmf = 0.0
+        Kmt = 0.0
+        Cmf = 0.0
+        Cmt = 0.0
+        Cvf = 0.0
+        Cvt = 0.0
+        Hs = 0.0
+        Hv = 0.0
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -153,7 +171,9 @@ class ViewController: UIViewController {
         permafrostLabel.sizeToFit()
         
         drawPermafrost()
-
+        
+        skyHeight = skyView.frame.height
+        skyWidth = skyView.frame.width 
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -164,6 +184,7 @@ class ViewController: UIViewController {
     }
     
     func draw(){
+
         //Draw initial here
         drawInitViews()
         
@@ -172,52 +193,49 @@ class ViewController: UIViewController {
         
         //Get the maximum our view heights can be based on this screen/device
         findMaxHeightsBasedOnScreen()
+        
     }
     
-//    func rotated(){
-//        print("ROTATED.")
-//        print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
-//        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
-//        draw()
-//        print("Rotate func end")
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//
+//        super.viewWillTransition(to: size, with: coordinator)
+//
+//        if UIDevice.current.orientation.isLandscape {
+//
+//
+//            heightBasedOffPercentage = UIScreen.main.bounds.maxX * (0.5)
+//
+//        } else {
+//
+//            heightBasedOffPercentage = UIScreen.main.bounds.maxY * (0.5)
+//
+//        } // else
+//
+//
+//        draw()//
+//
+//
 //    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        if UIDevice.current.orientation.isLandscape {
-            
-           print("Landscape")
-        print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
-            
-        } else {
-            
-           print("portrait")
-            print("rotated. Height: " + String(describing: UIScreen.main.bounds.height) + " Width: " + String(describing: UIScreen.main.bounds.width))
-            
-        } // else
-        
-        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
-        draw()
-        
-        print("Snow level height: ")
-        print(snowLabel.frame.height)
-        
-    }
     
     func drawInitViews(){
         //Draw views on screen
         //Make the Sun in its own view
+        skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: skyWidth, height: skyHeight))
         let sunViewSize: CGFloat = skyView.frame.width/3
+        
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
      //   sunView = changeViewsYValue(view: sunView, newX: skyView.frame.width - sunView.frame.width, newY: sunView.frame.minY) as! UIImageView
+
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
+
         snowImageView = changeViewsYValue(view: snowImageView, newX: 0.0, newY: staticLineGround.frame.minY - snowImageView.frame.height)
+        snowImageView.frame.size = CGSize(width: snowImageView.frame.width, height: maxSnowHeight)
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as! UIImageView
         staticGroundLayer = changeViewsYValue(view: staticGroundLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
         lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: staticGroundLayer.frame.maxY) as! UIImageView
         groundImageView = changeViewsYValue(view: groundImageView, newX: 0.0, newY: lineGround.frame.maxY)
+        
+        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         
     }
     
@@ -249,9 +267,9 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        permafrostLevel = roundToHundredths(num: max(snowLevel/10 + sunIntensity, 0))
+        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv))
         //update the display
-        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
+        permafrostLabel.text = "ALD = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.sizeToFit()
         //redraw
         var permafrostRect = permafrostLabel.frame
@@ -261,59 +279,53 @@ class ViewController: UIViewController {
     
     @IBAction func staticGroundLayerTapGesture(_ sender: UITapGestureRecognizer) {
         
-        //Make a new view with the necessary text fields
-        var textBoxPopup = UIView()
-        textBoxPopup.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
-        
-        var currentYVal = padding/4
-        var xPadding = padding/4
-        //Title of box
-        var title = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &title, text: "Thermal Conductivity", yValSoFar: currentYVal, x: xPadding)
-        currentYVal += title.frame.height + xPadding
-        
-        //Kvt - thermal conductivity "thawed"
-            //Make the static label
-        var KvtLabel = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvtLabel, text: "thawed", yValSoFar: currentYVal, x: xPadding)
-        
-        //Kvf - "frozen"
-        var KvfLabel = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvfLabel, text: "frozen", yValSoFar: currentYVal, x: xPadding + KvtLabel.frame.width + xPadding)
-        currentYVal += KvfLabel.frame.height + xPadding
-        
-            //Make the editable field for user input
-        var KvtField = UITextField()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvtField, text: "enter here", yValSoFar: currentYVal, x: xPadding)
+        //Make a new popup - give position on screen x & y
+        var textBoxPopup = PopUpView()
+        //set background color
+        textBoxPopup.setBackGroundColor(color: UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1))
+        //add title to top
+        textBoxPopup.addTitle(title: "Thermal Conductivity")
+        //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
+        textBoxPopup.addLabels(text: "thawed", text2: "frozen")
+        //Make the editable fields for user input
+        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter")
 
-        var KvfField = UITextField()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &KvfField, text: "enter here", yValSoFar: currentYVal, x: xPadding + KvtField.frame.width + xPadding)
-        currentYVal += KvfField.frame.height + xPadding
-        
         //Volumetric Heat capacity
-        var title2 = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &title2, text: "Volumetric Heat Capacity", yValSoFar: currentYVal, x: xPadding)
-        currentYVal += title2.frame.height + xPadding
-        
-        //Cvt - "thawed" volumetric heat capacity
-        var CvtLabel = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvtLabel, text: "thawed", yValSoFar: currentYVal, x: xPadding)
-        
-        var CvfLabel = UILabel()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvfLabel, text: "frozen", yValSoFar: currentYVal, x: xPadding + CvtLabel.frame.width + xPadding)
-        currentYVal += CvfLabel.frame.height + xPadding
-        
-        var CvtField = UITextField()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvtField, text: "enter", yValSoFar: currentYVal, x: xPadding)
-        
-        var CvfField = UITextField()
-        addToViewVertical(view: &textBoxPopup, viewToAdd: &CvfField, text: "enter", yValSoFar: currentYVal, x: xPadding + CvtField.frame.width + xPadding)
-        
-        var textBoxWidth = padding/2 + title2.frame.width
-        var textBoxHeight = textBoxWidth
-        textBoxPopup.frame = CGRect(origin: CGPoint(x: UIScreen.main.bounds.width/2 - textBoxWidth/2 , y: UIScreen.main.bounds.height/2 - textBoxHeight/2), size: CGSize(width: textBoxWidth, height: textBoxHeight))
-        
+        textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
+        //Cvt - "thawed" volumetric heat capacity & Cvf
+        textBoxPopup.addLabels(text: "thawed", text2: "frozen")
+        //make the fields
+        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter")
+/*
+        //Add submit button
+        var submitButton = UIButton()
+        submitButton.setTitle("Submit", for: .normal)
+        submitButton.setTitleColor(.blue, for: .normal)
+        submitButton.addTarget(self, action: #selector(popUpButtonPressed), for: .touchUpInside)
+        submitButton.sizeToFit()
+        textBoxPopup.addButton(button: submitButton)
+        */
+        //add to this parent view so we can see it (part of the app)
         self.view.addSubview(textBoxPopup)
+    }
+    
+    @objc func popUpButtonPressed(sender: UIButton){
+        sender.superview?.removeFromSuperview() //get rid of the popup box
+    }
+    
+    @objc func CvfFieldChanged(textField: UITextField){
+        Cvf = (textField.text! as NSString).doubleValue //security check TODO!!!!!!!
+        print("Cvf: " + String(describing: Cvf))
+    }
+    
+    //Given an array of floats, find spacing that allows the items to be close to centered
+    func drawEvenly(items: [CGFloat], totalAvailableWidth: CGFloat)->CGFloat{
+        var totalSpacing = totalAvailableWidth
+        //Subtract all the items' widths that are on one line
+        for i in items{
+            totalSpacing -= i
+        }
+        return totalSpacing/CGFloat(items.count + 1) //the most even spacing distributed among the items (space in bet each)
     }
     
     func addToViewVertical(view: inout UIView, viewToAdd: inout UILabel, text: String, yValSoFar: CGFloat, x: CGFloat){
@@ -325,6 +337,12 @@ class ViewController: UIViewController {
     
     func addToViewVertical(view: inout UIView, viewToAdd: inout UITextField, text: String, yValSoFar: CGFloat, x: CGFloat){
         viewToAdd.text = text
+        viewToAdd.sizeToFit()
+        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
+        view.addSubview(viewToAdd)
+    }
+    
+    func addToViewVertical(view: inout UIView, viewToAdd: inout UIButton, text: String, yValSoFar: CGFloat, x: CGFloat){
         viewToAdd.sizeToFit()
         viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
         view.addSubview(viewToAdd)
@@ -348,7 +366,6 @@ class ViewController: UIViewController {
         var atmosTemp = turnMovementIntoUnits(movement: translation.y)
         //The temperature is subtracting from the sun intensity
         atmosTemp = atmosTemp * -1
-        temp = temp * -1
         //Add the difference to our last temp value
         temp += sunIntensity
         atmosTemp += atmosphericTemperature
@@ -386,7 +403,7 @@ class ViewController: UIViewController {
                 let previousView = staticGroundLayer
                 //How small the static ground plant layer image is allowed to be
                 let screenHeight = UIScreen.main.bounds.height
-                let groundLayerHeightBound: CGFloat = padding*2 + permafrostLabel.frame.height
+                let groundLayerHeightBound: CGFloat = maxGroundHeight - 60//only see the roots //previousView!.frame.minX + 40.0 //padding*2 + permafrostLabel.frame.height
                 
                 var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
                 
@@ -400,16 +417,16 @@ class ViewController: UIViewController {
                 groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
                 staticGroundLayer.frame = CGRect(origin: CGPoint(x: staticGroundLayer.frame.minX, y: staticGroundLayer.frame.minY), size: CGSize(width: (staticGroundLayer.frame.width),height: previousViewHeight))
                 
-                print("MaxGroundHeight: " + String(describing: maxGroundHeight))
-                print("NewGroundHeight: " + String(describing: newImageViewHeight))
-                
                 //Re-draw label with new coordinates
                 if(validMovement){
-                    var num = 10.0 - getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: maxGroundHeight, newHeight: newImageViewHeight, percentage: groundHeightPercentage)
-                    num = roundToHundredths(num: num)
-                    groundLevel = num
+                    var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: 47, newHeight: staticGroundLayer.frame.height, percentage: groundHeightPercentage)
                     
-                    if(groundLevel == 0.0){
+                    num = roundToThousandths(num: num)
+                    groundLevel = num
+                    print("GroundLevel: ")
+                    print(groundLevel)
+                    
+                    if(groundLevel < 0.0001){
                         groundLabel.text = "No Organic"
                     }else{
                         groundLabel.text = "A = " + String(describing: num) + "m"
@@ -513,6 +530,7 @@ class ViewController: UIViewController {
             }
         }
         else{
+            
             //we are not in the average
             value = turnHeightMovementIntoUnits(maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, newHeight: newHeight - heightAtSwitch, minValue: topAverageValue)
             if(value > maxValue){
@@ -520,10 +538,16 @@ class ViewController: UIViewController {
             }
             
         }
+        print("Result: " + String(describing: value))
             return value
     }
     
     func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeight: CGFloat, minValue: CGFloat)->CGFloat{
+        print("NewHeight: " + String(describing: newHeight))
+        print("MaxVal: " + String(describing: maxValue))
+        print("MaxHeight: " + String(describing: maxHeight))
+        print("MinValue: " + String(describing: minValue))
+      //  print("MaxGroundHeight: " + String(describing: maxGroundHeight))
         return (newHeight * (maxValue/maxHeight)) + minValue
     }
 
@@ -558,16 +582,13 @@ class ViewController: UIViewController {
         var borderHeight = maxGroundHeight * groundHeightPercentage
         var heightFromUnits: CGFloat = 0.0 
         if(permafrostLevel > groundTopAverageValue){
-            print("non average")
+           
             //non average
             heightFromUnits = permafrostLevel * (maxGroundHeight/groundMaxUnitHeight)
-            print("MaxGroundHeight: " + String(describing: maxGroundHeight))
-            print("GroundMaxUnitHeight: " + String(describing: groundMaxUnitHeight))
-            print(permafrostLevel)
-            print(heightFromUnits)
+
         }
         else{
-            print("average")
+     
             //in the average
             heightFromUnits = permafrostLevel * ((maxGroundHeight - borderHeight)/groundMaxUnitHeight)
         }
@@ -575,8 +596,7 @@ class ViewController: UIViewController {
         
         var startingPos = staticLineGround.frame.maxY //ground 0.0m
         var rect = permafrostImageView.frame
-        print("Screen height below: ")
-        print(UIScreen.main.bounds.height)
+
         if(startingPos + heightFromUnits > (groundImageView.frame.maxY - permafrostLabel.frame.height - padding)){
             
             rect.origin = CGPoint(x: 0.0, y: groundImageView.frame.maxY - permafrostLabel.frame.height - padding)
@@ -591,9 +611,6 @@ class ViewController: UIViewController {
         rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: permafrostImageView.frame.minY), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
         permafrostImageView.frame = rect
         
-        print("In draw permafrost")
-        print(startingPos)
-        print(heightFromUnits)
         
         updatePermafrostLabel()
 

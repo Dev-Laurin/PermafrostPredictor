@@ -139,6 +139,11 @@ func roundToHundredths(num: CGFloat)->CGFloat{
     return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
 }
 
+func roundToThousandths(num: CGFloat)->CGFloat{
+    let format = ".2"
+    return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
+}
+
 /**
  Given a string, the string to be a subscript, and the fonts of both the strings, return an attributed string with the subscript.
  
