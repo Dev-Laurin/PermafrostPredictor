@@ -296,7 +296,7 @@ class ViewController: UIViewController {
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         //make the fields
         textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter")
-/*
+
         //Add submit button
         var submitButton = UIButton()
         submitButton.setTitle("Submit", for: .normal)
@@ -304,7 +304,7 @@ class ViewController: UIViewController {
         submitButton.addTarget(self, action: #selector(popUpButtonPressed), for: .touchUpInside)
         submitButton.sizeToFit()
         textBoxPopup.addButton(button: submitButton)
-        */
+        
         //add to this parent view so we can see it (part of the app)
         self.view.addSubview(textBoxPopup)
     }
