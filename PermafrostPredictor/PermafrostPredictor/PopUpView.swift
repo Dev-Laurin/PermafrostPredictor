@@ -45,11 +45,13 @@ class PopUpView: UIView{
         self.backgroundColor = color
     }
     
-    //Add a button to the view. User passes the button instead of text so they can apply a target function for when it is pressed. 
+    //Add a button to the view.
     func addButton(button: UIButton){
-        button.sizeToFit()
+        
+        
         let space = self.frame.width - button.frame.width
         let pad = space/2
+        
         button.frame.origin = CGPoint(x: currentX + pad, y: currentY)
         currentY += padding + button.frame.height 
         
@@ -100,15 +102,17 @@ class PopUpView: UIView{
     }
     
     //Add 2 textfields side by side, centered in view
-    func addTextFields(defaultText1: String, defaultText2: String){
+    func addTextFields(defaultText1: String, defaultText2: String, outputTag1: Int, outputTag2: Int){
         //create textfields
         let textField = UITextField()
         textField.text = defaultText1
         textField.sizeToFit()
+        textField.tag = outputTag1
         
         let textField2 = UITextField()
         textField2.text = defaultText2
         textField2.sizeToFit()
+        textField2.tag = outputTag2
         
         //find spacing
         let space = self.frame.width - textField2.frame.width - textField.frame.width
@@ -126,6 +130,15 @@ class PopUpView: UIView{
         //add to view
         self.addSubview(textField)
         self.addSubview(textField2)
+    }
+    
+    //return a dictionary containing the text field's values as strings & their corresponding tags as keys 
+    func getValues()->[Int: String]{
+        var dict: [Int: String] = [:]
+        for t in textFields{
+            dict[t.tag] = t.text
+        }
+        return dict
     }
 
 }

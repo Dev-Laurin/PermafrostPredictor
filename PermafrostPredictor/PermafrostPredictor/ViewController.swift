@@ -83,6 +83,8 @@ class ViewController: UIViewController {
     var Hs: Double
     var Hv: Double
     
+    var textFields = [UITextField]()
+    
     //MARK: Initialization
     /**
          Initializer for the View Controller. Use to initialize the label values, can be used to assign them from storage or set to default values.
@@ -131,6 +133,7 @@ class ViewController: UIViewController {
         Cvt = 0.0
         Hs = 0.0
         Hv = 0.0
+    
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -286,37 +289,64 @@ class ViewController: UIViewController {
         //add title to top
         textBoxPopup.addTitle(title: "Thermal Conductivity")
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
-        textBoxPopup.addLabels(text: "thawed", text2: "frozen")
+        textBoxPopup.addLabels(text: "thawed", text2: "frozen") //give a storage place for value upon submit
         //Make the editable fields for user input
-        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter")
-
+        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Kvt), outputTag2: Int(Kvf))
+        
         //Volumetric Heat capacity
         textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
         //Cvt - "thawed" volumetric heat capacity & Cvf
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         //make the fields
-        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter")
+        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Cvt), outputTag2: Int(Cvf))
 
         //Add submit button
-        var submitButton = UIButton()
-        submitButton.setTitle("Submit", for: .normal)
-        submitButton.setTitleColor(.blue, for: .normal)
-        submitButton.addTarget(self, action: #selector(popUpButtonPressed), for: .touchUpInside)
-        submitButton.sizeToFit()
-        textBoxPopup.addButton(button: submitButton)
+        var button = UIButton()
+        button.setTitle("Submit", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(popUpButtonPressed), for: .touchUpInside)
+        button.sizeToFit()
+        textBoxPopup.addButton(button: button)
+        
+        textFields = textBoxPopup.textFields
         
         //add to this parent view so we can see it (part of the app)
         self.view.addSubview(textBoxPopup)
     }
     
-    @objc func popUpButtonPressed(sender: UIButton){
-        sender.superview?.removeFromSuperview() //get rid of the popup box
+    func saveTextFields(subviews: [UIView], values: [Int])->[Int: String]{
+        
+        var dict: [Int: String] = [:]
+        for view in subviews {
+            for v in values {
+                if view.tag == v {
+                    var textField:UITextField = view as! UITextField
+                    dict[v] = textField.text
+                }
+            }
+        }
+        return dict
     }
     
-    @objc func CvfFieldChanged(textField: UITextField){
-        Cvf = (textField.text! as NSString).doubleValue //security check TODO!!!!!!!
-        print("Cvf: " + String(describing: Cvf))
+    @objc func popUpButtonPressed(sender: UIButton){
+        //get the textfield inputs and place into variables for algorithm
+        
+        //our variables for these textfields
+        var v = [Int(Kvt), Int(Kvf), Int(Cvt), Int(Cvf)]
+      //  var dict = saveTextFields(subviews: (sender.superview?.subviews)!, values: v)
+        
+        var popup: PopUpView = sender.superview as! PopUpView
+        var dict = popup.getValues()
+        
+        //save the values
+        Kvt = Double(dict[Int(Kvt)])!
+        Kvf = dict[Int(Kvf)]
+        Cvt = dict[Int(Cvt)]
+        Cvf = dict[Int(Cvf)]
+        
+        sender.superview?.removeFromSuperview() //get rid of the popup box
     }
+
     
     //Given an array of floats, find spacing that allows the items to be close to centered
     func drawEvenly(items: [CGFloat], totalAvailableWidth: CGFloat)->CGFloat{
@@ -327,26 +357,7 @@ class ViewController: UIViewController {
         }
         return totalSpacing/CGFloat(items.count + 1) //the most even spacing distributed among the items (space in bet each)
     }
-    
-    func addToViewVertical(view: inout UIView, viewToAdd: inout UILabel, text: String, yValSoFar: CGFloat, x: CGFloat){
-        viewToAdd.text = text
-        viewToAdd.sizeToFit()
-        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
-        view.addSubview(viewToAdd)
-    }
-    
-    func addToViewVertical(view: inout UIView, viewToAdd: inout UITextField, text: String, yValSoFar: CGFloat, x: CGFloat){
-        viewToAdd.text = text
-        viewToAdd.sizeToFit()
-        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
-        view.addSubview(viewToAdd)
-    }
-    
-    func addToViewVertical(view: inout UIView, viewToAdd: inout UIButton, text: String, yValSoFar: CGFloat, x: CGFloat){
-        viewToAdd.sizeToFit()
-        viewToAdd.frame.origin = CGPoint(x: x, y: yValSoFar)
-        view.addSubview(viewToAdd)
-    }
+
     
 
     //MARK: SkyView Gesture recognizer
