@@ -291,6 +291,8 @@ class ViewController: UIViewController {
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
         textBoxPopup.addLabels(text: "thawed", text2: "frozen") //give a storage place for value upon submit
         //Make the editable fields for user input
+        Kvt = 0
+        Kvf = 1
         textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Kvt), outputTag2: Int(Kvf))
         
         //Volumetric Heat capacity
@@ -298,6 +300,8 @@ class ViewController: UIViewController {
         //Cvt - "thawed" volumetric heat capacity & Cvf
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         //make the fields
+        Cvt = 2
+        Cvf = 3
         textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Cvt), outputTag2: Int(Cvf))
 
         //Add submit button
@@ -310,6 +314,13 @@ class ViewController: UIViewController {
         
         textFields = textBoxPopup.textFields
         
+        
+        //blur effect
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blur)
+        blurEffectView.tag = 100
+        blurEffectView.frame = self.view.bounds
+        self.view.addSubview(blurEffectView)
         //add to this parent view so we can see it (part of the app)
         self.view.addSubview(textBoxPopup)
     }
@@ -338,13 +349,29 @@ class ViewController: UIViewController {
         var popup: PopUpView = sender.superview as! PopUpView
         var dict = popup.getValues()
         
-        //save the values
-        Kvt = Double(dict[Int(Kvt)])!
-        Kvf = dict[Int(Kvf)]
-        Cvt = dict[Int(Cvt)]
-        Cvf = dict[Int(Cvf)]
+        //save the values - but test if they can be converted to numbers first
+        checkIfValidNumber(variable: &Kvt, errorMessage: "Invalid Kvt", dict: &dict)
+        checkIfValidNumber(variable: &Kvf, errorMessage: "Invalid Kvf", dict: &dict)
+        checkIfValidNumber(variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
+        checkIfValidNumber(variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
         
+        print(Kvt)
+        print(Cvt)
         sender.superview?.removeFromSuperview() //get rid of the popup box
+        //get rid of blur effect
+        sender.superview?.superview?.viewWithTag(100)?.removeFromSuperview()
+        
+        self.view.viewWithTag(100)?.removeFromSuperview()
+    }
+    
+    
+    func checkIfValidNumber(variable: inout Double, errorMessage: String, dict: inout [Int: String]){
+        if let x = Double(dict[Int(variable)]!) {
+            variable = x
+        }
+        else {
+            print(errorMessage)
+        }
     }
 
     
