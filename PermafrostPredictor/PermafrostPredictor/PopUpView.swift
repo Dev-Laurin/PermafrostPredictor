@@ -35,6 +35,12 @@ class PopUpView: UIView{
         let screenWidth = UIScreen.main.bounds.width
         //set view height and width ahead of time for easier spacing
         super.init(frame: CGRect(origin: CGPoint(x: (screenWidth - screenWidth/2)/2, y: (screenHeight - screenHeight/2)/2), size: CGSize(width: screenWidth/2  , height: screenHeight/2)))
+        
+        //round the edges of the view
+        self.layer.cornerRadius = 10
+        
+        //make the view white by default
+        self.backgroundColor = UIColor(white: 1, alpha: 1)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,7 +59,12 @@ class PopUpView: UIView{
         let pad = space/2
         
         button.frame.origin = CGPoint(x: currentX + pad, y: currentY)
-        currentY += padding + button.frame.height 
+        currentY += padding + button.frame.height
+        
+        //set the button color
+        button.backgroundColor = .black
+        //set the button to be rounded
+        button.layer.cornerRadius = 10
         
         self.addSubview(button)
     }

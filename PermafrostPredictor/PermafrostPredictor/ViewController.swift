@@ -285,7 +285,7 @@ class ViewController: UIViewController {
         //Make a new popup - give position on screen x & y
         var textBoxPopup = PopUpView()
         //set background color
-        textBoxPopup.setBackGroundColor(color: UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1))
+        textBoxPopup.setBackGroundColor(color: UIColor(white: 1, alpha: 1))
         //add title to top
         textBoxPopup.addTitle(title: "Thermal Conductivity")
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
@@ -316,12 +316,18 @@ class ViewController: UIViewController {
         
         
         //blur effect
+        /*
         let blur = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blur)
         blurEffectView.tag = 100
         blurEffectView.frame = self.view.bounds
-        self.view.addSubview(blurEffectView)
+        self.view.addSubview(blurEffectView) */
         //add to this parent view so we can see it (part of the app)
+        let greyView = UIView()
+        greyView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        greyView.frame = self.view.bounds
+        greyView.tag = 100
+        self.view.addSubview(greyView)
         self.view.addSubview(textBoxPopup)
     }
     
