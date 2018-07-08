@@ -67,6 +67,9 @@
                                         <rect key="frame" x="0.0" y="256" width="375" height="95"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="vQW-yC-3CX" appends="YES" id="f6U-Qo-b8S"/>
+                                        </connections>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" ambiguous="YES" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
                                         <rect key="frame" x="0.0" y="351" width="375" height="10"/>
@@ -149,6 +152,11 @@
                         <action selector="staticGroundLayerTapGesture:" destination="BYZ-38-t0r" id="1Jq-uq-hWD"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="vQW-yC-3CX">
+                    <connections>
+                        <action selector="snowLayerTapGesture:" destination="BYZ-38-t0r" id="322-CJ-jCc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-146.40000000000001" y="-75.112443778110944"/>
         </scene>
@@ -180,6 +188,6 @@
     <resources>
         <image name="DashedLine" width="150" height="10"/>
         <image name="Line" width="150" height="10"/>
-        <image name="Sun" width="1024" height="1024"/>
+        <image name="Sun" width="320" height="320"/>
     </resources>
 </document>

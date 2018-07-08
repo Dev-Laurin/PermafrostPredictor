@@ -144,6 +144,8 @@ class ViewController: UIViewController {
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Sky")!)
+        
         //Initialize Temperature Label (Mean Temperature)
         sunLabel.text = "T = " + String(describing: sunIntensity) + " °C"
         sunLabel.sizeToFit()
@@ -151,6 +153,7 @@ class ViewController: UIViewController {
         
         //Atmospheric Temperature
         updateAtmosphericTemperatureLabel(newText: String(describing: atmosphericTemperature))
+        atmosphericTempLabel.backgroundColor = .white 
 
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
@@ -160,7 +163,7 @@ class ViewController: UIViewController {
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
         snowLabel.backgroundColor = .white
-        snowLabel.text = "S = " + String(describing: snowLevel) + " m"
+        snowLabel.text = "Hs = " + String(describing: snowLevel) + " m"
         snowLabel.sizeToFit()
         
         groundLabel.text = "A = " + String(describing: groundLevel) + " m"
@@ -219,10 +222,12 @@ class ViewController: UIViewController {
 //    }
     
     func drawInitViews(){
+     //   self.view.backgroundColor = .black //UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         //Draw views on screen
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: skyWidth, height: skyHeight))
-        skyView.backgroundColor = .blue 
+        //make transparent
+        skyView.backgroundColor = UIColor(white: 1, alpha: 0) // UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         let sunViewSize: CGFloat = skyView.frame.width/3
         
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
@@ -271,12 +276,49 @@ class ViewController: UIViewController {
         //update the value
         permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv))
         //update the display
-        permafrostLabel.text = "ALD = " + String(describing: permafrostLevel) + " m"
+        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.sizeToFit()
         //redraw
         var permafrostRect = permafrostLabel.frame
         permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: padding/4 + permafrostImageView.frame.maxY)
         permafrostLabel.frame = permafrostRect
+    }
+    
+    //Snow layer was tapped - display values for entering
+    @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
+        //make popup
+        let textBoxPopup = PopUpView()
+        
+        textBoxPopup.addTitle(title: "Volumetric Heat Capacity of Snow")
+        
+        textBoxPopup.addTextField(text: String(Hs), tag: 0)
+        
+        textBoxPopup.addButton(buttonText: "Submit", callback: snowPopupSubmitted)
+        
+        //create a greyed out view to go underneath so user knows this popup is active
+        addGreyedOutView()
+        
+        //resize view to fit elements
+        textBoxPopup.resizeView()
+        
+        self.view.addSubview(textBoxPopup)
+    }
+    
+    func snowPopupSubmitted(dictionary: [Int: String]){
+        var dict = dictionary
+        
+        //check that the input is valid
+        checkIfValidNumber(tag: 0, variable: &Hs, errorMessage: "Invalid Hs", dict: &dict)
+    }
+    
+    func addGreyedOutView(){
+        //create a greyed out view to go underneath so user knows this popup is active
+        let greyView = UIView()
+        greyView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        greyView.frame = self.view.frame
+        greyView.tag = 100
+        
+        self.view.addSubview(greyView)
     }
     
     @IBAction func staticGroundLayerTapGesture(_ sender: UITapGestureRecognizer) {
@@ -290,14 +332,6 @@ class ViewController: UIViewController {
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
         textBoxPopup.addLabels(text: "thawed", text2: "frozen") //give a storage place for value upon submit
         //Make the editable fields for user input
-        print("Kvt: " + String(describing: Kvt))
-        print(Kvt)
-        var test = UITextField()
-        test.text = String(describing: Kvt)
-        test.sizeToFit()
-        test.frame.origin = CGPoint(x: 0, y: 0)
-        self.view.addSubview(test)
-        
         textBoxPopup.addTextFields(text: String(Kvt), text2: String(Kvf), outputTag1: 0, outputTag2: 1)
         
         //Volumetric Heat capacity
@@ -314,12 +348,7 @@ class ViewController: UIViewController {
         textBoxPopup.resizeView()
         
         //create a greyed out view to go underneath so user knows this popup is active
-        let greyView = UIView()
-        greyView.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        greyView.frame = self.view.frame
-        greyView.tag = 100
-
-        self.view.addSubview(greyView)
+        addGreyedOutView()
         self.view.addSubview(textBoxPopup)
     }
     
@@ -507,7 +536,7 @@ class ViewController: UIViewController {
                         snowLabel.sizeToFit()
                     }
                     else{
-                        snowLabel.text = "S = " + String(describing: snowLevel) + " m"
+                        snowLabel.text = "Hs = " + String(describing: snowLevel) + " m"
                         snowLabel.sizeToFit()
                     }
 

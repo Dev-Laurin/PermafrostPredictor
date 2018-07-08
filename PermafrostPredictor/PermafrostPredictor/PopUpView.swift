@@ -112,6 +112,7 @@ class PopUpView: UIView{
         
     }
     
+    
     //Add a title (label) centered in view
     func addTitle(title: String){
         //make it a label
@@ -129,6 +130,29 @@ class PopUpView: UIView{
         
         //add to view
         self.addSubview(titleLabel)
+    }
+    
+    func addTextField(text: String, tag: Int){
+        let textfield = UITextField()
+        textfield.text = "enter here"
+        textfield.sizeToFit()
+        textfield.text = text
+        textfield.tag = tag
+        
+        textfield.textAlignment = .center
+        textfield.layer.borderColor = UIColor.black.cgColor
+        textfield.layer.borderWidth = 1
+        textfield.layer.cornerRadius = 5
+        
+        let space = self.frame.width - textfield.frame.width
+        let pad = space/2
+        
+        textfield.frame.origin = CGPoint(x: currentX + pad, y: currentY)
+        currentY += textfield.frame.height + padding
+        
+        textFields.append(textfield)
+        
+        self.addSubview(textfield)
     }
     
     //Add 2 textfields side by side, centered in view
