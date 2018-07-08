@@ -27,14 +27,19 @@ class PopUpView: UIView{
     var textFields = [UITextField]() //Keep track of the text fields for when
                           //the submit button is pressed
     var padding: CGFloat = 20
-    
+    var submitButtoncallback = {(dict: [Int: String])->Void in /*do nothing yet */}
+
     //Initialization
     required init(){
         //Have the popup's size depend on the screen's
         let screenHeight = UIScreen.main.bounds.height
         let screenWidth = UIScreen.main.bounds.width
+        
+        //have popup be 75% of screen size
+        let popUpHeight = screenHeight * 0.75
+        let popUpWidth = screenWidth * 0.75
         //set view height and width ahead of time for easier spacing
-        super.init(frame: CGRect(origin: CGPoint(x: (screenWidth - screenWidth/2)/2, y: (screenHeight - screenHeight/2)/2), size: CGSize(width: screenWidth/2  , height: screenHeight/2)))
+        super.init(frame: CGRect(origin: CGPoint(x: (screenWidth - popUpWidth)/2, y: (screenHeight - popUpHeight)/2), size: CGSize(width: popUpWidth  , height: popUpHeight)))
         
         //round the edges of the view
         self.layer.cornerRadius = 10
@@ -52,20 +57,32 @@ class PopUpView: UIView{
     }
     
     //Add a button to the view.
-    func addButton(button: UIButton){
+    func addButton(buttonText: String, callback: @escaping (_ textFields: [Int: String])->Void){
         
+        //give extra space on the sides of the button
+        let button = UIButton()
+        button.setTitle("Placeholder", for: .normal)
+        button.sizeToFit()
+        button.setTitle(buttonText, for: .normal)
         
+        submitButtoncallback = callback
+        button.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
+
         let space = self.frame.width - button.frame.width
         let pad = space/2
         
         button.frame.origin = CGPoint(x: currentX + pad, y: currentY)
         currentY += padding + button.frame.height
         
-        //set the button color
-        button.backgroundColor = .black
+
+
         //set the button to be rounded
         button.layer.cornerRadius = 10
+         button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControlState.normal)
+        button.backgroundColor = UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         
+        //so user knows it was pressed
+        button.addTarget(self, action: #selector(buttonHold), for: .touchDown)
         self.addSubview(button)
     }
     
@@ -101,6 +118,8 @@ class PopUpView: UIView{
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.sizeToFit()
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.tag = 1000 //is a title - for redrawing purposes
         
         //find the spacing needed to center the text
         let xSpacing = (self.frame.width - titleLabel.frame.width)/2
@@ -113,17 +132,30 @@ class PopUpView: UIView{
     }
     
     //Add 2 textfields side by side, centered in view
-    func addTextFields(defaultText1: String, defaultText2: String, outputTag1: Int, outputTag2: Int){
+    func addTextFields(text: String, text2: String, outputTag1: Int, outputTag2: Int){
+        
         //create textfields
         let textField = UITextField()
-        textField.text = defaultText1
+        textField.text = "enter here"
         textField.sizeToFit()
+        textField.text = String(describing: text)
         textField.tag = outputTag1
+        textField.textAlignment = .center
+        
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
         
         let textField2 = UITextField()
-        textField2.text = defaultText2
+        textField2.text = "enter here"
         textField2.sizeToFit()
+        textField2.text = text2
         textField2.tag = outputTag2
+        textField2.textAlignment = .center
+        
+        textField2.layer.borderColor = UIColor.black.cgColor
+        textField2.layer.borderWidth = 1
+        textField2.layer.cornerRadius = 5
         
         //find spacing
         let space = self.frame.width - textField2.frame.width - textField.frame.width
@@ -150,6 +182,92 @@ class PopUpView: UIView{
             dict[t.tag] = t.text
         }
         return dict
+    }
+    
+    @objc func submitButtonPressed(){
+        //do callback
+        submitButtoncallback(getValues())
+        //delete popup view
+        exit()
+    }
+    
+    @objc func buttonHold(sender: UIButton){
+        sender.backgroundColor = .gray
+    }
+    
+    //resizes the view to contain the elements inside, up to the screen size
+    func resizeView(){
+        
+        //find out how big the views are
+        var totalHeight:CGFloat = 0
+        var maxWidth:CGFloat = 0
+        
+        for subview in self.subviews {
+            totalHeight += subview.frame.height
+            if(subview.frame.width > maxWidth){
+                maxWidth = subview.frame.width
+            }
+        }
+        
+        //see if textfields are longer than the maxwidth element
+        if(textFields[0].frame.width * 2 > maxWidth){
+            maxWidth = textFields[0].frame.width * 2
+        }
+        
+        //resize the popup appropriately
+        var newWidth = maxWidth + (padding * 4)
+        var newHeight = totalHeight + (padding * 4)
+        
+        let screenHeight = UIScreen.main.bounds.height
+        let screenWidth = UIScreen.main.bounds.width
+        
+        //bound the view to grow to screen size only
+        if(newWidth > screenWidth){
+            newWidth = screenWidth
+        }
+        
+        if(newHeight > screenHeight){
+            newHeight = screenHeight
+        }
+        
+        //resize
+        let newX = (screenWidth - newWidth)/2
+        let newY = (screenHeight - newHeight)/2
+        self.frame = CGRect(origin: CGPoint(x: newX, y: newY), size: CGSize(width: newWidth, height: newHeight))
+        
+        //fix x values of elements inside
+        for index in 0..<self.subviews.count {
+            
+            let oldY = self.subviews[index].frame.origin.y
+            let availSpacing = self.frame.width - self.subviews[index].frame.width
+            let spacing = availSpacing/2
+            self.subviews[index].frame.origin = CGPoint(x: spacing, y: oldY)
+            
+            if(index>0){
+                //textfields and labels are doubled up - make sure it doesn't effect the titles
+                if((self.subviews[index-1] is UITextField && self.subviews[index] is UITextField) || (self.subviews[index-1] is UILabel && self.subviews[index] is UILabel && self.subviews[index-1].tag != 1000 && self.subviews[index].tag != 1000)){
+                    //we are the second uitextfield or uilabel, change x accordingly
+                    let totalWidth = self.subviews[index-1].frame.width + self.subviews[index].frame.width
+                    let totalSpacing = self.frame.width - totalWidth
+                    let spacing = totalSpacing/3
+
+                    
+                    //set the x of the side-by-side views
+                    self.subviews[index-1].frame.origin = CGPoint(x: spacing, y: self.subviews[index-1].frame.origin.y)
+                    self.subviews[index].frame.origin = CGPoint(x: (spacing * 2) + self.subviews[index-1].frame.width, y: self.subviews[index].frame.origin.y)
+ 
+                }
+            }
+        }
+
+    }
+    
+    //popup is done - exit
+    func exit(){
+        //remove greyed out view
+        self.superview?.viewWithTag(100)?.removeFromSuperview()
+        //remove self
+        self.removeFromSuperview()
     }
 
 }

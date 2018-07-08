@@ -83,8 +83,6 @@ class ViewController: UIViewController {
     var Hs: Double
     var Hv: Double
     
-    var textFields = [UITextField]()
-    
     //MARK: Initialization
     /**
          Initializer for the View Controller. Use to initialize the label values, can be used to assign them from storage or set to default values.
@@ -224,6 +222,7 @@ class ViewController: UIViewController {
         //Draw views on screen
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: skyWidth, height: skyHeight))
+        skyView.backgroundColor = .blue 
         let sunViewSize: CGFloat = skyView.frame.width/3
         
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
@@ -283,7 +282,7 @@ class ViewController: UIViewController {
     @IBAction func staticGroundLayerTapGesture(_ sender: UITapGestureRecognizer) {
         
         //Make a new popup - give position on screen x & y
-        var textBoxPopup = PopUpView()
+        let textBoxPopup = PopUpView()
         //set background color
         textBoxPopup.setBackGroundColor(color: UIColor(white: 1, alpha: 1))
         //add title to top
@@ -291,42 +290,35 @@ class ViewController: UIViewController {
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
         textBoxPopup.addLabels(text: "thawed", text2: "frozen") //give a storage place for value upon submit
         //Make the editable fields for user input
-        Kvt = 0
-        Kvf = 1
-        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Kvt), outputTag2: Int(Kvf))
+        print("Kvt: " + String(describing: Kvt))
+        print(Kvt)
+        var test = UITextField()
+        test.text = String(describing: Kvt)
+        test.sizeToFit()
+        test.frame.origin = CGPoint(x: 0, y: 0)
+        self.view.addSubview(test)
+        
+        textBoxPopup.addTextFields(text: String(Kvt), text2: String(Kvf), outputTag1: 0, outputTag2: 1)
         
         //Volumetric Heat capacity
         textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
         //Cvt - "thawed" volumetric heat capacity & Cvf
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         //make the fields
-        Cvt = 2
-        Cvf = 3
-        textBoxPopup.addTextFields(defaultText1: "enter", defaultText2: "enter", outputTag1: Int(Cvt), outputTag2: Int(Cvf))
+        textBoxPopup.addTextFields(text: String(Cvt), text2: String(Cvf), outputTag1: 2, outputTag2: 3)
 
         //Add submit button
-        var button = UIButton()
-        button.setTitle("Submit", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        button.addTarget(self, action: #selector(popUpButtonPressed), for: .touchUpInside)
-        button.sizeToFit()
-        textBoxPopup.addButton(button: button)
+        textBoxPopup.addButton(buttonText: "Submit", callback: popUpButtonPressed)
         
-        textFields = textBoxPopup.textFields
+        //resize popup to fit the elements better - cleaner look
+        textBoxPopup.resizeView()
         
-        
-        //blur effect
-        /*
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blur)
-        blurEffectView.tag = 100
-        blurEffectView.frame = self.view.bounds
-        self.view.addSubview(blurEffectView) */
-        //add to this parent view so we can see it (part of the app)
+        //create a greyed out view to go underneath so user knows this popup is active
         let greyView = UIView()
         greyView.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        greyView.frame = self.view.bounds
+        greyView.frame = self.view.frame
         greyView.tag = 100
+
         self.view.addSubview(greyView)
         self.view.addSubview(textBoxPopup)
     }
@@ -337,7 +329,7 @@ class ViewController: UIViewController {
         for view in subviews {
             for v in values {
                 if view.tag == v {
-                    var textField:UITextField = view as! UITextField
+                    let textField:UITextField = view as! UITextField
                     dict[v] = textField.text
                 }
             }
@@ -345,38 +337,26 @@ class ViewController: UIViewController {
         return dict
     }
     
-    @objc func popUpButtonPressed(sender: UIButton){
-        //get the textfield inputs and place into variables for algorithm
+    func popUpButtonPressed(dictionary: [Int: String]){
         
-        //our variables for these textfields
-        var v = [Int(Kvt), Int(Kvf), Int(Cvt), Int(Cvf)]
-      //  var dict = saveTextFields(subviews: (sender.superview?.subviews)!, values: v)
-        
-        var popup: PopUpView = sender.superview as! PopUpView
-        var dict = popup.getValues()
-        
+       var dict = dictionary
         //save the values - but test if they can be converted to numbers first
-        checkIfValidNumber(variable: &Kvt, errorMessage: "Invalid Kvt", dict: &dict)
-        checkIfValidNumber(variable: &Kvf, errorMessage: "Invalid Kvf", dict: &dict)
-        checkIfValidNumber(variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
-        checkIfValidNumber(variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
-        
-        print(Kvt)
-        print(Cvt)
-        sender.superview?.removeFromSuperview() //get rid of the popup box
-        //get rid of blur effect
-        sender.superview?.superview?.viewWithTag(100)?.removeFromSuperview()
-        
-        self.view.viewWithTag(100)?.removeFromSuperview()
+        checkIfValidNumber(tag: 0, variable: &Kvt, errorMessage: "Invalid Kvt", dict: &dict)
+        checkIfValidNumber(tag: 1, variable: &Kvf, errorMessage: "Invalid Kvf", dict: &dict)
+        checkIfValidNumber(tag: 2, variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
+        checkIfValidNumber(tag: 3, variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
+
     }
     
     
-    func checkIfValidNumber(variable: inout Double, errorMessage: String, dict: inout [Int: String]){
-        if let x = Double(dict[Int(variable)]!) {
+    func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String]){
+        if let x = Double(dict[tag]!) {
             variable = x
         }
         else {
-            print(errorMessage)
+            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 
@@ -582,16 +562,10 @@ class ViewController: UIViewController {
             }
             
         }
-        print("Result: " + String(describing: value))
             return value
     }
     
     func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeight: CGFloat, minValue: CGFloat)->CGFloat{
-        print("NewHeight: " + String(describing: newHeight))
-        print("MaxVal: " + String(describing: maxValue))
-        print("MaxHeight: " + String(describing: maxHeight))
-        print("MinValue: " + String(describing: minValue))
-      //  print("MaxGroundHeight: " + String(describing: maxGroundHeight))
         return (newHeight * (maxValue/maxHeight)) + minValue
     }
 

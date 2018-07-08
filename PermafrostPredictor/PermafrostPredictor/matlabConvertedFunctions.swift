@@ -60,9 +60,9 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let pi = Double.pi
     
     //constants for formula
-    var Tair:Double = -2 //Mean annual air temperature
-    var Aair:Double = 17 //Amplitude of the air temperature
-    var eta:Double = 0.45 //Volumetric water content
+    let Tair:Double = -2 //Mean annual air temperature
+    let Aair:Double = 17 //Amplitude of the air temperature
+    let eta:Double = 0.45 //Volumetric water content
     let Ks:Double = 0.15 //Thermal conductivity of snow
     let Cs:Double = 500000 //Volumetric heat capacity of snow
     let L:Double = 334000000 //Volumetric latent heat of ice fusion
@@ -80,31 +80,31 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let tau_w=tau-tau_s;
     
     //Computing an effect of snow cover
-    var a = 2*Aair*Cvf/(L*eta)
-    var b = abs(Tair)*2*Cvf/(L*eta)
+    let a = 2*Aair*Cvf/(L*eta)
+    let b = abs(Tair)*2*Cvf/(L*eta)
     
-    var Cfe = Cvf*(a-b)/((a-b)-log((a+1)/(b+1)))
+    let Cfe = Cvf*(a-b)/((a-b)-log((a+1)/(b+1)))
     
-    var mu = (sqrt(Ks*Cs)-sqrt(Kvf*Cfe))/(sqrt(Ks*Cs)+sqrt(Kvf*Cfe))
-    var r=2*Hs*sqrt(pi*Cs/(tau*Ks))
-    var s = exp(r) + 2*mu*cos(r) + mu*mu*exp(-r)
+    let mu = (sqrt(Ks*Cs)-sqrt(Kvf*Cfe))/(sqrt(Ks*Cs)+sqrt(Kvf*Cfe))
+    let r=2*Hs*sqrt(pi*Cs/(tau*Ks))
+    let s = exp(r) + 2*mu*cos(r) + mu*mu*exp(-r)
     
-    var da   = Aair*(1-(1+mu)/sqrt(s))
-    var dAs = da*tau_w/tau
-    var dTs = (2/pi)*dAs
+    let da   = Aair*(1-(1+mu)/sqrt(s))
+    let dAs = da*tau_w/tau
+    let dTs = (2/pi)*dAs
     
-    var Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
-    var Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
+    let Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
+    let Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
     
     //Computing an effect of the vegetation layer
-    var daw = (Avs - Tvs)*(1-exp(-Hv*sqrt(pi/(Dvf*2*tau_w))))
-    var das = (Aair - Tair)*(1-exp(-Hv*sqrt(pi/(Dvt*2*tau_s))))
+    let daw = (Avs - Tvs)*(1-exp(-Hv*sqrt(pi/(Dvf*2*tau_w))))
+    let das = (Aair - Tair)*(1-exp(-Hv*sqrt(pi/(Dvt*2*tau_s))))
     
-    var dAv = (daw*tau_w + das*tau_s)/tau
-    var dTv = (daw*tau_w - das*tau_s)/tau*2/pi
+    let dAv = (daw*tau_w + das*tau_s)/tau
+    let dTv = (daw*tau_w - das*tau_s)/tau*2/pi
     
-    var Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
-    var Ags=Avs-dAv    //Amplitude of the temperature at the top of mineral layer
+    let Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
+    let Ags=Avs-dAv    //Amplitude of the temperature at the top of mineral layer
 
     var dTg:Double = 0.0 //to save it outside the if statement for use
     var magt:Double = 0.0
@@ -112,14 +112,14 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     
     //Phase change processes occur in the mineral soil
     if(Ags>abs(Tgs)){
-        var t00 = -tau/2/pi*asin(Tgs/Ags)
-        var t11=tau/2/pi*(pi+asin(Tgs/Ags))
+        let t00 = -tau/2/pi*asin(Tgs/Ags)
+        let t11=tau/2/pi*(pi+asin(Tgs/Ags))
         
-        var Ith=Ags*(cos(2*pi*t00/tau)-cos(2*pi*t11/tau))*tau/2/pi+Tgs*(t11-t00);
-        var Ifr=Tgs*tau-Ith;
+        let Ith=Ags*(cos(2*pi*t00/tau)-cos(2*pi*t11/tau))*tau/2/pi+Tgs*(t11-t00);
+        let Ifr=Tgs*tau-Ith;
         
-        var KIt = Kmt*Ith;
-        var KIf = Kmf*Ifr;
+        let KIt = Kmt*Ith;
+        let KIf = Kmf*Ifr;
         
         if(abs(KIt) < abs(KIf)){
             dTg = abs(Ith)*(Kmt/Kmf - 1)/tau
