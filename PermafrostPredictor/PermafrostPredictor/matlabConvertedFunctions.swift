@@ -55,7 +55,7 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter Hv: Thickness of vegetation cover
 */
 
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double)->Double{
     //For programming in swift convenience
     let pi = Double.pi
     
@@ -64,7 +64,6 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let Aair:Double = 17 //Amplitude of the air temperature
     let eta:Double = 0.45 //Volumetric water content
     let Ks:Double = 0.15 //Thermal conductivity of snow
-    let Cs:Double = 500000 //Volumetric heat capacity of snow
     let L:Double = 334000000 //Volumetric latent heat of ice fusion
     let tau:Double = 365*24*3600
 //    let time=0:100:tau

@@ -117,11 +117,18 @@ class PopUpView: UIView{
     func addTitle(title: String){
         //make it a label
         let titleLabel = UILabel()
+        
+        //make text appear all on one line
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        
         titleLabel.text = title
-        titleLabel.sizeToFit()
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.sizeToFit()
+
         titleLabel.tag = 1000 //is a title - for redrawing purposes
         
+
         //find the spacing needed to center the text
         let xSpacing = (self.frame.width - titleLabel.frame.width)/2
         //set the position in the view
@@ -227,11 +234,13 @@ class PopUpView: UIView{
         var maxWidth:CGFloat = 0
         
         for subview in self.subviews {
-            totalHeight += subview.frame.height
             if(subview.frame.width > maxWidth){
                 maxWidth = subview.frame.width
             }
         }
+        
+        //add the spacing between elements
+        totalHeight = currentY
         
         //see if textfields are longer than the maxwidth element
         if(textFields[0].frame.width * 2 > maxWidth){
@@ -240,7 +249,7 @@ class PopUpView: UIView{
         
         //resize the popup appropriately
         var newWidth = maxWidth + (padding * 4)
-        var newHeight = totalHeight + (padding * 4)
+        var newHeight = totalHeight + (padding) //padding is included in currentY as views are added
         
         let screenHeight = UIScreen.main.bounds.height
         let screenWidth = UIScreen.main.bounds.width
@@ -279,10 +288,11 @@ class PopUpView: UIView{
                     //set the x of the side-by-side views
                     self.subviews[index-1].frame.origin = CGPoint(x: spacing, y: self.subviews[index-1].frame.origin.y)
                     self.subviews[index].frame.origin = CGPoint(x: (spacing * 2) + self.subviews[index-1].frame.width, y: self.subviews[index].frame.origin.y)
- 
                 }
+
             }
         }
+
 
     }
     

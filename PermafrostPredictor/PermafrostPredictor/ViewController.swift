@@ -82,6 +82,7 @@ class ViewController: UIViewController {
     var Cvt: Double
     var Hs: Double
     var Hv: Double
+    var Cs: Double //volumetric heat capacity of snow
     
     //MARK: Initialization
     /**
@@ -131,6 +132,7 @@ class ViewController: UIViewController {
         Cvt = 0.0
         Hs = 0.0
         Hv = 0.0
+        Cs = 0.0
     
         
         //Call the super version, recommended
@@ -200,38 +202,17 @@ class ViewController: UIViewController {
         
     }
     
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//
-//        super.viewWillTransition(to: size, with: coordinator)
-//
-//        if UIDevice.current.orientation.isLandscape {
-//
-//
-//            heightBasedOffPercentage = UIScreen.main.bounds.maxX * (0.5)
-//
-//        } else {
-//
-//            heightBasedOffPercentage = UIScreen.main.bounds.maxY * (0.5)
-//
-//        } // else
-//
-//
-//        draw()//
-//
-//
-//    }
     
     func drawInitViews(){
-     //   self.view.backgroundColor = .black //UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
+
         //Draw views on screen
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: skyWidth, height: skyHeight))
         //make transparent
-        skyView.backgroundColor = UIColor(white: 1, alpha: 0) // UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
+        skyView.backgroundColor = UIColor(white: 1, alpha: 0)
         let sunViewSize: CGFloat = skyView.frame.width/3
         
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
-     //   sunView = changeViewsYValue(view: sunView, newX: skyView.frame.width - sunView.frame.width, newY: sunView.frame.minY) as! UIImageView
 
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
 
@@ -256,8 +237,7 @@ class ViewController: UIViewController {
         
         groundLabel = changeViewsYValue(view: groundLabel, newX: staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4, newY: padding/4) as! UILabel
         
-        permafrostLabel = changeViewsYValue(view: permafrostLabel, newX: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, newY: groundImageView.frame.maxY - permafrostLabel.frame.height - padding) as! UILabel
-
+        permafrostLabel = changeViewsYValue(view: permafrostLabel, newX:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , newY: self.view.frame.maxY - permafrostLabel.frame.height - padding/4 ) as! UILabel
     }
     
     func findMaxHeightsBasedOnScreen(){
@@ -274,15 +254,17 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv))
+        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs))
         //update the display
         permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.sizeToFit()
         //redraw
+        /*
         var permafrostRect = permafrostLabel.frame
         permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: padding/4 + permafrostImageView.frame.maxY)
         permafrostLabel.frame = permafrostRect
-    }
+    */
+ }
     
     //Snow layer was tapped - display values for entering
     @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
@@ -291,7 +273,7 @@ class ViewController: UIViewController {
         
         textBoxPopup.addTitle(title: "Volumetric Heat Capacity of Snow")
         
-        textBoxPopup.addTextField(text: String(Hs), tag: 0)
+        textBoxPopup.addTextField(text: String(Cs), tag: 0)
         
         textBoxPopup.addButton(buttonText: "Submit", callback: snowPopupSubmitted)
         
@@ -308,7 +290,7 @@ class ViewController: UIViewController {
         var dict = dictionary
         
         //check that the input is valid
-        checkIfValidNumber(tag: 0, variable: &Hs, errorMessage: "Invalid Hs", dict: &dict)
+        checkIfValidNumber(tag: 0, variable: &Cs, errorMessage: "Invalid Cs", dict: &dict)
     }
     
     func addGreyedOutView(){
@@ -375,6 +357,35 @@ class ViewController: UIViewController {
         checkIfValidNumber(tag: 2, variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
         checkIfValidNumber(tag: 3, variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
 
+    }
+    
+    @IBAction func mineralLayerTapGesture(_ sender: UITapGestureRecognizer){
+        let textBoxPopup = PopUpView()
+        
+        textBoxPopup.addTitle(title: "Porosity")
+        textBoxPopup.addTextField(text: "porosity?", tag: 0)
+        
+        textBoxPopup.addTitle(title: "Thermal Conductivity")
+        textBoxPopup.addLabels(text: "thawed", text2: "frozen")
+        textBoxPopup.addTextFields(text: String(Kmt), text2: String(Kmf), outputTag1: 1, outputTag2: 2)
+        textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
+        textBoxPopup.addLabels(text: "thawed", text2: "frozen")
+        textBoxPopup.addTextFields(text: String(Cmt), text2: String(Cmf), outputTag1: 3, outputTag2: 4)
+        textBoxPopup.addButton(buttonText: "Submit", callback: mineralPopupButtonPressend)
+        
+        textBoxPopup.resizeView()
+        
+        addGreyedOutView()
+        self.view.addSubview(textBoxPopup)
+    }
+    
+    func mineralPopupButtonPressend(dictionary: [Int: String]){
+        var dict = dictionary
+        
+        checkIfValidNumber(tag: 1, variable: &Kmt, errorMessage: "Invalid Kmt", dict: &dict)
+        checkIfValidNumber(tag: 2, variable: &Kmf, errorMessage: "Invalid Kmf", dict: &dict)
+        checkIfValidNumber(tag: 3, variable: &Cmt, errorMessage: "Invalid Cmt", dict: &dict)
+        checkIfValidNumber(tag: 4, variable: &Cmf, errorMessage: "Invalid Cmf", dict: &dict)
     }
     
     
@@ -492,7 +503,7 @@ class ViewController: UIViewController {
                 var groundLabelNewY: CGFloat = padding/4
                 groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
                 
-                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newImageViewHeight - permafrostLabel.frame.height - padding), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
+                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: permafrostLabel.frame.origin.y), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
                 
                 
                 drawPermafrost()
