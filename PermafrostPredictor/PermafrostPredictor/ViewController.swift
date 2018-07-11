@@ -45,8 +45,6 @@ class ViewController: UIViewController {
     var atmosphericTemperature : CGFloat
     //The sun itself
     @IBOutlet weak var sunView: UIImageView!
-    //Keep track of how deep the snow is
-    var snowLevel: CGFloat
     //How deep the ground layer is
     var groundLevel: CGFloat
     //How deep the permafrost is
@@ -91,7 +89,7 @@ class ViewController: UIViewController {
          # Example: #
          ````
          //Set how deep the snow level is when the app first starts
-         snowLevel = 2.0 //meters
+         Hs = 2.0 //meters
          ````
     */
     required init(coder: NSCoder){
@@ -100,9 +98,8 @@ class ViewController: UIViewController {
         atmosphericTemperature = 30.0
 
         //init snow/ground levels
-        snowLevel = 1.0
         groundLevel = 20.2
-        permafrostLevel = max(snowLevel/10 + sunIntensity, 0)
+        permafrostLevel = 0 //max(Hs/10 + sunIntensity, 0)
         
         handleSkyXPos = 0.0
         handleSkyYPos = 0.0
@@ -122,17 +119,17 @@ class ViewController: UIViewController {
         skyWidth = 0.0
         
         
-        Kvf = 0.0
-        Kvt = 0.0
-        Kmf = 0.0
-        Kmt = 0.0
-        Cmf = 0.0
-        Cmt = 0.0
-        Cvf = 0.0
-        Cvt = 0.0
-        Hs = 0.0
-        Hv = 0.0
-        Cs = 0.0
+        Kvf = 0.25    //Thermal conductivity of frozen organic layer 
+        Kvt = 0.1     //Thermal conductivity of thawed organic layer
+        Kmf = 1.8     //Thermal conductivity of frozen mineral soil
+        Kmt = 1.0     //Thermal conductivity of thawed mineral soil
+        Cmf = 2000000 //Volumetric heat capacity of frozen soil
+        Cmt = 3000000 //Volumetric heat capacity of thawed soil
+        Cvf = 1000000 //Volumetric heat capacity of frozen moss
+        Cvt = 2000000 //Volumetric heat capacity of thawed moss
+        Hs = 0.3  //Snow height
+        Hv = 0.25 //Thickness of vegetation
+        Cs = 500000.0  //Volumetric heat capacity of snow
     
         
         //Call the super version, recommended
@@ -165,7 +162,7 @@ class ViewController: UIViewController {
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
         snowLabel.backgroundColor = .white
-        snowLabel.text = "Hs = " + String(describing: snowLevel) + " m"
+        snowLabel.text = "Hs = " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
         
         groundLabel.text = "A = " + String(describing: groundLevel) + " m"
@@ -179,7 +176,8 @@ class ViewController: UIViewController {
         drawPermafrost()
         
         skyHeight = skyView.frame.height
-        skyWidth = skyView.frame.width 
+        skyWidth = skyView.frame.width
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -291,6 +289,8 @@ class ViewController: UIViewController {
         
         //check that the input is valid
         checkIfValidNumber(tag: 0, variable: &Cs, errorMessage: "Invalid Cs", dict: &dict)
+        
+        drawPermafrost()
     }
     
     func addGreyedOutView(){
@@ -357,6 +357,7 @@ class ViewController: UIViewController {
         checkIfValidNumber(tag: 2, variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
         checkIfValidNumber(tag: 3, variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
 
+        drawPermafrost()
     }
     
     @IBAction func mineralLayerTapGesture(_ sender: UITapGestureRecognizer){
@@ -386,6 +387,8 @@ class ViewController: UIViewController {
         checkIfValidNumber(tag: 2, variable: &Kmf, errorMessage: "Invalid Kmf", dict: &dict)
         checkIfValidNumber(tag: 3, variable: &Cmt, errorMessage: "Invalid Cmt", dict: &dict)
         checkIfValidNumber(tag: 4, variable: &Cmf, errorMessage: "Invalid Cmf", dict: &dict)
+        
+        drawPermafrost()
     }
     
     
@@ -467,7 +470,8 @@ class ViewController: UIViewController {
                 let previousView = staticGroundLayer
                 //How small the static ground plant layer image is allowed to be
                 let screenHeight = UIScreen.main.bounds.height
-                let groundLayerHeightBound: CGFloat = maxGroundHeight - 60//only see the roots //previousView!.frame.minX + 40.0 //padding*2 + permafrostLabel.frame.height
+                
+                let groundLayerHeightBound: CGFloat = maxGroundHeight - (screenHeight * 0.15) //get 15% of screen for roots
                 
                 var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
                 
@@ -483,13 +487,16 @@ class ViewController: UIViewController {
                 
                 //Re-draw label with new coordinates
                 if(validMovement){
-                    var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: 47, newHeight: staticGroundLayer.frame.height, percentage: groundHeightPercentage)
+                  //  var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: (screenHeight * 0.15), newHeight: staticGroundLayer.frame.height, percentage: groundHeightPercentage)
                     
+                    var num = turnHeightMovementIntoUnits(maxHeight: (screenHeight * 0.15), maxValue: groundMaxUnitHeight, newHeight: staticGroundLayer.frame.height, minValue: 0)
+                    print("Max Height: " )
+                    print(screenHeight * 0.15)
+                    print("new height: " )
+                    print(staticGroundLayer.frame.height)
                     num = roundToThousandths(num: num)
                     groundLevel = num
-                    print("GroundLevel: ")
-                    print(groundLevel)
-                    
+
                     if(groundLevel < 0.0001){
                         groundLabel.text = "No Organic"
                     }else{
@@ -531,7 +538,6 @@ class ViewController: UIViewController {
                 sunLabel.sizeToFit()
    
                 //y grows down, but in the app we want it to grow up
-               // var num = snowLevel + (-translation.y * 1/5.0 )
                 
                 snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
                 
@@ -539,30 +545,21 @@ class ViewController: UIViewController {
                 //only update the snow level if the movement is valid
                 if(validMovement){
                     
-                    snowLevel = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66)
-                    snowLevel = roundToHundredths(num: snowLevel)
+                    Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
+                    Hs = Double(roundToHundredths(num: CGFloat(Hs)))
                     
-                    if(snowLevel == 0.0){
+                    if(Hs == 0.0){
                         snowLabel.text = "No Snow"
                         snowLabel.sizeToFit()
                     }
                     else{
-                        snowLabel.text = "Hs = " + String(describing: snowLevel) + " m"
+                        snowLabel.text = "Hs = " + String(describing: Hs) + " m"
                         snowLabel.sizeToFit()
                     }
 
                   //  updatePermafrostLabel()
                     drawPermafrost()
                 }
-                
-                //Our gesture ended, save the ending level here. If we save it elsewhere,
-                    //the number will be exponentially changed, which we don't want.
-//                if recognizer.state == UIGestureRecognizerState.ended {
-//                    snowLevel = num
-//                }
-//
-
-                
             }
             
             //updatePermafrostLabel()
@@ -586,6 +583,7 @@ class ViewController: UIViewController {
         let heightAtSwitch = maxHeight * percentage
         var value: CGFloat = 0.0
         if(newHeight < heightAtSwitch){
+            print("average")
             //we are in the average case
             value = turnHeightMovementIntoUnits(maxHeight: heightAtSwitch, maxValue: topAverageValue, newHeight: newHeight, minValue: value)
 
@@ -594,7 +592,7 @@ class ViewController: UIViewController {
             }
         }
         else{
-            
+            print("not in average")
             //we are not in the average
             value = turnHeightMovementIntoUnits(maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, newHeight: newHeight - heightAtSwitch, minValue: topAverageValue)
             if(value > maxValue){
@@ -637,37 +635,65 @@ class ViewController: UIViewController {
 //        var newHeight = getHeightFromUnit(permafrostLevel)
         updatePermafrostLabel()
         
+        
+        //the maximum the permafrost line can go to not interfer with bottom labels
+        var maxY = permafrostLabel.frame.origin.y - padding/4
+        
+        //the minimum the permafrost line can go (ground)
+        var minY = staticLineGround.frame.origin.y
+
+        //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
+        //then it will expand by 1m/screenUnit until max
+        
+        
+        
         var borderHeight = maxGroundHeight * groundHeightPercentage
+//        print("borderHeight: " + String(describing: borderHeight))
+  //      print("groundTopAverageValue: " + String(describing: groundTopAverageValue))
+        
         var heightFromUnits: CGFloat = 0.0 
         if(permafrostLevel > groundTopAverageValue){
            
             //non average
+ //           print("non average")
             heightFromUnits = permafrostLevel * (maxGroundHeight/groundMaxUnitHeight)
+ //           print("heightFromUnits: " + String(describing: heightFromUnits))
 
         }
         else{
      
             //in the average
             heightFromUnits = permafrostLevel * ((maxGroundHeight - borderHeight)/groundMaxUnitHeight)
+  //          print("heightFromUnits: " + String(describing: heightFromUnits))
         }
        
         
         var startingPos = staticLineGround.frame.maxY //ground 0.0m
+   //     print(startingPos)
         var rect = permafrostImageView.frame
+        
 
         if(startingPos + heightFromUnits > (groundImageView.frame.maxY - permafrostLabel.frame.height - padding)){
             
             rect.origin = CGPoint(x: 0.0, y: groundImageView.frame.maxY - permafrostLabel.frame.height - padding)
-            permafrostImageView.frame = rect
+ //           print("in if: ")
+ //           print(rect)
+      //      permafrostImageView.frame = rect
         }
         else{
             rect.origin = CGPoint(x: 0.0, y: startingPos + heightFromUnits)
-            permafrostImageView.frame = rect
+ //           print("in else")
+ //           print(rect)
+     //       permafrostImageView.frame = rect
         }
+        
+  //      print("chosen permafrost rect")
+        
         
         //make the permafrost line extend to the full width of the screen
         rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: permafrostImageView.frame.minY), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
-        permafrostImageView.frame = rect
+   //     print(rect)
+    //    permafrostImageView.frame = rect
         
         
         updatePermafrostLabel()
