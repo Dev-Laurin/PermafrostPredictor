@@ -471,7 +471,8 @@ class ViewController: UIViewController {
                 //How small the static ground plant layer image is allowed to be
                 let screenHeight = UIScreen.main.bounds.height
                 
-                let groundLayerHeightBound: CGFloat = maxGroundHeight - (screenHeight * 0.15) //get 15% of screen for roots
+                //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
+                let groundLayerHeightBound: CGFloat = maxGroundHeight - (screenHeight * 0.15) - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
                 
                 var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
                 
@@ -487,13 +488,8 @@ class ViewController: UIViewController {
                 
                 //Re-draw label with new coordinates
                 if(validMovement){
-                  //  var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: (screenHeight * 0.15), newHeight: staticGroundLayer.frame.height, percentage: groundHeightPercentage)
-                    
-                    var num = turnHeightMovementIntoUnits(maxHeight: (screenHeight * 0.15), maxValue: groundMaxUnitHeight, newHeight: staticGroundLayer.frame.height, minValue: 0)
-                    print("Max Height: " )
-                    print(screenHeight * 0.15)
-                    print("new height: " )
-                    print(staticGroundLayer.frame.height)
+                    var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: (screenHeight * 0.15), newHeight: previousViewHeight, percentage: 0.0) //groundHeightPercentage)
+
                     num = roundToThousandths(num: num)
                     groundLevel = num
 

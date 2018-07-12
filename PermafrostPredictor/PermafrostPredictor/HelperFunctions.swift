@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+ //getMovement(previousView: staticGroundLayer, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+
 func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingMinY: CGFloat, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  )->Bool{
     
     var newImageViewHeight: CGFloat = followingMinY - (newLineYValue + view.frame.height)
