@@ -26,7 +26,8 @@ class PopUpView: UIView{
     var currentY:CGFloat = 20
     var textFields = [UITextField]() //Keep track of the text fields for when
                           //the submit button is pressed
-    var padding: CGFloat = 20
+    var padding: CGFloat = 20 //padding added to the sides of the text box (text not filling entire space)
+    //function to call when a submit button is added. Intended to "callback" the user's provided function
     var submitButtoncallback = {(dict: [Int: String])->Void in /*do nothing yet */}
 
     //Initialization
@@ -38,6 +39,7 @@ class PopUpView: UIView{
         //have popup be 75% of screen size
         let popUpHeight = screenHeight * 0.75
         let popUpWidth = screenWidth * 0.75
+        
         //set view height and width ahead of time for easier spacing
         super.init(frame: CGRect(origin: CGPoint(x: (screenWidth - popUpWidth)/2, y: (screenHeight - popUpHeight)/2), size: CGSize(width: popUpWidth  , height: popUpHeight)))
         
@@ -52,36 +54,66 @@ class PopUpView: UIView{
         super.init(coder: aDecoder)
     }
     
+/**
+     Sets the background color of the popup.
+     
+     -parameter color: An UIColor object.
+     # Usage Example: #
+     ````
+     var popup = PopUpView()
+     popup.setBackGroundColor(UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0))
+     ````
+ */
+    //user can set the textbox's background color
     func setBackGroundColor(color: UIColor){
         self.backgroundColor = color
     }
     
+/**
+Adds a submit button to the view. The button added is a button that closes the view and
+     accepts the changes. This is the only supported button, meant to use once.
+     
+-parameter buttonText: The text that will appear on the button.
+-parameter callback: The function that will be called upon the button being pressed. This isn't javascript, so the function is limited to a dictionary for input and a void output.
+     
+# Usage Example: #
+````
+func buttonPressed(dict: [Int: String]){
+    //do something
+}
+popup.addButton("Submit", buttonPressed)
+````
+*/
     //Add a button to the view.
     func addButton(buttonText: String, callback: @escaping (_ textFields: [Int: String])->Void){
         
-        //give extra space on the sides of the button
+        //give extra space on the sides of the button by making it have a big initial text
         let button = UIButton()
         button.setTitle("Placeholder", for: .normal)
         button.sizeToFit()
+        //set the actual button text
         button.setTitle(buttonText, for: .normal)
-        
+
+        //save the user's call back function - we will call it when the button is pressed
         submitButtoncallback = callback
+        //add our callback to the button to remove the view & call the user's callback
         button.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
 
+        //calculate the space evenly to center the button
         let space = self.frame.width - button.frame.width
         let pad = space/2
         
+        //place the button in the view
         button.frame.origin = CGPoint(x: currentX + pad, y: currentY)
+        //update the current y position for the next element
         currentY += padding + button.frame.height
         
-
-
-        //set the button to be rounded
+        //make the button rounded 
         button.layer.cornerRadius = 10
          button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControlState.normal)
         button.backgroundColor = UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         
-        //so user knows it was pressed
+        //An animation so the user knows the button was pressed. (Turns grey)
         button.addTarget(self, action: #selector(buttonHold), for: .touchDown)
         self.addSubview(button)
     }

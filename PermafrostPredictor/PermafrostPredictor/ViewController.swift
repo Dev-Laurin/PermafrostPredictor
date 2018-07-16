@@ -60,11 +60,14 @@ class ViewController: UIViewController {
         //This is for drawing purposes and setting the units, device independently
     var maxSnowHeight: CGFloat
     var maxGroundHeight: CGFloat
+    var maxOrganicLayerHeight: CGFloat
     var groundHeightPercentage: CGFloat
     var groundTopAverageValue: CGFloat
     var groundMaxUnitHeight: CGFloat
     var skyHeight: CGFloat
     var skyWidth: CGFloat
+    var screenHeight: CGFloat
+    var screenWidth: CGFloat
     
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
@@ -93,6 +96,10 @@ class ViewController: UIViewController {
          ````
     */
     required init(coder: NSCoder){
+        //screen size
+        screenHeight = UIScreen.main.bounds.height
+        screenWidth = UIScreen.main.bounds.width
+        
         //initialize starting sun temperature
         sunIntensity = 30.0
         atmosphericTemperature = 30.0
@@ -109,6 +116,7 @@ class ViewController: UIViewController {
         groundHeightPercentage = 0.0
         groundTopAverageValue = 0.0
         groundMaxUnitHeight = 0.25
+        maxOrganicLayerHeight = (screenHeight * 0.15)
         
         heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
         
@@ -472,7 +480,7 @@ class ViewController: UIViewController {
                 let screenHeight = UIScreen.main.bounds.height
                 
                 //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
-                let groundLayerHeightBound: CGFloat = maxGroundHeight - (screenHeight * 0.15) - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
+                let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
                 
                 var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
                 
@@ -488,7 +496,7 @@ class ViewController: UIViewController {
                 
                 //Re-draw label with new coordinates
                 if(validMovement){
-                    var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: (screenHeight * 0.15), newHeight: previousViewHeight, percentage: 0.0) //groundHeightPercentage)
+                    var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0) //groundHeightPercentage)
 
                     num = roundToThousandths(num: num)
                     groundLevel = num
@@ -502,8 +510,8 @@ class ViewController: UIViewController {
                     drawPermafrost()
                 }
                 
-                var groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4
-                var groundLabelNewY: CGFloat = padding/4
+                let groundLabelNewX: CGFloat = staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4
+                let groundLabelNewY: CGFloat = padding/4
                 groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
                 
                 permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: permafrostLabel.frame.origin.y), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
@@ -579,7 +587,6 @@ class ViewController: UIViewController {
         let heightAtSwitch = maxHeight * percentage
         var value: CGFloat = 0.0
         if(newHeight < heightAtSwitch){
-            print("average")
             //we are in the average case
             value = turnHeightMovementIntoUnits(maxHeight: heightAtSwitch, maxValue: topAverageValue, newHeight: newHeight, minValue: value)
 
@@ -588,7 +595,6 @@ class ViewController: UIViewController {
             }
         }
         else{
-            print("not in average")
             //we are not in the average
             value = turnHeightMovementIntoUnits(maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, newHeight: newHeight - heightAtSwitch, minValue: topAverageValue)
             if(value > maxValue){
@@ -623,75 +629,55 @@ class ViewController: UIViewController {
     }
     
     func drawPermafrost(){
-//        //turn the meter metric into a y value on the screen
-//        var newY =
-//        var rect = permafrostImageView.frame
-//        rect.origin = CGRect(x: 0.0, y: )
-        
-//        var newHeight = getHeightFromUnit(permafrostLevel)
+
         updatePermafrostLabel()
-        
-        
-        //the maximum the permafrost line can go to not interfer with bottom labels
-        var maxY = permafrostLabel.frame.origin.y - padding/4
+
+        //the maximum the permafrost line can go to not interfere with bottom labels
+        let maxY = screenHeight - padding // permafrostLabel.frame.minY - padding/4
         
         //the minimum the permafrost line can go (ground)
-        var minY = staticLineGround.frame.origin.y
-
+        let minY = staticLineGround.frame.maxY
+    
         //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
         //then it will expand by 1m/screenUnit until max
         
         
-        
-        var borderHeight = maxGroundHeight * groundHeightPercentage
-//        print("borderHeight: " + String(describing: borderHeight))
-  //      print("groundTopAverageValue: " + String(describing: groundTopAverageValue))
-        
-        var heightFromUnits: CGFloat = 0.0 
-        if(permafrostLevel > groundTopAverageValue){
-           
-            //non average
- //           print("non average")
-            heightFromUnits = permafrostLevel * (maxGroundHeight/groundMaxUnitHeight)
- //           print("heightFromUnits: " + String(describing: heightFromUnits))
+        let maxHeight = maxY - minY
 
-        }
-        else{
-     
-            //in the average
-            heightFromUnits = permafrostLevel * ((maxGroundHeight - borderHeight)/groundMaxUnitHeight)
-  //          print("heightFromUnits: " + String(describing: heightFromUnits))
-        }
-       
-        
-        var startingPos = staticLineGround.frame.maxY //ground 0.0m
-   //     print(startingPos)
-        var rect = permafrostImageView.frame
-        
+        let maxVal:CGFloat = 2.0 // change later - stakeholder TODO //////////////////////////////////////////////////////////
 
-        if(startingPos + heightFromUnits > (groundImageView.frame.maxY - permafrostLabel.frame.height - padding)){
+        //get substring to turn into number
+        let start = permafrostLabel.text?.index((permafrostLabel.text?.startIndex)!, offsetBy: 6)
+        let end = permafrostLabel.text?.index((permafrostLabel.text?.endIndex)!, offsetBy: -2)
+        let substr = permafrostLabel.text?[start!..<end!] //.substringWith(start: start, end: end)
+
+        let permafrostUnitsString = String(substr!)
+
+        if let temp = NumberFormatter().number(from: permafrostUnitsString){
             
-            rect.origin = CGPoint(x: 0.0, y: groundImageView.frame.maxY - permafrostLabel.frame.height - padding)
- //           print("in if: ")
- //           print(rect)
-      //      permafrostImageView.frame = rect
+            let permafrostMeterValue = CGFloat(truncating: temp)
+            var height: CGFloat = 0
+            //calculate where the line should be drawn
+            if(permafrostMeterValue < groundMaxUnitHeight){
+                height = permafrostMeterValue *  maxOrganicLayerHeight / groundMaxUnitHeight
+            }
+            else{
+                
+                height = permafrostMeterValue * (maxHeight - maxOrganicLayerHeight)/maxVal + maxOrganicLayerHeight
+            }
+            
+            let yPos = height + minY //the actual y value on the screen
+            let rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
+            permafrostImageView.frame = rect
+
         }
         else{
-            rect.origin = CGPoint(x: 0.0, y: startingPos + heightFromUnits)
- //           print("in else")
- //           print(rect)
-     //       permafrostImageView.frame = rect
+            let rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: minY), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
+            permafrostImageView.frame = rect
         }
         
-  //      print("chosen permafrost rect")
         
-        
-        //make the permafrost line extend to the full width of the screen
-        rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: permafrostImageView.frame.minY), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
-   //     print(rect)
-    //    permafrostImageView.frame = rect
-        
-        
+
         updatePermafrostLabel()
 
     }

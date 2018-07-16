@@ -58,7 +58,7 @@ class PermafrostPredictorTests: XCTestCase {
         
         
         //Test uploading the image again, cropping, and changing imageView bounds
-        var img = UIImage(named: "test")
+        let img = UIImage(named: "test")
         imageView = UIImageView(image: img)
         imageView.image = cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 20)
         imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: (imageView.frame.width),height: 20))
