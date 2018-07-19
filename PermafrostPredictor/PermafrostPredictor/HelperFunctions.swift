@@ -9,31 +9,49 @@
 import Foundation
 import UIKit
 
- //getMovement(previousView: staticGroundLayer, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
-
-func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, view: UIView, followingMinY: CGFloat, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  )->Bool{
+/**
+    Given information about 2 views, this function gives you the new height of both the previous view and the current view, seperated by lineViews. This gives the correct new sizes so that the views still cover the parent view (one view shrink or grows the other.) This also calculates the heights in respect to given bounds (can't shrink beyond this... can't grow beyond that...). It returns true or false if the movement was valid or not (no bounds were hit).
+ 
+ - parameter previousView: The view that is above the view you are moving / resizing on the screen.
+ - parameter previousHeightBound: The minimum height the previous view can be. (So we don't shrink it to 0 if we don't want it to)
+ - parameter heightBound: The minimum height the other view can be. So we don't overexpand the previous view.
+ - parameter newLineYValue: The Y value of the line view we are moving. (UI has 2 views seperated by a line view. Line views are movable and resize the other views via this function.)
+ - parameter view: The line view we are moving.
+ - parameter followingMinY: The Y value of the view after our other view. (Previous view, other view, following view).
+ - parameter previousViewNewHeight: A variable passed by reference to place the previous view's height that we calculate.
+ - parameter newHeight: A variable passed by reference to hold the other view's height that we calculate.
+ 
+ # Usage Example: #
+ ````
+ 
+ ````
+ 
+*/
+func getMovement(previousViewMinY: CGFloat, previousViewHeight: CGFloat, previousHeightBound: CGFloat, heightBound: CGFloat, newLineYValue: inout CGFloat, viewHeight: CGFloat, followingMinY: CGFloat, previousViewNewHeight: inout CGFloat, newHeight: inout CGFloat  )->Bool{
     
-    var newImageViewHeight: CGFloat = followingMinY - (newLineYValue + view.frame.height)
+    //get our new height for our lower view
+    var newImageViewHeight: CGFloat = followingMinY - (newLineYValue + viewHeight)
     
-    var previousViewHeight: CGFloat = (previousView.frame.height)
+    //set the height of our previous view for computation
+    var previousViewHeight: CGFloat = (previousViewHeight)
     
     //If the new Y value of the moving line would make the previous view too small 
-    if(newLineYValue < (previousView.frame.minY + previousHeightBound)){
-        //Set the Y value to go no further than the static ground image's ending Y value
+    if(newLineYValue < (previousViewMinY + previousHeightBound)){
+        //Set the Y value to go no further than the ending Y value
         previousViewHeight = previousHeightBound
-        newLineYValue = (previousView.frame.minY) + previousViewHeight
-        newImageViewHeight = followingMinY - newLineYValue - view.frame.height
+        newLineYValue = (previousViewMinY) + previousViewHeight
+        newImageViewHeight = followingMinY - newLineYValue - viewHeight
         
         newHeight = newImageViewHeight
         previousViewNewHeight = previousViewHeight
         
         return false //movement not valid
     }
-        //set the bound
+        //our lower view is too small - set it to the minimum
     else if newImageViewHeight < heightBound {
         newImageViewHeight = heightBound
-        newLineYValue = followingMinY - heightBound - view.frame.height
-        previousViewHeight = newLineYValue - (previousView.frame.minY)
+        newLineYValue = followingMinY - heightBound - viewHeight
+        previousViewHeight = newLineYValue - (previousViewMinY)
         
         newHeight = newImageViewHeight
         previousViewNewHeight = previousViewHeight
@@ -42,7 +60,7 @@ func getMovement(previousView: UIView, previousHeightBound: CGFloat, heightBound
     }
     else {
         //we can move that much
-        previousViewHeight = newLineYValue - (previousView.frame.minY)
+        previousViewHeight = newLineYValue - (previousViewMinY)
         
         newHeight = newImageViewHeight
         previousViewNewHeight = previousViewHeight
@@ -137,12 +155,24 @@ func cropImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat)->UIImage{
  */
 func roundToHundredths(num: CGFloat)->CGFloat{
     //Round to the Hundredths place, this is the format string
-    let format = ".1"
+    let format = ".2"
     return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
 }
 
+/**
+ Given a CGFloat, return a string of the number rounded to the thousandths place.
+ 
+ - parameter num: A CGFloat to be rounded.
+ 
+ # Usage Example: #
+ ````
+ var temp = 3.2458
+ temp = roundToHundredths(num: temp)
+ //temp is now 3.246
+ ````
+ */
 func roundToThousandths(num: CGFloat)->CGFloat{
-    let format = ".2"
+    let format = ".3"
     return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
 }
 

@@ -20,6 +20,7 @@ class PermafrostPredictorTests: XCTestCase {
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        vc = nil
         super.tearDown()
     }
     
@@ -66,15 +67,6 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert(imageView.image?.size.height == 20)
     }
     
-    //test the getmovement helper function
-    func testGetMovement(){
-         //returns valid movement
-        
-        //gives the previous height, new height, and new Y value
-        
-        
-    }
-    
     func testMovementIntoUnits(){
        //Units should be both negative and positive numbers
         XCTAssert(turnMovementIntoUnits(movement: 35) == 7)
@@ -86,18 +78,22 @@ class PermafrostPredictorTests: XCTestCase {
     
     func testTurnTranslationIntoTemp(){
         XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: 3, y: 4)) == 1)
-        
         XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: -3, y: -4)) == 1)
-        
         XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: 0, y:0)) == 0)
-        
     }
     
     func testRoundToHundredths(){
-        XCTAssert(roundToHundredths(num: 1.55555) == 1.6)
-        XCTAssert(roundToHundredths(num: 0.05) == 0.1)
-        XCTAssert(roundToHundredths(num: -3.356) == -3.4)
-        XCTAssert(roundToHundredths(num: 1.22222) == 1.2)
+        XCTAssert(roundToHundredths(num: 1.55555) == 1.56)
+        XCTAssert(roundToHundredths(num: 0.05) == 0.05)
+        XCTAssert(roundToHundredths(num: -3.356) == -3.36)
+        XCTAssert(roundToHundredths(num: 1.22222) == 1.22)
+    }
+    
+    func testRoundToThousandths(){
+        XCTAssert(roundToThousandths(num: 1.7772) == 1.777)
+        XCTAssert(roundToThousandths(num: 0.05) == 0.05)
+        XCTAssert(roundToThousandths(num: -4.2323) == -4.232)
+        XCTAssert(roundToThousandths(num: 3.2347) == 3.235)
     }
     
     func testChangeViewsYValue(){
@@ -113,9 +109,76 @@ class PermafrostPredictorTests: XCTestCase {
         
     }
 
+    //test the permafrost calculating functions
     func testMatlabConvertedFunctions(){
         //test given by stakeholder - May 22, 2018
         XCTAssert(roundToThousandths(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000))) == 0.86)
+    }
+    
+    //testing the popup class
+    func testPopupView(){
+        //test the default size
+        let screenHeight = UIScreen.main.bounds.height
+        let screenWidth = UIScreen.main.bounds.width
+        
+        //popup should initially be 75% of the screen - until resizing
+        let height = screenHeight * 0.75
+        let width = screenWidth * 0.75
+        let popup = PopUpView()
+        XCTAssert(popup.frame.width == width)
+        XCTAssert(popup.frame.height == height)
+        
+        //resize an empty popup
+        popup.resizeView()
+        XCTAssert(popup.frame.width == width)
+        XCTAssert(popup.frame.height == height)
+        
+        //call the non-existant callback? - inaccessable - pass
+        //popup.submitButtoncallback([1: "test"])
+        
+        //resize a popup with a title
+        popup.addTitle(title: "test")
+        popup.resizeView()
+        
+        //add a button - test callback
+        popup.addButton(buttonText: "submit", callback: buttonPressed)
+        
+        //calling button pressed functions early - unaccessable -pass
+        //popup.submitButtonPressed()
+        
+        popup.exit()
+    }
+    
+    //for the popup class test - the button callback
+    func buttonPressed(dict: [Int: String]){
+        //nothing - doesn't get called due to lack of UI
+    }
+
+    //test the getmovement helper function -- no longer requires UIViews, so we can
+    //  test with normal numbers
+    func testGetMovementValid(){
+        //given
+       /*
+        //currently
+        var screenHeight = UIScreen.main.bounds.height
+        var previousHeightBound: CGFloat = 0 //organic layer can be hidden
+        
+
+        //store our results
+        var pViewHeightResult:CGFloat = 0
+        var heightResult:CGFloat = 0
+        var newYValue:CGFloat = element.frame.minY
+        //bound
+        var heightBound = (screenHeight * 0.5) - (screenHeight * 0.15) - element.frame.height * 2
+
+        //when - execute code
+        var res = getMovement(previousViewMinY: previousView.frame.minY, previousViewHeight: previousView.frame.height, previousHeightBound: previousHeightBound, heightBound: heightBound, newLineYValue: &newYValue, viewHeight: element.frame.height, followingMinY: screenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
+ 
+        //then - assert result
+        //movement is valid (moving not touching bounds)
+        XCTAssert(res==true)
+        */
+        
     }
     
 }

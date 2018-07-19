@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4901743D2100541C00131143 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FAFCF82090F40A00200B49 /* HelperFunctions.swift */; };
 		49643F2420AB13A00038A972 /* matlabConvertedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */; };
 		49A780A320472330002BBBFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A220472330002BBBFD /* AppDelegate.swift */; };
 		49A780A520472330002BBBFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A420472330002BBBFD /* ViewController.swift */; };
@@ -293,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A780C320472330002BBBFD /* PermafrostPredictorUITests.swift in Sources */,
+				4901743D2100541C00131143 /* HelperFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

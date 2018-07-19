@@ -38,6 +38,9 @@ class ViewController: UIViewController {
     var permafrostLabel: UILabel
     var permafrostImageView: UIImageView
     
+    //Ground Temperature Label
+    var groundTempLabel: UILabel
+    
     //Padding is for drawing within a view so it's not touching the edges (labels)
     var padding: CGFloat = 40.0
     //The temperature the sun is giving off
@@ -84,6 +87,7 @@ class ViewController: UIViewController {
     var Hs: Double
     var Hv: Double
     var Cs: Double //volumetric heat capacity of snow
+    var Tgs: Double
     
     //MARK: Initialization
     /**
@@ -123,6 +127,8 @@ class ViewController: UIViewController {
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
         permafrostLabel = UILabel()
         
+        groundTempLabel = UILabel()
+        
         skyHeight = 0.0
         skyWidth = 0.0
         
@@ -139,6 +145,7 @@ class ViewController: UIViewController {
         Hv = 0.25 //Thickness of vegetation
         Cs = 500000.0  //Volumetric heat capacity of snow
     
+        Tgs = 0 //Mean annual temperature at the top of mineral layer
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -150,6 +157,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
+        
+        view.addSubview(groundTempLabel)
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Sky")!)
         
@@ -180,6 +189,10 @@ class ViewController: UIViewController {
         permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.backgroundColor = .white
         permafrostLabel.sizeToFit()
+        
+        groundTempLabel.text = "Tgs = " + String(describing: Tgs)
+        groundTempLabel.backgroundColor = .white
+        groundTempLabel.sizeToFit()
         
         drawPermafrost()
         
@@ -244,6 +257,9 @@ class ViewController: UIViewController {
         groundLabel = changeViewsYValue(view: groundLabel, newX: staticGroundLayer.frame.maxX - groundLabel.frame.width - padding/4, newY: padding/4) as! UILabel
         
         permafrostLabel = changeViewsYValue(view: permafrostLabel, newX:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , newY: self.view.frame.maxY - permafrostLabel.frame.height - padding/4 ) as! UILabel
+        
+        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
+
     }
     
     func findMaxHeightsBasedOnScreen(){
@@ -260,16 +276,16 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs))
+        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs))
         //update the display
+        permafrostLevel = roundToHundredths(num: permafrostLevel)
         permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.sizeToFit()
-        //redraw
-        /*
-        var permafrostRect = permafrostLabel.frame
-        permafrostRect.origin = CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: padding/4 + permafrostImageView.frame.maxY)
-        permafrostLabel.frame = permafrostRect
-    */
+        
+        //update ground temperature label
+        Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
+        groundTempLabel.text = "Tgs = " + String(describing: Tgs)
+        groundTempLabel.sizeToFit()
  }
     
     //Snow layer was tapped - display values for entering
@@ -448,10 +464,22 @@ class ViewController: UIViewController {
        
         //Round to the Hundredths place
         temp = roundToHundredths(num: temp)
+        if(temp < -15){
+            temp = -15
+        }
+        else if(temp > 15){
+            temp = 15
+        }
         sunLabel.text = String("T = " + String(describing: temp) + " °C")
         sunLabel.sizeToFit()
         
         atmosTemp = roundToHundredths(num: atmosTemp)
+        if(atmosTemp < -15){
+            atmosTemp = -15
+        }
+        else if(atmosTemp > 15){
+            atmosTemp = 15 
+        }
         updateAtmosphericTemperatureLabel(newText: String(describing: atmosTemp))
         
         //If the user has let go
@@ -486,7 +514,7 @@ class ViewController: UIViewController {
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
 
-                let validMovement = getMovement(previousView: staticGroundLayer, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, view: view, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+                let validMovement = getMovement(previousViewMinY: staticGroundLayer.frame.minY, previousViewHeight: staticGroundLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
 
                 view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
                     y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
@@ -530,7 +558,7 @@ class ViewController: UIViewController {
                 
                 var previousViewHeight: CGFloat = (previousView?.frame.height)!
                 
-                let validMovement = getMovement(previousView: skyView, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, view: view, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+                let validMovement = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
                 
                 view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
                     y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))

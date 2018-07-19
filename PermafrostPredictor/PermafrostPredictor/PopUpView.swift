@@ -12,23 +12,29 @@ import UIKit
 /**
  Class PopUpView: inherits from UIView. A class for an easy popupbox which can contain titles, labels, textfields, and a submit button. Titles and buttons are one column while the labels and fields are two columns. ELements are automatically centered.
  
+ Important: tags are used to keep track of the textfields when the submit button is pressed in the textFields array. This class is to be paired with a greyed out view with tag 100 for garbage collection.
+ 
  # Example Usage #
  ````
  var popup = PopUpView()
  popup.addTitle("Enter Data")
  popup.addLabels("Temperature", "Snow Depth")
+ 
+ //create a greyed out view to go underneath so user knows this popup is active
+ addGreyedOutView()
+ self.view.addSubview(popup)
  ````
  
  */
 class PopUpView: UIView{
     //keep track of the current position
-    var currentX:CGFloat = 0
-    var currentY:CGFloat = 20
-    var textFields = [UITextField]() //Keep track of the text fields for when
+    private var currentX:CGFloat = 0
+    private var currentY:CGFloat = 20
+    private var textFields = [UITextField]() //Keep track of the text fields for when
                           //the submit button is pressed
-    var padding: CGFloat = 20 //padding added to the sides of the text box (text not filling entire space)
+    private var padding: CGFloat = 20 //padding added to the sides of the text box (text not filling entire space)
     //function to call when a submit button is added. Intended to "callback" the user's provided function
-    var submitButtoncallback = {(dict: [Int: String])->Void in /*do nothing yet */}
+    private var submitButtoncallback = {(dict: [Int: String])->Void in /*do nothing yet */}
 
     //Initialization
     required init(){
@@ -70,19 +76,19 @@ class PopUpView: UIView{
     }
     
 /**
-Adds a submit button to the view. The button added is a button that closes the view and
-     accepts the changes. This is the only supported button, meant to use once.
+     Adds a submit button to the view. The button added is a button that closes the view and
+        accepts the changes. This is the only supported button, meant to use once.
      
--parameter buttonText: The text that will appear on the button.
--parameter callback: The function that will be called upon the button being pressed. This isn't javascript, so the function is limited to a dictionary for input and a void output.
+     -parameter buttonText: The text that will appear on the button.
+     -parameter callback: The function that will be called upon the button being pressed. This isn't javascript, so the function is limited to a dictionary for input and a void output.
      
-# Usage Example: #
-````
-func buttonPressed(dict: [Int: String]){
-    //do something
-}
-popup.addButton("Submit", buttonPressed)
-````
+     # Usage Example: #
+     ````
+     func buttonPressed(dict: [Int: String]){
+        //do something
+     }
+     popup.addButton("Submit", buttonPressed)
+     ````
 */
     //Add a button to the view.
     func addButton(buttonText: String, callback: @escaping (_ textFields: [Int: String])->Void){
@@ -108,16 +114,27 @@ popup.addButton("Submit", buttonPressed)
         //update the current y position for the next element
         currentY += padding + button.frame.height
         
-        //make the button rounded 
+        //make the button rounded
         button.layer.cornerRadius = 10
-         button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControlState.normal)
+        //make the text white and the button blue
+        button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControlState.normal)
         button.backgroundColor = UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         
         //An animation so the user knows the button was pressed. (Turns grey)
         button.addTarget(self, action: #selector(buttonHold), for: .touchDown)
+        
+        //add it to our popup view
         self.addSubview(button)
     }
     
+/**
+     Adds 2 labels in the same row to the popup view. (side by side)
+     
+     -parameter text: The text for the left label.
+     -parameter text2: The text for the right label.
+     
+     # Usage Example: # 
+*/
     //add 2 labels side by side to the view
     func addLabels(text: String, text2: String){
         let label = UILabel()
@@ -247,19 +264,22 @@ popup.addButton("Submit", buttonPressed)
         return dict
     }
     
-    @objc func submitButtonPressed(){
+    @objc private func submitButtonPressed(){
         //do callback
         submitButtoncallback(getValues())
         //delete popup view
         exit()
     }
     
-    @objc func buttonHold(sender: UIButton){
+    @objc private func buttonHold(sender: UIButton){
         sender.backgroundColor = .gray
     }
     
     //resizes the view to contain the elements inside, up to the screen size
     func resizeView(){
+        if(self.subviews.count == 0){
+            return // we have no views to resize
+        }
         
         //find out how big the views are
         var totalHeight:CGFloat = 0
@@ -273,9 +293,9 @@ popup.addButton("Submit", buttonPressed)
         
         //add the spacing between elements
         totalHeight = currentY
-        
+
         //see if textfields are longer than the maxwidth element
-        if(textFields[0].frame.width * 2 > maxWidth){
+        if(textFields.count > 0 && textFields[0].frame.width * 2 > maxWidth){
             maxWidth = textFields[0].frame.width * 2
         }
         
@@ -331,7 +351,9 @@ popup.addButton("Submit", buttonPressed)
     //popup is done - exit
     func exit(){
         //remove greyed out view
-        self.superview?.viewWithTag(100)?.removeFromSuperview()
+        if let greyView = self.superview?.viewWithTag(100) {
+            greyView.removeFromSuperview()
+        }
         //remove self
         self.removeFromSuperview()
     }

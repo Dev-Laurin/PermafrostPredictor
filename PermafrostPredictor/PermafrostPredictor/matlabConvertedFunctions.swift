@@ -53,9 +53,10 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter Cvt: Volumetric heat capacity of thawed organic layer
  - parameter Hs: Snow Height
  - parameter Hv: Thickness of vegetation cover
+ - parameter Tgs: Mean annual temperature at the top of mineral layer. This is inout (by reference) because it is meant to be storage of a result, not an actual parameter.
 */
 
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double)->Double{
     //For programming in swift convenience
     let pi = Double.pi
     
@@ -102,7 +103,7 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let dAv = (daw*tau_w + das*tau_s)/tau
     let dTv = (daw*tau_w - das*tau_s)/tau*2/pi
     
-    let Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
+    Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
     let Ags=Avs-dAv    //Amplitude of the temperature at the top of mineral layer
 
     var dTg:Double = 0.0 //to save it outside the if statement for use
