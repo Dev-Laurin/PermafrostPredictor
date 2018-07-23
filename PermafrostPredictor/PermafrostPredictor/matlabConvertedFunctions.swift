@@ -60,8 +60,8 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
 func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double, tTemp: Double, aTemp: Double)->Double{
     
     //convert to Kelvin - otherwise we get NaN
-    let Tair = convertToKelvin(num: tTemp)
-    let Aair = convertToKelvin(num: aTemp)
+    let Tair = tTemp //convertToKelvin(num: tTemp)
+    let Aair = aTemp // convertToKelvin(num: aTemp)
     
     //For programming in swift convenience
     let pi = Double.pi
@@ -85,28 +85,42 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     else if(fixNan < -1){
         fixNan = -1
     }
-    
+    print("fixNan: " + String(fixNan))
     let t0 = -tau/2/pi*asin(fixNan)
     let t1 = tau/2/pi*(pi+asin(fixNan))
-
+    print("t0: " + String(t0))
+    print("t1: " + String(t1))
     let tau_s=t1-t0;
     let tau_w=tau-tau_s;
+    print("tau_s: " + String(tau_s))
+    print("tau_w: " + String(tau_w))
+    
 
     //Computing an effect of snow cover
     let a = 2*Aair*Cvf/(L*eta)
     let b = abs(Tair)*2*Cvf/(L*eta)
+    print("a: " + String(a))
+    print("b: " + String(b))
  
     let Cfe = Cvf*(a-b)/((a-b)-log((a+1)/(b+1))) // if a == b, log(0) == infinity == nan
-    
+    print("Cfe: " + String(Cfe))
     let mu = (sqrt(Ks*Cs)-sqrt(Kvf*Cfe))/(sqrt(Ks*Cs)+sqrt(Kvf*Cfe))
     let r=2*Hs*sqrt(pi*Cs/(tau*Ks))
     let s = exp(r) + 2*mu*cos(r) + mu*mu*exp(-r)
+    print("mu: " + String(mu))
+    print("r: " + String(r))
+    print("s: " + String(s))
     
     let da   = Aair*(1-(1+mu)/sqrt(s))
     let dAs = da*tau_w/tau
     let dTs = (2/pi)*dAs
     let Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
     let Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
+    print("da: " + String(da))
+    print("dAs: " + String(dAs))
+    print("dTs: " + String(dTs))
+    print("Tvs: " + String(Tvs))
+    print("Avs: " + String(Avs))
     
     //Computing an effect of the vegetation layer
     let daw = (Avs - Tvs)*(1-exp(-Hv*sqrt(pi/(Dvf*2*tau_w))))

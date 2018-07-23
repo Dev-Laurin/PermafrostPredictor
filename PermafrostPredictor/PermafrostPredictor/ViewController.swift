@@ -48,8 +48,7 @@ class ViewController: UIViewController {
     var atmosphericTemperature : CGFloat
     //The sun itself
     @IBOutlet weak var sunView: UIImageView!
-    //How deep the ground layer is
-    var groundLevel: CGFloat
+
     //How deep the permafrost is
     var permafrostLevel: CGFloat
     //The permafrost line that is placed on screen based on user's input
@@ -85,7 +84,7 @@ class ViewController: UIViewController {
     var Cvf: Double
     var Cvt: Double
     var Hs: Double
-    var Hv: Double
+    var Hv: Double //organic layer thickness
     var Cs: Double //volumetric heat capacity of snow
     var Tgs: Double
 
@@ -109,7 +108,7 @@ class ViewController: UIViewController {
         atmosphericTemperature = 25.0
 
         //init snow/ground levels
-        groundLevel = 20.2
+        Hv = 20.2
         permafrostLevel = 0 //max(Hs/10 + sunIntensity, 0)
         
         
@@ -183,7 +182,7 @@ class ViewController: UIViewController {
         snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
         
-        groundLabel.text = "Organic Layer Thickness = " + String(describing: groundLevel) + " m"
+        groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
         groundLabel.backgroundColor = .white
         groundLabel.sizeToFit()
         
@@ -278,6 +277,9 @@ class ViewController: UIViewController {
     func updatePermafrostLabel(){
         //update the value
         permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs, tTemp: Double(sunIntensity), aTemp: Double(atmosphericTemperature)))
+        if(permafrostLevel.isNaN){
+            //alert the user that this is not valid inputs (air temperatures are
+        }
         //update the display
         permafrostLevel = roundToHundredths(num: permafrostLevel)
         permafrostLabel.text = "Active Layer Thickness = " + String(describing: permafrostLevel) + " m"
@@ -285,7 +287,7 @@ class ViewController: UIViewController {
         
         //update ground temperature label
         Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
-        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs)
+        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
         groundTempLabel.sizeToFit()
  }
     
@@ -528,14 +530,13 @@ class ViewController: UIViewController {
                     var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0) //groundHeightPercentage)
 
                     num = roundToHundredths(num: num)
-                    groundLevel = num
+                    Hv = Double(num)
 
-                    if(groundLevel < 0.0001){
+                    if(Hv < 0.0001){
                         Hv = 0.0 
                         groundLabel.text = "No Organic"
                     }else{
-                        Hv = Double(num)
-                        groundLabel.text = "Organic Layer Thickness = " + String(describing: num) + " m"
+                        groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
                     }
                     groundLabel.sizeToFit()
                     drawPermafrost()
