@@ -159,6 +159,16 @@ func roundToHundredths(num: CGFloat)->CGFloat{
     return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
 }
 
+
+func roundToTenths(num: CGFloat)->CGFloat{
+    let format = ".1"
+    return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
+}
+/*
+func round(num: CGFloat, format: String)->CGFloat{
+    return NumberFormatter().number(from:(String(format: "%\(format)f", num))) as! CGFloat
+}*/
+
 /**
  Given a CGFloat, return a string of the number rounded to the thousandths place.
  
@@ -209,5 +219,20 @@ func changeViewsYValue( view: UIView, newX: CGFloat, newY: CGFloat)->UIView{
     view.frame = rect
     
     return view
+}
+
+/**
+ Converts celsius temperature to Kelvin.
+ 
+ - parameter num: The number to convert.
+ 
+ # Usage Example: #
+ ````
+ var tempInCelsius = 20.0
+ var kelvin = convertToKelvin(tempInCelsius)
+ ````
+*/
+func convertToKelvin(num: Double)->Double{
+    return num + 273.15
 }
 

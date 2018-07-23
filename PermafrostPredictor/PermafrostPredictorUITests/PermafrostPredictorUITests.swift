@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import PermafrostPredictor
 
 class PermafrostPredictorUITests: XCTestCase {
     
@@ -48,30 +47,7 @@ class PermafrostPredictorUITests: XCTestCase {
     
     //entered invalid string into label, submitted, tried again
     func testPopups(){
-        
-        let app = XCUIApplication()
-        let permafrostlineElementsQuery = app.otherElements.containing(.image, identifier:"PermafrostLine")
-        let element2 = permafrostlineElementsQuery.children(matching: .other).element
-        let element = element2.children(matching: .other).element(boundBy: 1)
-        element.tap()
-        
-        let element3 = permafrostlineElementsQuery.children(matching: .other).element(boundBy: 2)
-        let textField = element3.children(matching: .textField).element(boundBy: 0)
-        textField.tap()
-        
-        let submitButton = app.buttons["Submit"]
-        submitButton.tap()
 
-        element.tap()
-        textField.swipeLeft()
-        submitButton.tap()
-        submitButton.tap()
-        element2.children(matching: .other).element(boundBy: 2).tap()
-        
-        let textField2 = element3.children(matching: .textField).element(boundBy: 1)
-        textField2.tap()
-        textField2.tap()
-        submitButton.tap()
         
     }
     

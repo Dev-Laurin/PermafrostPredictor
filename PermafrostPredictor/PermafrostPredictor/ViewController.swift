@@ -88,7 +88,7 @@ class ViewController: UIViewController {
     var Hv: Double
     var Cs: Double //volumetric heat capacity of snow
     var Tgs: Double
-    
+
     //MARK: Initialization
     /**
          Initializer for the View Controller. Use to initialize the label values, can be used to assign them from storage or set to default values.
@@ -105,12 +105,13 @@ class ViewController: UIViewController {
         screenWidth = UIScreen.main.bounds.width
         
         //initialize starting sun temperature
-        sunIntensity = 30.0
-        atmosphericTemperature = 30.0
+        sunIntensity = 10.0
+        atmosphericTemperature = 25.0
 
         //init snow/ground levels
         groundLevel = 20.2
         permafrostLevel = 0 //max(Hs/10 + sunIntensity, 0)
+        
         
         handleSkyXPos = 0.0
         handleSkyYPos = 0.0
@@ -144,8 +145,8 @@ class ViewController: UIViewController {
         Hs = 0.3  //Snow height
         Hv = 0.25 //Thickness of vegetation
         Cs = 500000.0  //Volumetric heat capacity of snow
-    
         Tgs = 0 //Mean annual temperature at the top of mineral layer
+        
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -163,7 +164,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Sky")!)
         
         //Initialize Temperature Label (Mean Temperature)
-        sunLabel.text = "T = " + String(describing: sunIntensity) + " °C"
+        sunLabel.text = "Mean Air Temp = " + String(describing: sunIntensity) + " °C"
         sunLabel.sizeToFit()
         sunLabel.backgroundColor = .white
         
@@ -179,18 +180,18 @@ class ViewController: UIViewController {
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
         snowLabel.backgroundColor = .white
-        snowLabel.text = "Hs = " + String(describing: Hs) + " m"
+        snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
         
-        groundLabel.text = "A = " + String(describing: groundLevel) + " m"
+        groundLabel.text = "Organic Layer Thickness = " + String(describing: groundLevel) + " m"
         groundLabel.backgroundColor = .white
         groundLabel.sizeToFit()
         
-        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
+        permafrostLabel.text = "Active Layer Thickness = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.backgroundColor = .white
         permafrostLabel.sizeToFit()
         
-        groundTempLabel.text = "Tgs = " + String(describing: Tgs)
+        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
         groundTempLabel.backgroundColor = .white
         groundTempLabel.sizeToFit()
         
@@ -276,15 +277,15 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs))
+        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs, tTemp: Double(sunIntensity), aTemp: Double(atmosphericTemperature)))
         //update the display
         permafrostLevel = roundToHundredths(num: permafrostLevel)
-        permafrostLabel.text = "ALT = " + String(describing: permafrostLevel) + " m"
+        permafrostLabel.text = "Active Layer Thickness = " + String(describing: permafrostLevel) + " m"
         permafrostLabel.sizeToFit()
         
         //update ground temperature label
         Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
-        groundTempLabel.text = "Tgs = " + String(describing: Tgs)
+        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs)
         groundTempLabel.sizeToFit()
  }
     
@@ -463,22 +464,22 @@ class ViewController: UIViewController {
 
        
         //Round to the Hundredths place
-        temp = roundToHundredths(num: temp)
-        if(temp < -15){
-            temp = -15
+        temp = roundToTenths(num: temp)
+        if(temp < -25){
+            temp = -25
         }
-        else if(temp > 15){
-            temp = 15
+        else if(temp > 10){
+            temp = 10
         }
-        sunLabel.text = String("T = " + String(describing: temp) + " °C")
+        sunLabel.text = String("Mean Air Temp = " + String(describing: temp) + " °C")
         sunLabel.sizeToFit()
         
-        atmosTemp = roundToHundredths(num: atmosTemp)
-        if(atmosTemp < -15){
-            atmosTemp = -15
+        atmosTemp = roundToTenths(num: atmosTemp)
+        if(atmosTemp < 0){
+            atmosTemp = 0
         }
-        else if(atmosTemp > 15){
-            atmosTemp = 15 
+        else if(atmosTemp > 25){
+            atmosTemp = 25
         }
         updateAtmosphericTemperatureLabel(newText: String(describing: atmosTemp))
         
@@ -526,13 +527,15 @@ class ViewController: UIViewController {
                 if(validMovement){
                     var num = getUnits(topAverageValue: groundTopAverageValue, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0) //groundHeightPercentage)
 
-                    num = roundToThousandths(num: num)
+                    num = roundToHundredths(num: num)
                     groundLevel = num
 
                     if(groundLevel < 0.0001){
+                        Hv = 0.0 
                         groundLabel.text = "No Organic"
                     }else{
-                        groundLabel.text = "A = " + String(describing: num) + "m"
+                        Hv = Double(num)
+                        groundLabel.text = "Organic Layer Thickness = " + String(describing: num) + " m"
                     }
                     groundLabel.sizeToFit()
                     drawPermafrost()
@@ -585,16 +588,14 @@ class ViewController: UIViewController {
                         snowLabel.sizeToFit()
                     }
                     else{
-                        snowLabel.text = "Hs = " + String(describing: Hs) + " m"
+                        snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
                         snowLabel.sizeToFit()
                     }
 
-                  //  updatePermafrostLabel()
                     drawPermafrost()
                 }
             }
             
-            //updatePermafrostLabel()
             drawPermafrost()
             
         }
@@ -647,12 +648,15 @@ class ViewController: UIViewController {
         ````
     */
     func updateAtmosphericTemperatureLabel(newText: String){
+        /*
         let aTemp = "A"
         let subATemp = "t"
         let restOfString = " = " + String(describing: newText) + " °C"
         let bigFont = UIFont(name: "Helvetica", size: 17)
         let smFont = UIFont(name: "Helvetica", size: 14)
-        atmosphericTempLabel.attributedText = subscriptTheString(str: aTemp, toSub: subATemp, strAtEnd: restOfString, bigFont: bigFont!, smallFont: smFont!)
+        atmosphericTempLabel.attributedText = subscriptTheString(str: aTemp, toSub: subATemp, strAtEnd: restOfString, bigFont: bigFont!, smallFont: smFont!) */
+        
+        atmosphericTempLabel.text = "Air Temp Amplitude = " + newText + " °C"
         atmosphericTempLabel.sizeToFit()
     }
     

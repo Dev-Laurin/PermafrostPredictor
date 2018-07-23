@@ -54,15 +54,19 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter Hs: Snow Height
  - parameter Hv: Thickness of vegetation cover
  - parameter Tgs: Mean annual temperature at the top of mineral layer. This is inout (by reference) because it is meant to be storage of a result, not an actual parameter.
+ - parameter tTemp: Mean annual air temperature
+ - parameter aTemp: Amplitude of the air temperature
 */
-
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double, tTemp: Double, aTemp: Double)->Double{
+    
+    //convert to Kelvin - otherwise we get NaN
+    let Tair = convertToKelvin(num: tTemp)
+    let Aair = convertToKelvin(num: aTemp)
+    
     //For programming in swift convenience
     let pi = Double.pi
     
     //constants for formula
-    let Tair:Double = -2 //Mean annual air temperature
-    let Aair:Double = 17 //Amplitude of the air temperature
     let eta:Double = 0.45 //Volumetric water content
     let Ks:Double = 0.15 //Thermal conductivity of snow
     let L:Double = 334000000 //Volumetric latent heat of ice fusion
@@ -72,18 +76,27 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     //Thermal diffusivity of vegetation
     let Dvf = Kvf/Cvf
     let Dvt = Kvt/Cvt
+
+    //fix the nan - asin rounding problem. Fix the numbers bet [-1, 1]
+    var fixNan = Tair/Aair
+    if(fixNan > 1){
+        fixNan = 1
+    }
+    else if(fixNan < -1){
+        fixNan = -1
+    }
     
-    let t0 = -tau/2/pi*asin(Tair/Aair)
-    let t1 = tau/2/pi*(pi+asin(Tair/Aair))
-    
+    let t0 = -tau/2/pi*asin(fixNan)
+    let t1 = tau/2/pi*(pi+asin(fixNan))
+
     let tau_s=t1-t0;
     let tau_w=tau-tau_s;
-    
+
     //Computing an effect of snow cover
     let a = 2*Aair*Cvf/(L*eta)
     let b = abs(Tair)*2*Cvf/(L*eta)
-    
-    let Cfe = Cvf*(a-b)/((a-b)-log((a+1)/(b+1)))
+ 
+    let Cfe = Cvf*(a-b)/((a-b)-log((a+1)/(b+1))) // if a == b, log(0) == infinity == nan
     
     let mu = (sqrt(Ks*Cs)-sqrt(Kvf*Cfe))/(sqrt(Ks*Cs)+sqrt(Kvf*Cfe))
     let r=2*Hs*sqrt(pi*Cs/(tau*Ks))
@@ -92,7 +105,6 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let da   = Aair*(1-(1+mu)/sqrt(s))
     let dAs = da*tau_w/tau
     let dTs = (2/pi)*dAs
-    
     let Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
     let Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
     
