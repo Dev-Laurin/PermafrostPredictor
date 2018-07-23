@@ -57,7 +57,7 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter tTemp: Mean annual air temperature
  - parameter aTemp: Amplitude of the air temperature
 */
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double, tTemp: Double, aTemp: Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double, tTemp: Double, aTemp: Double, eta: Double)->Double{
     
     //convert to Kelvin - otherwise we get NaN
     let Tair = tTemp //convertToKelvin(num: tTemp)
@@ -67,7 +67,6 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let pi = Double.pi
     
     //constants for formula
-    let eta:Double = 0.45 //Volumetric water content
     let Ks:Double = 0.15 //Thermal conductivity of snow
     let L:Double = 334000000 //Volumetric latent heat of ice fusion
     let tau:Double = 365*24*3600

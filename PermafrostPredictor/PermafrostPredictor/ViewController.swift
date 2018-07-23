@@ -87,6 +87,7 @@ class ViewController: UIViewController {
     var Hv: Double //organic layer thickness
     var Cs: Double //volumetric heat capacity of snow
     var Tgs: Double
+    var eta: Double //Volumetric water content
 
     //MARK: Initialization
     /**
@@ -145,6 +146,7 @@ class ViewController: UIViewController {
         Hv = 0.25 //Thickness of vegetation
         Cs = 500000.0  //Volumetric heat capacity of snow
         Tgs = 0 //Mean annual temperature at the top of mineral layer
+        eta = 0.45 //Volumetric water content - porosity
         
         
         //Call the super version, recommended
@@ -276,7 +278,7 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs, tTemp: Double(sunIntensity), aTemp: Double(atmosphericTemperature)))
+        permafrostLevel = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs, tTemp: Double(sunIntensity), aTemp: Double(atmosphericTemperature), eta: eta))
         if(permafrostLevel.isNaN){
             //alert the user that this is not valid inputs (air temperatures are
         }
@@ -391,7 +393,7 @@ class ViewController: UIViewController {
         let textBoxPopup = PopUpView()
         
         textBoxPopup.addTitle(title: "Porosity")
-        textBoxPopup.addTextField(text: "porosity?", tag: 0)
+        textBoxPopup.addTextField(text: String(eta), tag: 0)
         
         textBoxPopup.addTitle(title: "Thermal Conductivity")
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
@@ -410,6 +412,7 @@ class ViewController: UIViewController {
     func mineralPopupButtonPressend(dictionary: [Int: String]){
         var dict = dictionary
         
+        checkIfValidNumber(tag: 0, variable: &eta, errorMessage: "Invalid Porosity", dict: &dict)
         checkIfValidNumber(tag: 1, variable: &Kmt, errorMessage: "Invalid Kmt", dict: &dict)
         checkIfValidNumber(tag: 2, variable: &Kmf, errorMessage: "Invalid Kmf", dict: &dict)
         checkIfValidNumber(tag: 3, variable: &Cmt, errorMessage: "Invalid Cmt", dict: &dict)
@@ -546,7 +549,7 @@ class ViewController: UIViewController {
                 let groundLabelNewY: CGFloat = padding/4
                 groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
                 
-                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: permafrostLabel.frame.origin.y), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
+                permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: permafrostImageView.frame.maxY + padding/4), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
                 
                 
                 drawPermafrost()
