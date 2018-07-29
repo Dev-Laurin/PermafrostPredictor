@@ -113,7 +113,7 @@ class PermafrostPredictorTests: XCTestCase {
     func testMatlabConvertedFunctions(){
         //test given by stakeholder - May 22, 2018
         var temp: Double = 0
-        XCTAssert(roundToThousandths(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -2, aTemp: 17))) == 0.86)
+        XCTAssert(roundToThousandths(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15))) == 0.86)
     }
     
     //testing the popup class
@@ -158,28 +158,77 @@ class PermafrostPredictorTests: XCTestCase {
     //test the getmovement helper function -- no longer requires UIViews, so we can
     //  test with normal numbers
     func testGetMovementValid(){
-        //given
-       /*
-        //currently
-        var screenHeight = UIScreen.main.bounds.height
-        var previousHeightBound: CGFloat = 0 //organic layer can be hidden
+    
+       //Test 1 - shrinking previous view too much with new height
+       
+       //given
+       //Where the previous view is on the screen
+        var previousMinY: CGFloat = 0.0
+        var previousHeight: CGFloat = 40.0 //previous view has a height of 40
+        var previousHeightBound: CGFloat = 20.0 //can't have height lower than 20
         
+        //view below
+        var heightBound: CGFloat = 10
+        var newYValue: CGFloat = 19 //just below the previous height bound
+        
+        var lineHeight: CGFloat = 5
+
+        var screenHeight = UIScreen.main.bounds.height
 
         //store our results
         var pViewHeightResult:CGFloat = 0
         var heightResult:CGFloat = 0
-        var newYValue:CGFloat = element.frame.minY
-        //bound
-        var heightBound = (screenHeight * 0.5) - (screenHeight * 0.15) - element.frame.height * 2
 
         //when - execute code
-        var res = getMovement(previousViewMinY: previousView.frame.minY, previousViewHeight: previousView.frame.height, previousHeightBound: previousHeightBound, heightBound: heightBound, newLineYValue: &newYValue, viewHeight: element.frame.height, followingMinY: screenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
+        var res = getMovement(previousViewMinY: previousMinY, previousViewHeight: previousHeight, previousHeightBound: CGFloat(previousHeightBound), heightBound: CGFloat(heightBound), newLineYValue: &newYValue, viewHeight: CGFloat(lineHeight), followingMinY: screenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
  
         //then - assert result
-        //movement is valid (moving not touching bounds)
-        XCTAssert(res==true)
-        */
+        XCTAssert(res==false)
+        XCTAssert(Int(pViewHeightResult) == Int(previousHeightBound))
+        XCTAssert(Int(heightResult) == Int(screenHeight - previousHeightBound - lineHeight))
         
+        
+        //Test 2 - valid movement
+        //given
+        previousMinY = 20.0
+        previousHeight = 40.0
+        previousHeightBound = 20.0
+        
+        heightBound = 10
+        newYValue = 50
+        
+        //when
+        res = getMovement(previousViewMinY: CGFloat(previousMinY), previousViewHeight: CGFloat(previousHeight), previousHeightBound: previousHeightBound, heightBound: CGFloat(heightBound), newLineYValue: &newYValue, viewHeight: lineHeight, followingMinY: screenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
+        
+        //then
+        XCTAssert(res==true)
+        XCTAssert(Int(pViewHeightResult) == Int(30.0))
+        XCTAssert(Int(heightResult) == Int(screenHeight - (newYValue + lineHeight)))
+        print(Int(screenHeight - (newYValue + lineHeight)))
+        
+        
+        //Test 3 - invalid - our other view is too small - previous overstretched
+        //given
+        heightBound = 40
+        newYValue = screenHeight - 10
+        
+        //when
+        res = getMovement(previousViewMinY: previousMinY, previousViewHeight: previousHeight, previousHeightBound: previousHeightBound, heightBound: CGFloat(heightBound), newLineYValue: &newYValue, viewHeight: lineHeight, followingMinY: screenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
+        
+        //then
+        XCTAssert(res==false)
+        XCTAssert(Int(pViewHeightResult)==Int(screenHeight - heightBound - lineHeight - previousMinY))
+        XCTAssert(Int(heightResult)==Int(heightBound))
+        
+        //Test 4 - other views ontop and below
+        //given
+        var lowerScreenHeight: CGFloat = 500.0 // a view is below our previous and other view
+        //when
+        res = getMovement(previousViewMinY: previousMinY, previousViewHeight: previousHeight, previousHeightBound: previousHeightBound, heightBound: CGFloat(heightBound), newLineYValue: &newYValue, viewHeight: lineHeight, followingMinY: lowerScreenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
+        //then
+        XCTAssert(res==false)
+        XCTAssert(Int(pViewHeightResult)==Int(lowerScreenHeight - heightBound - lineHeight - previousMinY))
+        XCTAssert(Int(heightResult)==Int(heightBound))
     }
     
 }
