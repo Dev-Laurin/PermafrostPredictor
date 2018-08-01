@@ -54,21 +54,7 @@ class PermafrostPredictorUITests: XCTestCase {
     //test labels changing when dragging 
     func testTempChange(){
         
-        let element2 = XCUIApplication().otherElements.containing(.image, identifier:"PermafrostLine").children(matching: .other).element
-        let element = element2.children(matching: .other).element(boundBy: 0)
-        element.swipeLeft()
-        element.swipeDown()
-        element2.swipeUp()
-        element2.swipeUp()
-        element2.swipeUp()
-        element/*@START_MENU_TOKEN@*/.press(forDuration: 1.2);/*[[".tap()",".press(forDuration: 1.2);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element.swipeUp()
-        element2.swipeUp()
-        element2.swipeUp()
-        element2.swipeUp()
-        element.swipeUp()
-        element.swipeDown()
-        
+       
     }
     
     func testPopupButtonCallback(){

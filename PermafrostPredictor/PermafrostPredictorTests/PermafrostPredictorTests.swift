@@ -10,17 +10,17 @@ import XCTest
 @testable import PermafrostPredictor
 
 class PermafrostPredictorTests: XCTestCase {
-    var vc : ViewController! 
+   // var vc : ViewController!
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        vc = storyboard.instantiateInitialViewController() as! ViewController
+   //     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+  //      vc = storyboard.instantiateInitialViewController() as! ViewController
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        vc = nil
+  //      vc = nil
         super.tearDown()
     }
     
@@ -40,7 +40,7 @@ class PermafrostPredictorTests: XCTestCase {
     func testcropImage(){
         //Test If the image is sized correctly
         let newImageSize : CGFloat = 50
-        let image = UIImage(named: "test")
+        let image = UIImage(named: "Sun")
         var imageView = UIImageView(image: image)
         let newImage = cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: newImageSize)
 
@@ -59,7 +59,7 @@ class PermafrostPredictorTests: XCTestCase {
         
         
         //Test uploading the image again, cropping, and changing imageView bounds
-        let img = UIImage(named: "test")
+        let img = UIImage(named: "Sun")
         imageView = UIImageView(image: img)
         imageView.image = cropImage(image: imageView.image!, newWidth: imageView.frame.width, newHeight: 20)
         imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: (imageView.frame.width),height: 20))
@@ -229,6 +229,14 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert(res==false)
         XCTAssert(Int(pViewHeightResult)==Int(lowerScreenHeight - heightBound - lineHeight - previousMinY))
         XCTAssert(Int(heightResult)==Int(heightBound))
+    }
+
+    func testLocationClass(){
+        var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0)
+        XCTAssertNotNil(location)
+        
+        location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
+        XCTAssertNil(location)
     }
     
 }
