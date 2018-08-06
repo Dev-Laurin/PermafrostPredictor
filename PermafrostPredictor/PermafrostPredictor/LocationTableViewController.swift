@@ -61,10 +61,18 @@ class LocationTableViewController: UITableViewController {
     //MARK: Actions
     @IBAction func unwindToLocationList(sender: UIStoryboardSegue){
         if let sender = sender.source as? LocationViewController, let location = sender.location {
-            //Add a new location
-            let newIndexPath = IndexPath(row: locations.count, section: 0)
-            locations.append(location)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                //update existing location
+                locations[selectedIndexPath.row] = location
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else{
+                //Add a new location
+                let newIndexPath = IndexPath(row: locations.count, section: 0)
+                locations.append(location)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            } 
         }
     }
     

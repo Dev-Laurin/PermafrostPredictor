@@ -214,7 +214,7 @@
                     <navigationItem key="navigationItem" title="Locations" id="adk-3b-uiQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="agr-80-1CC">
                             <connections>
-                                <segue destination="6vO-3L-Pqw" kind="showDetail" id="f2R-Cd-kLB"/>
+                                <segue destination="6vO-3L-Pqw" kind="showDetail" identifier="AddItem" id="f2R-Cd-kLB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -577,7 +577,11 @@
                         <viewLayoutGuide key="safeArea" id="1wO-Ec-cvh"/>
                     </view>
                     <navigationItem key="navigationItem" title="Location" id="NcI-K1-q1a">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7nL-CK-G40"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7nL-CK-G40">
+                            <connections>
+                                <action selector="cancel:" destination="ed6-Vw-hKe" id="k3U-FS-CAe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="mA7-n8-vTp">
                             <connections>
                                 <segue destination="fJs-ZX-wsF" kind="unwind" unwindAction="unwindToLocationListWithSender:" id="7MA-QN-fnn"/>
@@ -655,6 +659,6 @@
         <image name="Sun" width="320" height="320"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kpt-7v-Wqz"/>
+        <segue reference="TVQ-wx-md1"/>
     </inferredMetricsTieBreakers>
 </document>

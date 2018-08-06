@@ -47,24 +47,9 @@ class LocationViewController: UIViewController {
     
     //Buttons
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
-    
-    //MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //call super's
-        super.prepare(for: segue, sender: sender)
-        
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            os_log("The save button wasn't pressed.", log: OSLog.default, type: .debug)
-            return
-        }
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //do delegate for text field in tutorial ??????
-        
         
         //View loaded, if we are editing an existing - load
         if let location = location {
@@ -94,8 +79,6 @@ class LocationViewController: UIViewController {
             mineralVolumetricThawedTextField.text = String(describing: location.Cmt)
             mineralVolumetricFrozenTextField.text = String(describing: location.Cmf)
         }
-        
-        updateSaveButtonState()
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,14 +86,45 @@ class LocationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func createAlert(title: String, errorMessage: String){
+    //MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //call super's
+        super.prepare(for: segue, sender: sender)
+        
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button wasn't pressed.", log: OSLog.default, type: .debug)
+            return
+        }
+    }
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        //depending on the presentation/segue type, we need to choose a dismissal type
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController {
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The LocationViewController is not inside a navigation controller.")
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return validate()
+    }
+    
+    //MARK: Private functions
+    //create an alert to show in the view when
+    private func createAlert(title: String, errorMessage: String){
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     //to validate the inputs before they are saved
-    func validate()->Bool{
+    private func validate()->Bool{
         //validate the inputs
         let name = locationNameTextField.text ?? "untitled"
         //Temperature
@@ -216,22 +230,4 @@ class LocationViewController: UIViewController {
         
         return true
     }
-    
-    //MARK: Navigation
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return validate()
-    }
-    
-    
-
-    //MARK:
-    func textFieldDidBeginEditing(_ textfield: UITextField){
-        saveButton.isEnabled = false
-    }
-    
-    //MARK: Private Methods
-    private func updateSaveButtonState(){
-        
-    }
-
 }
