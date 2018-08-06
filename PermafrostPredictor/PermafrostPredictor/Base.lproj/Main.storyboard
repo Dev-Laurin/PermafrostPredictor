@@ -201,6 +201,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="ed6-Vw-hKe" kind="show" identifier="ShowDetail" id="Kpt-7v-Wqz"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -575,7 +578,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Location" id="NcI-K1-q1a">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7nL-CK-G40"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="mA7-n8-vTp"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="mA7-n8-vTp">
+                            <connections>
+                                <segue destination="fJs-ZX-wsF" kind="unwind" unwindAction="unwindToLocationListWithSender:" id="7MA-QN-fnn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="2000"/>
@@ -601,6 +608,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGv-r8-Sc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="fJs-ZX-wsF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3583.1999999999998" y="281.55922038980509"/>
         </scene>
@@ -646,4 +654,7 @@
         <image name="Line" width="150" height="10"/>
         <image name="Sun" width="320" height="320"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Kpt-7v-Wqz"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class LocationTableViewController: UITableViewController {
     
@@ -57,6 +58,16 @@ class LocationTableViewController: UITableViewController {
         return cell
     }
     
+    //MARK: Actions
+    @IBAction func unwindToLocationList(sender: UIStoryboardSegue){
+        if let sender = sender.source as? LocationViewController, let location = sender.location {
+            //Add a new location
+            let newIndexPath = IndexPath(row: locations.count, section: 0)
+            locations.append(location)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -93,14 +104,39 @@ class LocationTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? ""){
+        case "AddItem":
+            os_log("Adding a new location.", log: OSLog.default, type: .debug)
+        
+        case "ShowDetail":
+            //downcast the destination view controller
+            guard let locationDetailViewController = segue.destination as? LocationViewController else {
+                fatalError("Expected destination: \(segue.destination)")
+            }
+            //get the selected cell
+            guard let cell = sender as? UITableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            //get the index of the selected cell
+            guard let indexPath = tableView.indexPath(for: cell) else {
+                fatalError("The selected cell is not being displayed by the table.")
+            }
+            
+            //pass the location to the next view
+            let selectedLocation = locations[indexPath.row]
+            locationDetailViewController.location = selectedLocation
+            
+        default:
+            fatalError("Unexpected segue identifier: \(segue.identifier)")
+        }
     }
-    */
+    
 
 }
