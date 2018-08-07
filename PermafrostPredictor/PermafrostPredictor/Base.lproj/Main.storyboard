@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -212,14 +213,22 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Locations" id="adk-3b-uiQ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="agr-80-1CC">
-                            <connections>
-                                <segue destination="6vO-3L-Pqw" kind="showDetail" identifier="AddItem" id="f2R-Cd-kLB"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="agr-80-1CC">
+                                <connections>
+                                    <segue destination="6vO-3L-Pqw" kind="showDetail" identifier="AddItem" id="f2R-Cd-kLB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="edit" id="xWy-Xm-Tbo">
+                                <connections>
+                                    <action selector="edit:" destination="DEd-IS-EMM" id="2tK-ua-tR4"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Lx-S7-Cj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="DEd-IS-EMM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1655" y="-93"/>
         </scene>

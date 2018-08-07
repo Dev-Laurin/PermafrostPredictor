@@ -613,6 +613,18 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        //if the next view is our location table view
+        guard let locationTableViewController = segue.destination as? LocationTableViewController else {
+            fatalError("Expected destination: \(segue.destination)")
+        }
+        //send the location created by the user using the UI in case the user wants to make a new one
+        locationTableViewController.uiLocation = Location(name: "current", Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: Tgs, eta: eta, Ks: Ks, Tair: Double(Tair), Aair: Double(Aair), ALT: Double(ALT)) ?? Location()
+    }
+    
     //MARK: Helper Functions
     
     func getUnits(topAverageValue: CGFloat, maxValue: CGFloat, maxHeight: CGFloat, newHeight: CGFloat, percentage: CGFloat)->CGFloat{

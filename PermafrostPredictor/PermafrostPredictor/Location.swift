@@ -30,6 +30,29 @@ class Location{
     var Aair : Double //Amplitude of the air temperature
     var ALT: Double //Active Layer Thickness
     
+    //default constructor
+    init() {
+        self.name = ""
+        self.Kvf = 0.0
+        self.Kvt = 0.0
+        self.Kmf = 0.0
+        self.Kmt = 0.0
+        self.Cmf = 0.0
+        self.Cmt = 0.0
+        self.Cvf = 0.0
+        self.Cvt = 0.0
+        self.Hs = 0.0
+        self.Hv = 0.0
+        self.Cs = 0.0
+        self.Tgs = 0.0
+        self.eta = 0.0
+        self.Ks = 0.0
+        self.Tair = 0.0
+        self.Aair = 0.0
+        self.ALT = 0.0
+    }
+    
+    //constructor with parameters
     init?(name: String, Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: Double, eta: Double, Ks: Double, Tair: Double, Aair: Double, ALT: Double){
         
         //check if name exists

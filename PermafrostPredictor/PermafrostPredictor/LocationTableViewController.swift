@@ -12,25 +12,25 @@ import os.log
 class LocationTableViewController: UITableViewController {
     
     var locations = [Location]()
+    var uiLocation = Location()
     
     func loadDefaultLocations(){
         guard let location = Location(name: "Fairbanks", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0) else {
             fatalError("Failed to initialize default location.")
         }
         locations += [location]
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
         //load default locations
         loadDefaultLocations()
+        
+        //use the default edit button for table view (deleting)
+        //the leftmost right bar button
+        navigationItem.rightBarButtonItems![1] = editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,25 +77,27 @@ class LocationTableViewController: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+ 
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            locations.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -122,7 +124,18 @@ class LocationTableViewController: UITableViewController {
         switch(segue.identifier ?? ""){
         case "AddItem":
             os_log("Adding a new location.", log: OSLog.default, type: .debug)
-        
+            
+            //downcast the destination view controller
+            guard let navController = segue.destination as? UINavigationController else {
+                fatalError("Expected destination: \(segue.destination)")
+            }
+            //the view controller after navigation should be the detail view
+            guard let locationDetailViewController = navController.topViewController as? LocationViewController else{
+                fatalError("Expected detail controller: \(navController.topViewController)")
+            }
+            //pass the current UI data
+            locationDetailViewController.location = uiLocation
+  
         case "ShowDetail":
             //downcast the destination view controller
             guard let locationDetailViewController = segue.destination as? LocationViewController else {

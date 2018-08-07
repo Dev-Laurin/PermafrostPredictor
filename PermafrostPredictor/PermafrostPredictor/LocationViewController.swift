@@ -47,7 +47,7 @@ class LocationViewController: UIViewController {
     
     //Buttons
     @IBOutlet weak var saveButton: UIBarButtonItem!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
