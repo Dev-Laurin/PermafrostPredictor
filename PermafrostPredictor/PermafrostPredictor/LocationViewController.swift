@@ -18,11 +18,14 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var aairStepper: UIStepper!
     @IBOutlet weak var aairLabel: UILabel!
     @IBOutlet weak var tairLabel: UILabel!
+    @IBOutlet weak var tempUIView: UIView!
+    
     
     //Snow
     @IBOutlet weak var volumetricSnow: UITextField!
     @IBOutlet weak var thermalSnow: UITextField!
     @IBOutlet weak var snowHeightTextField: UITextField!
+    @IBOutlet weak var snowUIView: UIView!
     
     //Organic
     @IBOutlet weak var organicThermalThawedTextField: UITextField!
@@ -30,6 +33,7 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var organicVolumetricThawedTextField: UITextField!
     @IBOutlet weak var organicVolumetricFrozenTextField: UITextField!
     @IBOutlet weak var organicThicknessTextField: UITextField!
+    @IBOutlet weak var organicUIView: UIView!
     
     //Mineral
     @IBOutlet weak var mineralPorosityTextField: UITextField!
@@ -37,6 +41,7 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var mineralThermalFrozenTextField: UITextField!
     @IBOutlet weak var mineralVolumetricThawedTextField: UITextField!
     @IBOutlet weak var mineralVolumetricFrozenTextField: UITextField!
+    @IBOutlet weak var mineralUIVIew: UIView!
     
     //location
     var location: Location?
@@ -59,11 +64,13 @@ class LocationViewController: UIViewController {
             //Temperature
             aairLabel.text = String(describing: location.Aair)
             tairLabel.text = String(describing: location.Tair)
+            tempUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Sun")!)
             
             //Snow
             volumetricSnow.text = String(describing: location.Cs)
             thermalSnow.text = String(describing: location.Ks)
             snowHeightTextField.text = String(describing: location.Hs)
+            snowUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
             
             //Organic
             organicThermalThawedTextField.text = String(describing: location.Kvt)
@@ -71,6 +78,7 @@ class LocationViewController: UIViewController {
             organicVolumetricThawedTextField.text = String(describing: location.Cvt)
             organicVolumetricFrozenTextField.text = String(describing: location.Cvf)
             organicThicknessTextField.text = String(describing: location.Hv)
+            organicUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
             
             //Mineral
             mineralPorosityTextField.text = String(describing: location.eta)
@@ -78,6 +86,7 @@ class LocationViewController: UIViewController {
             mineralThermalFrozenTextField.text = String(describing: location.Kmf)
             mineralVolumetricThawedTextField.text = String(describing: location.Cmt)
             mineralVolumetricFrozenTextField.text = String(describing: location.Cmf)
+            mineralUIVIew.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
         }
     }
 
