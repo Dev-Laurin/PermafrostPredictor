@@ -136,71 +136,72 @@ class Location : NSObject, NSCoding {
             os_log("Unable to decode the name for a location.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Kvf = aDecoder.decodeObject(forKey: PropertyKey.Kvf) as? Double else {
+        
+        guard let Kvf = aDecoder.decodeDouble(forKey: PropertyKey.Kvf) as Double? else {
             os_log("Unable to decode Kvf number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Kvt = aDecoder.decodeObject(forKey: PropertyKey.Kvt) as? Double else {
+        guard let Kvt = aDecoder.decodeDouble(forKey: PropertyKey.Kvt) as Double? else {
             os_log("Unable to decode Kvt number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Kmf = aDecoder.decodeObject(forKey: PropertyKey.Kmf) as? Double else {
+        guard let Kmf = aDecoder.decodeDouble(forKey: PropertyKey.Kmf) as Double? else {
             os_log("Unable to decode Kmf number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Kmt = aDecoder.decodeObject(forKey: PropertyKey.Kmt) as? Double else {
+        guard let Kmt = aDecoder.decodeDouble(forKey: PropertyKey.Kmt) as Double? else {
             os_log("Unable to decode Kmt number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Cmf = aDecoder.decodeObject(forKey: PropertyKey.Cmf) as? Double else {
+        guard let Cmf = aDecoder.decodeDouble(forKey: PropertyKey.Cmf) as Double? else {
             os_log("Unable to decode Cmf number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Cmt = aDecoder.decodeObject(forKey: PropertyKey.Cmt) as? Double else {
+        guard let Cmt = aDecoder.decodeDouble(forKey: PropertyKey.Cmt) as Double? else {
             os_log("Unable to decode Cmt number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Cvf = aDecoder.decodeObject(forKey: PropertyKey.Cvf) as? Double else {
+        guard let Cvf = aDecoder.decodeDouble(forKey: PropertyKey.Cvf) as Double? else {
             os_log("Unable to decode Cvf number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Cvt = aDecoder.decodeObject(forKey: PropertyKey.Cvt) as? Double else {
+        guard let Cvt = aDecoder.decodeDouble(forKey: PropertyKey.Cvt) as Double? else {
             os_log("Unable to decode Cvt number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Hs = aDecoder.decodeObject(forKey: PropertyKey.Hs) as? Double else {
+        guard let Hs = aDecoder.decodeDouble(forKey: PropertyKey.Hs) as Double? else {
             os_log("Unable to decode Hs number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Hv = aDecoder.decodeObject(forKey: PropertyKey.Hv) as? Double else {
+        guard let Hv = aDecoder.decodeDouble(forKey: PropertyKey.Hv) as Double? else {
             os_log("Unable to decode Hv number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Cs = aDecoder.decodeObject(forKey: PropertyKey.Cs) as? Double else {
+        guard let Cs = aDecoder.decodeDouble(forKey: PropertyKey.Cs) as Double? else {
             os_log("Unable to decode Cs number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Tgs = aDecoder.decodeObject(forKey: PropertyKey.Tgs) as? Double else {
+        guard let Tgs = aDecoder.decodeDouble(forKey: PropertyKey.Tgs) as Double? else {
             os_log("Unable to decode Tgs number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let eta = aDecoder.decodeObject(forKey: PropertyKey.eta) as? Double else {
+        guard let eta = aDecoder.decodeDouble(forKey: PropertyKey.eta) as Double? else {
             os_log("Unable to decode eta number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Ks = aDecoder.decodeObject(forKey: PropertyKey.Ks) as? Double else {
+        guard let Ks = aDecoder.decodeDouble(forKey: PropertyKey.Ks) as Double? else {
             os_log("Unable to decode Ks number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Tair = aDecoder.decodeObject(forKey: PropertyKey.Tair) as? Double else {
+        guard let Tair = aDecoder.decodeDouble(forKey: PropertyKey.Tair) as Double? else {
             os_log("Unable to decode Tair number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let Aair = aDecoder.decodeObject(forKey: PropertyKey.Aair) as? Double else {
+        guard let Aair = aDecoder.decodeDouble(forKey: PropertyKey.Aair) as Double? else {
             os_log("Unable to decode Aair number.", log: OSLog.default, type: .debug)
             return nil
         }
-        guard let ALT = aDecoder.decodeObject(forKey: PropertyKey.ALT) as? Double else {
+        guard let ALT = aDecoder.decodeDouble(forKey: PropertyKey.ALT) as Double? else {
             os_log("Unable to decode ALT number.", log: OSLog.default, type: .debug)
             return nil
         }

@@ -24,13 +24,20 @@ class LocationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //load default locations
-        loadDefaultLocations()
-        
+ 
         //use the default edit button for table view (deleting)
         //the leftmost right bar button
         navigationItem.rightBarButtonItems![1] = editButtonItem
+        
+        //if there is saved data - load that, otherwise load the defaults
+        if let savedLocations = loadLocations() {
+            locations += savedLocations
+        }
+        else {
+            //load default locations
+            loadDefaultLocations()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,7 +79,10 @@ class LocationTableViewController: UITableViewController {
                 let newIndexPath = IndexPath(row: locations.count, section: 0)
                 locations.append(location)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
-            } 
+            }
+            
+            //save the locations
+            saveLocations()
         }
     }
     
@@ -91,6 +101,7 @@ class LocationTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             locations.remove(at: indexPath.row)
+            saveLocations()
             tableView.deleteRows(at: [indexPath], with: .fade)
             
         } else if editingStyle == .insert {
@@ -158,6 +169,19 @@ class LocationTableViewController: UITableViewController {
             fatalError("Unexpected segue identifier: \(segue.identifier)")
         }
     }
+    //MARK: Private Methods
+    private func saveLocations(){
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(locations, toFile: Location.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Location successfully saved.", log: OSLog.default, type: .debug)
+        }
+        else{
+            os_log("Failed to save locations...", log: OSLog.default, type: .error)
+        }
+    }
     
+    private func loadLocations()->[Location]?{
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Location.ArchiveURL.path) as? [Location]
+    }
 
 }
