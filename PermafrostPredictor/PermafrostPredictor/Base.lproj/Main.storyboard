@@ -14,7 +14,7 @@
         <!--Permafrost Predictor-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PermafrostPredictor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="PermafrostPredictor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,8 +22,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EvR-eo-3Zq">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wM-bF-rCP">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wM-bF-rCP">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="273"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A_t = 20 ˚C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5Z-KC-ESF">
                                                 <rect key="frame" x="40" y="54" width="89" height="21"/>
@@ -57,41 +57,41 @@
                                             <outletCollection property="gestureRecognizers" destination="d41-uI-E7T" appends="YES" id="tEY-sO-iP4"/>
                                         </connections>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" ambiguous="YES" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="Z0a-7G-S5u">
-                                        <rect key="frame" x="0.0" y="270" width="375" height="10"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="Z0a-7G-S5u">
+                                        <rect key="frame" x="0.0" y="273" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="ICg-Ca-Hir" appends="YES" id="aU0-aL-cOa"/>
                                         </connections>
                                     </imageView>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cn0-zi-DZ8">
-                                        <rect key="frame" x="0.0" y="280" width="375" height="95"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cn0-zi-DZ8">
+                                        <rect key="frame" x="0.0" y="283" width="375" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="vQW-yC-3CX" appends="YES" id="f6U-Qo-b8S"/>
                                         </connections>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" ambiguous="YES" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
-                                        <rect key="frame" x="0.0" y="375" width="375" height="0.0"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-XY-nLR">
+                                        <rect key="frame" x="0.0" y="353" width="375" height="10"/>
                                         <gestureRecognizers/>
                                     </imageView>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
-                                        <rect key="frame" x="0.0" y="375" width="375" height="48"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDS-Rh-zlw">
+                                        <rect key="frame" x="0.0" y="363" width="375" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="3Ib-hR-Dem" appends="YES" id="Cwi-hJ-4Ah"/>
                                         </connections>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" ambiguous="YES" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
-                                        <rect key="frame" x="0.0" y="423" width="375" height="0.0"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" image="DashedLine" translatesAutoresizingMaskIntoConstraints="NO" id="qS6-gi-v45">
+                                        <rect key="frame" x="0.0" y="413" width="375" height="10"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="THI-wG-9b9" appends="YES" id="nHs-sN-fai"/>
                                         </connections>
                                     </imageView>
-                                    <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-kn-9uy">
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-kn-9uy">
                                         <rect key="frame" x="0.0" y="423" width="375" height="180"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A = 0.1 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRe-Ku-g2u">
@@ -109,6 +109,11 @@
                                         </connections>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="TDS-Rh-zlw" firstAttribute="top" secondItem="EvR-eo-3Zq" secondAttribute="top" constant="363" id="HVm-Pq-QLh"/>
+                                    <constraint firstItem="Z0a-7G-S5u" firstAttribute="top" secondItem="EvR-eo-3Zq" secondAttribute="top" constant="273" id="W0u-8V-Nnm"/>
+                                    <constraint firstItem="8ZF-kn-9uy" firstAttribute="top" secondItem="EvR-eo-3Zq" secondAttribute="top" constant="423" id="yrD-W9-1Js"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -174,7 +179,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="689" y="-87"/>
+            <point key="canvasLocation" x="688.79999999999995" y="-87.706146926536732"/>
         </scene>
         <!--Locations-->
         <scene sceneID="cTr-Mu-FIf">
@@ -843,6 +848,6 @@
         <image name="Sun" width="320" height="320"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TVQ-wx-md1"/>
+        <segue reference="Kpt-7v-Wqz"/>
     </inferredMetricsTieBreakers>
 </document>

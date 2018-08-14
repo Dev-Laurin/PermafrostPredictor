@@ -56,6 +56,7 @@ class ViewController: UIViewController {
     //Screen size
     var screenHeight: CGFloat
     var screenWidth: CGFloat
+    var navBar: UINavigationBar
     
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
@@ -91,7 +92,8 @@ class ViewController: UIViewController {
     */
     required init(coder: NSCoder){
         //screen size
-        screenHeight = UIScreen.main.bounds.height
+        navBar = UINavigationBar()
+        screenHeight = UIScreen.main.bounds.height // - navBar.frame.height
         screenWidth = UIScreen.main.bounds.width
 
         //max image view heights
@@ -101,7 +103,7 @@ class ViewController: UIViewController {
         maxOrganicLayerHeight = (screenHeight * 0.15)
         
         //where the screen is split between ground and sky
-        heightBasedOffPercentage = UIScreen.main.bounds.height * (0.5)
+        heightBasedOffPercentage = screenHeight * (0.5)
         
         //the permafrost view - where the line marking the permafrost lives
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
@@ -126,7 +128,7 @@ class ViewController: UIViewController {
         Tgs = 0 //Mean annual temperature at the top of mineral layer
         eta = 0.45 //Volumetric water content - porosity
         Ks = 0.15 //Thermal conductivity of snow
-        Hv = 20.2 //organic layer thickness
+        Hv = 0.25 //organic layer thickness
         ALT = 0 //our ALT in meters
         Tair = 10.0 //Mean annual air temperature
         Aair = 25.0 //Amplitude of the air temperature
@@ -212,7 +214,7 @@ class ViewController: UIViewController {
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
 
         snowImageView = changeViewsYValue(view: snowImageView, newX: 0.0, newY: staticLineGround.frame.minY - snowImageView.frame.height)
-        snowImageView.frame.size = CGSize(width: snowImageView.frame.width, height: maxSnowHeight)
+        
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as! UIImageView
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
@@ -223,6 +225,7 @@ class ViewController: UIViewController {
         
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: screenWidth, height: screenHeight -  snowImageView.frame.minY - snowLineView.frame.height))
+
     }
     
     //Draw the label locations initially
@@ -271,10 +274,35 @@ class ViewController: UIViewController {
         
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
-    //    var intersectingGroundLabel = groundLabel.frame.maxY  groundLabel.frame.minY
-       // if(
-         permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: permafrostImageView.frame.maxY + padding/4), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
+        var groundY = groundImageView.frame.minY + padding/4 //+ 44.0
+        var groundFrame = groundLabel.frame
+        print("organic thickness label: " + String(describing: groundY))
+        groundFrame.origin = CGPoint(x: 0, y: groundY)
+        print("groundFrame maxY: " + String(describing: groundFrame.maxY))
+        print("groundFrame height: " + String(describing: groundFrame.height))
+        print("Staticlineground: " + String(describing: staticLineGround.frame.minY))
+        
+        if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame])){
+            print(String(describing: permafrostLabel.frame.minY) + " max: " + String(describing: permafrostLabel.frame.maxY))
+            print("intersects")
+            print(groundFrame)
+            print(groundTempLabel.frame)
+            //it intersects a label
+            newY = groundTempLabel.frame.maxY + padding/4
+        }
+         permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
+    
+    func intersects(newY: CGFloat, label: UILabel, frames: [CGRect])->Bool{
+        let maxY = newY + label.frame.height
+        for f in frames {
+            if (maxY > f.minY && newY < f.minY) || (newY <= f.maxY && maxY >= f.maxY){
+                //it intersects
+                return true
+            }
+        }
+        return false
+    }
     
     //Snow layer was tapped - display values for entering
     @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
@@ -681,10 +709,16 @@ class ViewController: UIViewController {
         updatePermafrostLabel()
 
         //the maximum the permafrost line can go to not interfere with bottom labels
-        let maxY = screenHeight - padding // permafrostLabel.frame.minY - padding/4
+        let maxY = screenHeight - padding/2 - (groundLabel.frame.height * 2) //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
  
         //the minimum the permafrost line can go (ground)
-        let minY = staticLineGround.frame.maxY
+        let minY = staticLineGround.frame.maxY // + (navBar.frame.height * 2)  //nav bar height
+        
+        print("lineground: " + String(describing: lineGround.frame.maxY))
+        print("staticLineGroundmaxY: " + String(describing: minY))
+        print("Screenheight: " + String(describing: screenHeight))
+        print("groundlabel: " + String(describing: groundLabel.frame.minY))
+        
 
         //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
         //then it will expand by 1m/screenUnit until max
@@ -703,6 +737,7 @@ class ViewController: UIViewController {
             height = ALT * (maxHeight - maxOrganicLayerHeight)/maxVal + maxOrganicLayerHeight
         }
         let yPos = height + minY //the actual y value on the screen
+        print("new y pos of Pline: " + String(describing: yPos))
         let rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
         permafrostImageView.frame = rect
 

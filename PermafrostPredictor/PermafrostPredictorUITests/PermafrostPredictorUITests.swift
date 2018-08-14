@@ -60,6 +60,8 @@ class PermafrostPredictorUITests: XCTestCase {
     func testPopupButtonCallback(){
         
     }
+    
+    
 
     
 }

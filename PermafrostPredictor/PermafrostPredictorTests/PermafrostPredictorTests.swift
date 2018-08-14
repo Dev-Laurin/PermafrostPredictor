@@ -10,17 +10,18 @@ import XCTest
 @testable import PermafrostPredictor
 
 class PermafrostPredictorTests: XCTestCase {
-   // var vc : ViewController!
+    var vc : ViewController!
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-   //     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-  //      vc = storyboard.instantiateInitialViewController() as! ViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController //as! ViewController
+        vc.loadView()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-  //      vc = nil
+        vc = nil
         super.tearDown()
     }
     
@@ -237,6 +238,56 @@ class PermafrostPredictorTests: XCTestCase {
         
         location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
         XCTAssertNil(location)
+    }
+    
+    func testPermafrostLinePosition(){
+        
+        //make sure permafrost line can't go above the solid ground line = 0.0m
+        vc.drawPermafrost()
+        vc.Kvf = 0.25
+        vc.Kvt = 0.1
+        vc.Kmf = 1.8
+        vc.Kmt = 1.0
+        vc.Cmf = 2000000
+        vc.Cmt = 3000000
+        vc.Cvf = 1000000
+        vc.Cvt = 2000000
+        vc.Hs = 0.3
+        vc.Hv = 0.25
+        vc.Cs = 500000
+        vc.Tgs = 0.0
+        vc.eta = 0.45
+        vc.Ks = 0.15
+        vc.Tair = -2
+        vc.Aair = 17
+        
+        //the minimum
+        let min = vc.staticLineGround.frame.maxY
+        XCTAssert(vc.permafrostImageView.frame.minY >= min)
+       
+        //it can't go below the the labels (intersect)
+        vc.Kvf = 0.25
+        vc.Kvt = 0.1
+        vc.Kmf = 1.8
+        vc.Kmt = 1.0
+        vc.Cmf = 2000000
+        vc.Cmt = 3000000
+        vc.Cvf = 1000000
+        vc.Cvt = 2000000
+        vc.Hs = 0
+        vc.Hv = 0
+        vc.Cs = 500000
+        vc.Tgs = 0.0
+        vc.eta = 0.45
+        vc.Ks = 0.15
+        vc.Tair = 6.8
+        vc.Aair = 25.0
+        vc.drawPermafrost()
+        //the maximum
+        let max = UIScreen.main.bounds.height - (vc.groundTempLabel.frame.height * 2 + (vc.padding/2))
+        XCTAssert(vc.permafrostImageView.frame.minY <= max)
+        
+        
     }
     
 }
