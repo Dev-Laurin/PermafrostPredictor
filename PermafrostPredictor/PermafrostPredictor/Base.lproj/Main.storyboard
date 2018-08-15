@@ -190,24 +190,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationCell" textLabel="WUp-aD-kPE" style="IBUITableViewCellStyleDefault" id="qHc-9d-l3H">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationTableViewCell" id="MpE-tZ-3Bt" customClass="LocationTableViewCell" customModule="PermafrostPredictor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qHc-9d-l3H" id="Xns-ZR-Ezy">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MpE-tZ-3Bt" id="6KS-k6-ISt">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WUp-aD-kPE">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIX-j3-Hia">
+                                            <rect key="frame" x="16" y="11" width="289" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE0-O4-zWp">
+                                            <rect key="frame" x="313" y="6" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Load"/>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ed6-Vw-hKe" kind="show" identifier="ShowDetail" id="Kpt-7v-Wqz"/>
+                                    <outlet property="loadButton" destination="NE0-O4-zWp" id="pCj-5L-Pqx"/>
+                                    <outlet property="locationName" destination="uIX-j3-Hia" id="xOP-yd-AZ2"/>
+                                    <segue destination="ed6-Vw-hKe" kind="show" identifier="ShowDetail" id="QME-Fj-7nO"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -220,7 +227,7 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="agr-80-1CC">
                                 <connections>
-                                    <segue destination="6vO-3L-Pqw" kind="showDetail" identifier="AddItem" id="f2R-Cd-kLB"/>
+                                    <segue destination="6vO-3L-Pqw" kind="presentation" identifier="AddItem" id="UeV-Ec-9jR"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="edit" id="xWy-Xm-Tbo">
@@ -234,7 +241,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Lx-S7-Cj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DEd-IS-EMM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1655" y="-93"/>
+            <point key="canvasLocation" x="1653.5999999999999" y="-93.103448275862078"/>
         </scene>
         <!--Location-->
         <scene sceneID="UBv-7U-Lk3">
@@ -803,7 +810,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGv-r8-Sc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="fJs-ZX-wsF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3583.1999999999998" y="281.55922038980509"/>
+            <point key="canvasLocation" x="3073" y="192"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="t3n-aj-44A">
@@ -839,7 +846,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RqB-Tn-fKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2644" y="281.10944527736132"/>
+            <point key="canvasLocation" x="2209" y="632"/>
         </scene>
     </scenes>
     <resources>
@@ -848,6 +855,6 @@
         <image name="Sun" width="320" height="320"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kpt-7v-Wqz"/>
+        <segue reference="TVQ-wx-md1"/>
     </inferredMetricsTieBreakers>
 </document>

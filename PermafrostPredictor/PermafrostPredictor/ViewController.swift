@@ -712,12 +712,13 @@ class ViewController: UIViewController {
         let maxY = screenHeight - padding/2 - (groundLabel.frame.height * 2) //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
  
         //the minimum the permafrost line can go (ground)
-        let minY = staticLineGround.frame.maxY // + (navBar.frame.height * 2)  //nav bar height
+        let minY = staticLineGround.frame.maxY  + (navBar.frame.height)  //nav bar height
         
         print("lineground: " + String(describing: lineGround.frame.maxY))
         print("staticLineGroundmaxY: " + String(describing: minY))
         print("Screenheight: " + String(describing: screenHeight))
         print("groundlabel: " + String(describing: groundLabel.frame.minY))
+        print("snowimageview: " + String(describing: snowImageView.frame.minY))
         
 
         //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
@@ -731,13 +732,21 @@ class ViewController: UIViewController {
         var height: CGFloat = 0
         //calculate where the line should be drawn
         if(ALT < groundMaxUnitHeight){
-            height = ALT *  maxOrganicLayerHeight / groundMaxUnitHeight
+            print("ALT < 0.25")
+            height = ALT *  (maxOrganicLayerHeight + navBar.frame.height) / (groundMaxUnitHeight)
         }
         else{
-            height = ALT * (maxHeight - maxOrganicLayerHeight)/maxVal + maxOrganicLayerHeight
+            height = ALT * (maxHeight - maxOrganicLayerHeight + navBar.frame.height)/maxVal + (maxOrganicLayerHeight + navBar.frame.height)
         }
-        let yPos = height + minY //the actual y value on the screen
+        print("permafrost line minY: " + String(describing: minY))
+        var yPos = height + minY //the actual y value on the screen
         print("new y pos of Pline: " + String(describing: yPos))
+//        if yPos < minY {
+//            yPos = minY
+//        }
+//        else if yPos > maxY {
+//            yPos = maxY
+//        }
         let rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
         permafrostImageView.frame = rect
 

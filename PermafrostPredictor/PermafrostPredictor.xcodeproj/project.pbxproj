@@ -11,6 +11,7 @@
 		490ABB6821100DC60093329C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ABB6721100DC60093329C /* Location.swift */; };
 		490ABB6A21102A200093329C /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ABB6921102A200093329C /* LocationTableViewController.swift */; };
 		490ABB6C211405960093329C /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ABB6B211405960093329C /* LocationViewController.swift */; };
+		491F34582123745F008AEFC7 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F34572123745F008AEFC7 /* LocationTableViewCell.swift */; };
 		49643F2420AB13A00038A972 /* matlabConvertedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */; };
 		49A780A320472330002BBBFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A220472330002BBBFD /* AppDelegate.swift */; };
 		49A780A520472330002BBBFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A780A420472330002BBBFD /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 		490ABB6721100DC60093329C /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		490ABB6921102A200093329C /* LocationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 		490ABB6B211405960093329C /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		491F34572123745F008AEFC7 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		49643F2320AB13A00038A972 /* matlabConvertedFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matlabConvertedFunctions.swift; sourceTree = "<group>"; };
 		49A7809F20472330002BBBFD /* PermafrostPredictor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PermafrostPredictor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A780A220472330002BBBFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				49C717DA206960C40002C64C /* SunView.swift */,
 				49A780A620472330002BBBFD /* Main.storyboard */,
 				490ABB6721100DC60093329C /* Location.swift */,
+				491F34572123745F008AEFC7 /* LocationTableViewCell.swift */,
 				490ABB6921102A200093329C /* LocationTableViewController.swift */,
 				490ABB6B211405960093329C /* LocationViewController.swift */,
 				49A780A920472330002BBBFD /* Assets.xcassets */,
@@ -287,6 +290,7 @@
 				49E5714C20BF39D00055B21E /* PopUpView.swift in Sources */,
 				490ABB6A21102A200093329C /* LocationTableViewController.swift in Sources */,
 				49A780A320472330002BBBFD /* AppDelegate.swift in Sources */,
+				491F34582123745F008AEFC7 /* LocationTableViewCell.swift in Sources */,
 				490ABB6C211405960093329C /* LocationViewController.swift in Sources */,
 				49C717DB206960C40002C64C /* SunView.swift in Sources */,
 				490ABB6821100DC60093329C /* Location.swift in Sources */,

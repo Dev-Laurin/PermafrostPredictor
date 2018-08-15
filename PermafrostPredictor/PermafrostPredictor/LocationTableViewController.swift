@@ -57,10 +57,12 @@ class LocationTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell", for: indexPath) as? LocationTableViewCell else {
+            fatalError("Cell is not of type LocationTableViewCell.")
+        }
         let location = locations[indexPath.row]
 
-        cell.textLabel?.text = location.name
+        cell.locationName.text = location.name
 
         return cell
     }

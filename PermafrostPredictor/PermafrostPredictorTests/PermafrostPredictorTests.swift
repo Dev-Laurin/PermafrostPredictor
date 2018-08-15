@@ -243,7 +243,6 @@ class PermafrostPredictorTests: XCTestCase {
     func testPermafrostLinePosition(){
         
         //make sure permafrost line can't go above the solid ground line = 0.0m
-        vc.drawPermafrost()
         vc.Kvf = 0.25
         vc.Kvt = 0.1
         vc.Kmf = 1.8
@@ -252,14 +251,16 @@ class PermafrostPredictorTests: XCTestCase {
         vc.Cmt = 3000000
         vc.Cvf = 1000000
         vc.Cvt = 2000000
-        vc.Hs = 0.3
-        vc.Hv = 0.25
+        vc.Hs = 5.0
+        vc.Hv = 0
         vc.Cs = 500000
         vc.Tgs = 0.0
         vc.eta = 0.45
         vc.Ks = 0.15
-        vc.Tair = -2
-        vc.Aair = 17
+        vc.Tair = 10
+        vc.Aair = 20.3
+        vc.drawPermafrost()
+        XCTAssert(vc.ALT == 0.0)
         
         //the minimum
         let min = vc.staticLineGround.frame.maxY
@@ -286,6 +287,7 @@ class PermafrostPredictorTests: XCTestCase {
         //the maximum
         let max = UIScreen.main.bounds.height - (vc.groundTempLabel.frame.height * 2 + (vc.padding/2))
         XCTAssert(vc.permafrostImageView.frame.minY <= max)
+        print(vc.permafrostImageView.frame.minY)
         
         
     }
