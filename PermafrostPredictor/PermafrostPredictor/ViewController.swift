@@ -79,6 +79,8 @@ class ViewController: UIViewController {
     var Tair: CGFloat //Mean Annual temperature
     var Aair : CGFloat //Amplitude of the air temperature
     var ALT: CGFloat //Active Layer Thickness
+    
+    var location: Location
 
     //MARK: Initialization
     /**
@@ -91,6 +93,9 @@ class ViewController: UIViewController {
          ````
     */
     required init(coder: NSCoder){
+        //default
+        location = Location()
+        
         //screen size
         navBar = UINavigationBar()
         screenHeight = UIScreen.main.bounds.height // - navBar.frame.height
@@ -752,6 +757,14 @@ class ViewController: UIViewController {
 
         updatePermafrostLabel()
 
+    }
+    
+    //Load the location's values to this UI
+    @IBAction func unwindToUI(sender: UIStoryboardSegue){
+        print(sender.source)
+        print("Unwound")
+        print(location.name)
+        print(location.Hs)
     }
 
 }

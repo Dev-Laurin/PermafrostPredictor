@@ -209,7 +209,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Load"/>
                                             <connections>
-                                                <action selector="loadButtonPressed:" destination="MpE-tZ-3Bt" eventType="touchUpInside" id="DDJ-YB-4KO"/>
+                                                <segue destination="DEd-IS-EMM" kind="unwind" identifier="LoadUI" unwindAction="unwindToUIWithSender:" id="hMK-Yq-aPy"/>
                                             </connections>
                                         </button>
                                     </subviews>

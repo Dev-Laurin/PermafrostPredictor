@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class LocationTableViewController: UITableViewController, LocationTableViewCellDelegate {
+class LocationTableViewController: UITableViewController {
 
     var locations = [Location]()
     var uiLocation = Location()
@@ -63,17 +63,8 @@ class LocationTableViewController: UITableViewController, LocationTableViewCellD
         let location = locations[indexPath.row]
 
         cell.locationName.text = location.name
-        cell.delegate = self
         
         return cell
-    }
-    
-    func cellButtonTapped(cell: LocationTableViewCell) {
-        let indexPath = self.tableView.indexPathForRow(at: cell.center)!
-        let selectedLocation = locations[indexPath.row]
-        print(selectedLocation.name)
-        //go back to UI (first view) and load the selected location values
-        _ = navigationController?.popViewController(animated: true)
     }
     
     //MARK: Actions
@@ -175,6 +166,30 @@ class LocationTableViewController: UITableViewController, LocationTableViewCellD
             //pass the location to the next view
             let selectedLocation = locations[indexPath.row]
             locationDetailViewController.location = selectedLocation
+        
+        case "LoadUI":
+            print("Loading UI")
+            //downcast the destination view controller
+            guard let viewController = segue.destination as? ViewController else {
+                fatalError("Expected destination: \(segue.destination)")
+            }
+            //get the selected cell
+            guard let button = sender as? UIButton else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            guard let cell = button.superview?.superview as? LocationTableViewCell else {
+                print(button.superview?.superview)
+                fatalError("Could not get tableviewcell from button superview")
+                
+            }
+            //get the index of the selected cell
+            guard let indexPath = tableView.indexPath(for: cell) else {
+                fatalError("The selected cell is not being displayed by the table.")
+            }
+            
+            //pass the location to the next view
+            let selectedLocation = locations[indexPath.row]
+            viewController.location = selectedLocation
             
         default:
             fatalError("Unexpected segue identifier: \(segue.identifier)")
