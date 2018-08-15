@@ -9,8 +9,8 @@
 import UIKit
 import os.log
 
-class LocationTableViewController: UITableViewController {
-    
+class LocationTableViewController: UITableViewController, LocationTableViewCellDelegate {
+
     var locations = [Location]()
     var uiLocation = Location()
     
@@ -63,8 +63,17 @@ class LocationTableViewController: UITableViewController {
         let location = locations[indexPath.row]
 
         cell.locationName.text = location.name
-
+        cell.delegate = self
+        
         return cell
+    }
+    
+    func cellButtonTapped(cell: LocationTableViewCell) {
+        let indexPath = self.tableView.indexPathForRow(at: cell.center)!
+        let selectedLocation = locations[indexPath.row]
+        print(selectedLocation.name)
+        //go back to UI (first view) and load the selected location values
+        _ = navigationController?.popViewController(animated: true)
     }
     
     //MARK: Actions

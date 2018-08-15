@@ -208,11 +208,13 @@
                                             <rect key="frame" x="313" y="6" width="46" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Load"/>
+                                            <connections>
+                                                <action selector="loadButtonPressed:" destination="MpE-tZ-3Bt" eventType="touchUpInside" id="DDJ-YB-4KO"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="loadButton" destination="NE0-O4-zWp" id="pCj-5L-Pqx"/>
                                     <outlet property="locationName" destination="uIX-j3-Hia" id="xOP-yd-AZ2"/>
                                     <segue destination="ed6-Vw-hKe" kind="show" identifier="ShowDetail" id="QME-Fj-7nO"/>
                                 </connections>
@@ -855,6 +857,6 @@
         <image name="Sun" width="320" height="320"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TVQ-wx-md1"/>
+        <segue reference="QME-Fj-7nO"/>
     </inferredMetricsTieBreakers>
 </document>
