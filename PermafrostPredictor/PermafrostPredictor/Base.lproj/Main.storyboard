@@ -273,10 +273,10 @@
                                                         <rect key="frame" x="0.0" y="61" width="344" height="133"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Kxa-Yx-0xw">
-                                                                <rect key="frame" x="62.5" y="5" width="220.5" height="123"/>
+                                                                <rect key="frame" x="58.5" y="5" width="229" height="123"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Air Temperature Amplitude" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ros-Ib-6oR">
-                                                                        <rect key="frame" x="8" y="0.0" width="205" height="21"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Air Temperature Amplitude °C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ros-Ib-6oR">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="228.5" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="qCt-e5-WxR"/>
                                                                         </constraints>
@@ -285,10 +285,10 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ll3-dF-oPX">
-                                                                        <rect key="frame" x="34" y="29" width="152.5" height="28"/>
+                                                                        <rect key="frame" x="34" y="29" width="161" height="28"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7z-Th-Sdq">
-                                                                                <rect key="frame" x="0.0" y="5" width="38.5" height="18"/>
+                                                                                <rect key="frame" x="0.0" y="5" width="47" height="18"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="dEF-2W-4Ox"/>
                                                                                 </constraints>
@@ -297,15 +297,15 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="WEV-LJ-D4K">
-                                                                                <rect key="frame" x="58.5" y="0.0" width="94" height="29"/>
+                                                                                <rect key="frame" x="67" y="0.0" width="94" height="29"/>
                                                                             </stepper>
                                                                         </subviews>
                                                                         <constraints>
                                                                             <constraint firstItem="y7z-Th-Sdq" firstAttribute="top" secondItem="Ll3-dF-oPX" secondAttribute="top" constant="5" id="6yF-wf-TUL"/>
                                                                         </constraints>
                                                                     </stackView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mean Air Temperature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-vl-Hba">
-                                                                        <rect key="frame" x="18" y="65" width="184.5" height="21"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mean Air Temperature °C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-vl-Hba">
+                                                                        <rect key="frame" x="18" y="65" width="193" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="ueY-FP-HLG"/>
                                                                         </constraints>
@@ -314,10 +314,10 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FZN-TP-juW">
-                                                                        <rect key="frame" x="34" y="94" width="152.5" height="29"/>
+                                                                        <rect key="frame" x="34" y="94" width="161" height="29"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNF-VP-8x7">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="38.5" height="29"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="47" height="29"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="vNP-Ds-RD9"/>
                                                                                 </constraints>
@@ -326,7 +326,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="9x8-a7-fdw">
-                                                                                <rect key="frame" x="58.5" y="0.0" width="94" height="29"/>
+                                                                                <rect key="frame" x="67" y="0.0" width="94" height="29"/>
                                                                             </stepper>
                                                                         </subviews>
                                                                     </stackView>
@@ -361,8 +361,8 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snow Height" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UK0-Dk-azb">
-                                                                        <rect key="frame" x="103.5" y="32" width="97.5" height="21"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snow Height [m]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UK0-Dk-azb">
+                                                                        <rect key="frame" x="88" y="32" width="128.5" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="fbk-Cs-5mK"/>
                                                                         </constraints>
@@ -442,7 +442,7 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thickness" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr5-KE-f8o">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thickness [m]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr5-KE-f8o">
                                                                         <rect key="frame" x="58" y="32" width="154" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="VQ9-96-AsE"/>
@@ -793,17 +793,21 @@
                         <outlet property="mineralThermalFrozenTextField" destination="OrA-MY-cqi" id="CAa-GX-uZr"/>
                         <outlet property="mineralThermalThawedTextField" destination="E8h-5Y-pt6" id="YdI-XN-wlu"/>
                         <outlet property="mineralUIVIew" destination="sFh-ae-b44" id="f9E-GU-mSd"/>
+                        <outlet property="mineralVolHeatCapacityLabel" destination="7Om-FX-h7Q" id="3KF-pP-87w"/>
                         <outlet property="mineralVolumetricFrozenTextField" destination="dzE-In-Rx4" id="o5C-rz-6ht"/>
                         <outlet property="mineralVolumetricThawedTextField" destination="bvZ-Ow-vyC" id="2ia-lV-p62"/>
                         <outlet property="organicThermalFrozenTextField" destination="ik0-v7-rKS" id="HPZ-wS-R13"/>
                         <outlet property="organicThermalThawedTextField" destination="oTc-sR-TNR" id="Ksv-EU-S2n"/>
                         <outlet property="organicThicknessTextField" destination="UlK-70-Zrw" id="Mqu-0h-YLP"/>
                         <outlet property="organicUIView" destination="Chv-ey-r1g" id="g2g-H6-76D"/>
+                        <outlet property="organicVolHeatCapacityLabel" destination="F4Z-PP-KEv" id="zpD-DC-JfV"/>
                         <outlet property="organicVolumetricFrozenTextField" destination="LQb-eK-ObR" id="hP1-R2-ojA"/>
                         <outlet property="organicVolumetricThawedTextField" destination="wn6-eS-SV9" id="W6V-9h-TMG"/>
+                        <outlet property="porosityLabel" destination="8ej-Mj-ouo" id="zcH-zb-GlL"/>
                         <outlet property="saveButton" destination="mA7-n8-vTp" id="x1t-e2-duM"/>
                         <outlet property="snowHeightTextField" destination="tiP-bc-nyd" id="sQV-uD-rRk"/>
                         <outlet property="snowUIView" destination="vqZ-FV-mVA" id="0z3-CT-gCi"/>
+                        <outlet property="snowVolHeatCapacityLabel" destination="E96-Ir-7rO" id="3Gr-Sj-iMR"/>
                         <outlet property="tairLabel" destination="fNF-VP-8x7" id="hlR-Vn-yiF"/>
                         <outlet property="tempUIView" destination="VED-pj-YNn" id="5b9-l7-8s4"/>
                         <outlet property="thermalSnow" destination="JAb-4b-8ES" id="mW9-dx-WkJ"/>
