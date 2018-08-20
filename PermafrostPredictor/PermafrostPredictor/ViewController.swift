@@ -122,13 +122,13 @@ class ViewController: UIViewController {
         Kvt = 0.1     //Thermal conductivity of thawed organic layer
         Kmf = 1.8     //Thermal conductivity of frozen mineral soil
         Kmt = 1.0     //Thermal conductivity of thawed mineral soil
-        Cmf = 2000000 //Volumetric heat capacity of frozen soil
-        Cmt = 3000000 //Volumetric heat capacity of thawed soil
-        Cvf = 1000000 //Volumetric heat capacity of frozen moss
-        Cvt = 2000000 //Volumetric heat capacity of thawed moss
+        Cmf = 2 //Volumetric heat capacity of frozen soil
+        Cmt = 3 //Volumetric heat capacity of thawed soil
+        Cvf = 1 //Volumetric heat capacity of frozen moss
+        Cvt = 2 //Volumetric heat capacity of thawed moss
         Hs = 0.3  //Snow height
         Hv = 0.25 //Thickness of vegetation
-        Cs = 500000.0  //Volumetric heat capacity of snow
+        Cs = 0.5 //Volumetric heat capacity of snow
         Tgs = 0 //Mean annual temperature at the top of mineral layer
         eta = 0.45 //Volumetric water content - porosity
         Ks = 0.15 //Thermal conductivity of snow
@@ -262,7 +262,7 @@ class ViewController: UIViewController {
     
     func updatePermafrostLabel(){
         //update the value
-        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
+        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
         if(ALT.isNaN){
             //alert the user that this is not valid inputs (air temperatures are
         }
