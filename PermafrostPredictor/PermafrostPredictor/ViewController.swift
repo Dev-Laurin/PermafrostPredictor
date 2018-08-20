@@ -340,8 +340,12 @@ class ViewController: UIViewController {
         var dict = dictionary
         
         //check that the input is valid
-        checkIfValidNumber(tag: 0, variable: &Cs, errorMessage: "Invalid Cs", dict: &dict)
-        checkIfValidNumber(tag: 1, variable: &Ks, errorMessage: "Invalid Ks", dict: &dict)
+        if !checkIfValidNumber(tag: 0, variable: &Cs, errorMessage: "Invalid Cs", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 1, variable: &Ks, errorMessage: "Invalid Ks", dict: &dict) {
+            return
+        }
         
         drawPermafrost()
     }
@@ -409,10 +413,18 @@ class ViewController: UIViewController {
         
        var dict = dictionary
         //save the values - but test if they can be converted to numbers first
-        checkIfValidNumber(tag: 0, variable: &Kvt, errorMessage: "Invalid Kvt", dict: &dict)
-        checkIfValidNumber(tag: 1, variable: &Kvf, errorMessage: "Invalid Kvf", dict: &dict)
-        checkIfValidNumber(tag: 2, variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict)
-        checkIfValidNumber(tag: 3, variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict)
+        if !checkIfValidNumber(tag: 0, variable: &Kvt, errorMessage: "Invalid Kvt", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 1, variable: &Kvf, errorMessage: "Invalid Kvf", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 2, variable: &Cvt, errorMessage: "Invalid Cvt", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 3, variable: &Cvf, errorMessage: "Invalid Cvf", dict: &dict) {
+            return
+        }
 
         drawPermafrost()
     }
@@ -456,33 +468,44 @@ class ViewController: UIViewController {
         if(eta > 1){
             eta = 1
             createAlert(title: "Input Error", errorMessage: "Invalid Porosity value. Should be between 0 and 1.")
+            return
         }
         else if(eta < 0){
             eta = 0
         }
-        checkIfValidNumber(tag: 1, variable: &Kmt, errorMessage: "Invalid Kmt", dict: &dict)
-        checkIfValidNumber(tag: 2, variable: &Kmf, errorMessage: "Invalid Kmf", dict: &dict)
-        checkIfValidNumber(tag: 3, variable: &Cmt, errorMessage: "Invalid Cmt", dict: &dict)
-        checkIfValidNumber(tag: 4, variable: &Cmf, errorMessage: "Invalid Cmf", dict: &dict)
+        if !checkIfValidNumber(tag: 1, variable: &Kmt, errorMessage: "Invalid Kmt", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 2, variable: &Kmf, errorMessage: "Invalid Kmf", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 3, variable: &Cmt, errorMessage: "Invalid Cmt", dict: &dict) {
+            return
+        }
+        if !checkIfValidNumber(tag: 4, variable: &Cmf, errorMessage: "Invalid Cmf", dict: &dict){
+            return
+        }
         
         drawPermafrost()
     }
     
     
-    func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String]){
+    func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String])->Bool{
         if let x = Double(dict[tag]!) {
             variable = x
+            return true
         }
         else {
             let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+            return false
         }
     }
     
     func createAlert(title: String, errorMessage: String){
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 
