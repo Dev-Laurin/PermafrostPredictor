@@ -285,9 +285,33 @@ class PermafrostPredictorTests: XCTestCase {
         vc.Aair = 25.0
         vc.drawPermafrost()
         //the maximum
-        let max = UIScreen.main.bounds.height - (vc.groundTempLabel.frame.height * 2 + (vc.padding/2))
-        XCTAssert(vc.permafrostImageView.frame.minY <= max)
+        let max = UIScreen.main.bounds.height - (vc.padding * (3/4)) - (vc.groundLabel.frame.height * 2) - vc.permafrostImageView.frame.height
+        print("Max")
+        print(max)
+        print("Frame maxY")
+        print(vc.permafrostImageView.frame.maxY)
+        XCTAssert(vc.permafrostImageView.frame.maxY <= max)
         print(vc.permafrostImageView.frame.minY)
+        
+        
+    }
+    
+    func testGetHeightFromUnits(){
+        
+        //Test Snow View above the average height
+        let newHeight = getHeightFromUnits(unit: 2.5, maxHeight: vc.maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        let unit = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: vc.maxSnowHeight, newHeight: newHeight, percentage: 0.66)
+        XCTAssert(unit == 2.5)
+        
+        //Test Snow below average height
+        
+        //Test Snow at average height
+        
+        //Test Organic above
+        
+        //Test Organic below
+        
+    
         
         
     }

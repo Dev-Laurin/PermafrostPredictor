@@ -161,7 +161,30 @@ class PopUpView: UIView{
         
     }
     
-    
+    func addTitle(title: NSMutableAttributedString) {
+        //make it a label
+        let titleLabel = UILabel()
+        
+        //make text appear all on one line
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        
+        titleLabel.attributedText = title
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.sizeToFit()
+        
+        titleLabel.tag = 1000 //is a title - for redrawing purposes
+        
+        
+        //find the spacing needed to center the text
+        let xSpacing = (self.frame.width - titleLabel.frame.width)/2
+        //set the position in the view
+        titleLabel.frame.origin = CGPoint(x: xSpacing + currentX, y: currentY)
+        currentY += padding + titleLabel.frame.height
+        
+        //add to view
+        self.addSubview(titleLabel)
+    }
     //Add a title (label) centered in view
     func addTitle(title: String){
         //make it a label

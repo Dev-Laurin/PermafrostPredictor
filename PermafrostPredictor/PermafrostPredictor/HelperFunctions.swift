@@ -9,6 +9,60 @@
 import Foundation
 import UIKit
 
+func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeight: CGFloat, minValue: CGFloat)->CGFloat{
+    return (newHeight * (maxValue/maxHeight)) + minValue
+}
+
+func getUnits(topAverageValue: CGFloat, maxValue: CGFloat, maxHeight: CGFloat, newHeight: CGFloat, percentage: CGFloat)->CGFloat{
+    //Find out when the switch happens (what height)
+    let heightAtSwitch = maxHeight * percentage
+    var value: CGFloat = 0.0
+    if(newHeight < heightAtSwitch){
+        //we are in the average case
+        value = turnHeightMovementIntoUnits(maxHeight: heightAtSwitch, maxValue: topAverageValue, newHeight: newHeight, minValue: value)
+        
+        if(value < 0.09){
+            value = 0.0
+        }
+    }
+    else{
+        //we are not in the average
+        value = turnHeightMovementIntoUnits(maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, newHeight: newHeight - heightAtSwitch, minValue: topAverageValue)
+        if(value > maxValue){
+            value = maxValue
+        }
+        
+    }
+    return value
+}
+
+func turnUnitsIntoHeight(value: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, minHeight: CGFloat, minValue: CGFloat)->CGFloat{
+    print("maxvalue:")
+    print(maxValue)
+    print("maxHeight:")
+    print(maxHeight)
+    print("value")
+    print(value)
+    return ((value - minValue) * (maxHeight/maxValue)) + minHeight
+}
+
+func getHeightFromUnits(unit: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, percentage: CGFloat, topAverageValue: CGFloat )->CGFloat{
+    var newHeight: CGFloat = 0.0
+    var heightAtSwitch = maxHeight * percentage
+    //In the lower section of height
+    if(unit <= topAverageValue){
+        newHeight = turnUnitsIntoHeight(value: unit, maxHeight: heightAtSwitch, maxValue: topAverageValue, minHeight: 0.0, minValue: 0.0)
+    }
+    else {
+        newHeight = turnUnitsIntoHeight(value: unit, maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, minHeight: heightAtSwitch, minValue: topAverageValue)
+    }
+    //make sure height is not greater than the max
+    if(newHeight > maxHeight){
+        newHeight = maxHeight
+    }
+    return newHeight
+}
+
 /**
     Given information about 2 views, this function gives you the new height of both the previous view and the current view, seperated by lineViews. This gives the correct new sizes so that the views still cover the parent view (one view shrink or grows the other.) This also calculates the heights in respect to given bounds (can't shrink beyond this... can't grow beyond that...). It returns true or false if the movement was valid or not (no bounds were hit).
  
@@ -211,6 +265,12 @@ func subscriptTheString(str: String, toSub: String, strAtEnd: String, bigFont: U
     let subscriptedString = NSMutableAttributedString(string: str+toSub+strAtEnd, attributes: [.font: bigFont])
     subscriptedString.setAttributes([.font: smallFont, .baselineOffset:-5], range: NSRange(location: str.count, length: toSub.count))
     return subscriptedString
+}
+
+func superscriptTheString(str: String, toSuper: String, strAtEnd: String, bigFont: UIFont, smallFont: UIFont)->NSMutableAttributedString {
+    let superScriptedString = NSMutableAttributedString(string: str+toSuper+strAtEnd, attributes: [.font: bigFont])
+    superScriptedString.setAttributes([.font: smallFont, .baselineOffset: 10], range: NSRange(location: str.count, length: toSuper.count))
+    return superScriptedString
 }
 
 func changeViewsYValue( view: UIView, newX: CGFloat, newY: CGFloat)->UIView{

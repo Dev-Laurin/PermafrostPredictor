@@ -13,6 +13,7 @@ import UIKit
 */
 class ViewController: UIViewController {
     
+    @IBOutlet weak var navBar: UINavigationItem!
     //View containing Sun
     @IBOutlet weak var skyView: UIView!
     @IBOutlet weak var tempLabel: UILabel!
@@ -56,7 +57,6 @@ class ViewController: UIViewController {
     //Screen size
     var screenHeight: CGFloat
     var screenWidth: CGFloat
-    var navBar: UINavigationBar
     
     //Split snow & ground to 50% of screen
     var heightBasedOffPercentage : CGFloat //screen grows down
@@ -97,8 +97,7 @@ class ViewController: UIViewController {
         location = Location()
         
         //screen size
-        navBar = UINavigationBar()
-        screenHeight = UIScreen.main.bounds.height // - navBar.frame.height
+        screenHeight = UIScreen.main.bounds.height 
         screenWidth = UIScreen.main.bounds.width
 
         //max image view heights
@@ -279,7 +278,7 @@ class ViewController: UIViewController {
         
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
-        var groundY = groundImageView.frame.minY + padding/4 //+ 44.0
+        var groundY = groundImageView.frame.minY + padding/4
         var groundFrame = groundLabel.frame
         print("organic thickness label: " + String(describing: groundY))
         groundFrame.origin = CGPoint(x: 0, y: groundY)
@@ -314,13 +313,16 @@ class ViewController: UIViewController {
         //make popup
         let textBoxPopup = PopUpView()
         textBoxPopup.addTitle(title: "Snow Layer")
-        textBoxPopup.addTitle(title: "Volumetric Heat Capacity of Snow")
+        let bigFont = UIFont(name: "Helvetica", size: 17)!
+        let smFont = UIFont(name: "Helvetica", size: 14)!
+        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        textBoxPopup.addTitle(title: heatCapacityUnits)
         
         //Cs
         textBoxPopup.addTextField(text: String(Cs), tag: 0)
         
         //Ks
-        textBoxPopup.addTitle(title: "Thermal Conductivity of Snow")
+        textBoxPopup.addTitle(title: "Thermal Conductivity [W/m/°C]")
         textBoxPopup.addTextField(text: String(Ks), tag: 1)
         
         textBoxPopup.addButton(buttonText: "Submit", callback: snowPopupSubmitted)
@@ -362,14 +364,17 @@ class ViewController: UIViewController {
         textBoxPopup.setBackGroundColor(color: UIColor(white: 1, alpha: 1))
         //add title to top
         textBoxPopup.addTitle(title: "Organic Layer")
-        textBoxPopup.addTitle(title: "Thermal Conductivity")
+        textBoxPopup.addTitle(title: "Thermal Conductivity [W/m/°C]")
         //Kvt - thermal conductivity "thawed" & Kvf - "frozen"
         textBoxPopup.addLabels(text: "thawed", text2: "frozen") //give a storage place for value upon submit
         //Make the editable fields for user input
         textBoxPopup.addTextFields(text: String(Kvt), text2: String(Kvf), outputTag1: 0, outputTag2: 1)
         
         //Volumetric Heat capacity
-        textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
+        let bigFont = UIFont(name: "Helvetica", size: 17)!
+        let smFont = UIFont(name: "Helvetica", size: 14)!
+        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        textBoxPopup.addTitle(title: heatCapacityUnits)
         //Cvt - "thawed" volumetric heat capacity & Cvf
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         //make the fields
@@ -416,13 +421,23 @@ class ViewController: UIViewController {
         let textBoxPopup = PopUpView()
         
         textBoxPopup.addTitle(title: "Mineral Layer")
-        textBoxPopup.addTitle(title: "Porosity")
+        
+        
+        //Add units to porosity label with superscript
+        let bigFont = UIFont(name: "Helvetica", size: 17)!
+        let smFont = UIFont(name: "Helvetica", size: 14)!
+        var porosityLabel = superscriptTheString(str: "Porosity [m", toSuper: "3", strAtEnd: "/m", bigFont: bigFont, smallFont: smFont)
+        var porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
+        porosityLabel.append(porosityLabelEnding)
+        textBoxPopup.addTitle(title: porosityLabel)
         textBoxPopup.addTextField(text: String(eta), tag: 0)
         
-        textBoxPopup.addTitle(title: "Thermal Conductivity")
+        textBoxPopup.addTitle(title: "Thermal Conductivity [W/m/°C]")
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         textBoxPopup.addTextFields(text: String(Kmt), text2: String(Kmf), outputTag1: 1, outputTag2: 2)
-        textBoxPopup.addTitle(title: "Volumetric Heat Capacity")
+        
+        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        textBoxPopup.addTitle(title: heatCapacityUnits)
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         textBoxPopup.addTextFields(text: String(Cmt), text2: String(Cmf), outputTag1: 3, outputTag2: 4)
         textBoxPopup.addButton(buttonText: "Submit", callback: mineralPopupButtonPressend)
@@ -542,104 +557,19 @@ class ViewController: UIViewController {
 
             //We are moving the ground layer
             if view == lineGround {
-                let previousView = organicLayer
-                //How small the static ground plant layer image is allowed to be
-                let screenHeight = UIScreen.main.bounds.height
-                
-                //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
-                let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
-                
-                var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
-                
-                var previousViewHeight: CGFloat = (previousView?.frame.height)!
-
-                let validMovement = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
-
-                view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
-                    y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
-                
-                groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
-                organicLayer.frame = CGRect(origin: CGPoint(x: organicLayer.frame.minX, y: organicLayer.frame.minY), size: CGSize(width: (organicLayer.frame.width),height: previousViewHeight))
-                
-                //Re-draw label with new coordinates
-                if(validMovement){
-                    var num = getUnits(topAverageValue: 0, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0)
-
-                    num = roundToHundredths(num: num)
-                    Hv = Double(num)
-
-                    if(Hv < 0.0001){
-                        Hv = 0.0 
-                        groundLabel.text = "No Organic"
-                    }else{
-                        groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
-                    }
-                    groundLabel.sizeToFit()
-                    drawPermafrost()
-                }
-                
-                let groundLabelNewX: CGFloat = organicLayer.frame.maxX - groundLabel.frame.width - padding/4
-                let groundLabelNewY: CGFloat = padding/4
-                groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
-                
-
-                drawPermafrost()
-                
-                
+               drawOrganic(view: view, newY: newLineYValue)
             }
             //We are moving the snow layer
             else if view == snowLineView {
-                let previousView = skyView
-                //How small the static ground plant layer image is allowed to be
-   
-                let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
-                let heightBound: CGFloat = 0.0
-                var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
-                
-                var previousViewHeight: CGFloat = (previousView?.frame.height)!
-                
-                let validMovement = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
-                
-                view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
-                    y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))
-                
-                snowImageView.frame = CGRect(origin: CGPoint(x: view.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
-                skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
-                
-                //Update label
-                tempLabel.sizeToFit()
-   
-                //y grows down, but in the app we want it to grow up
-                
-                snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
-                
-                
-                //only update the snow level if the movement is valid
-                if(validMovement){
-                    
-                    Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
-                    Hs = Double(roundToHundredths(num: CGFloat(Hs)))
-                    
-                    if(Hs == 0.0){
-                        snowLabel.text = "No Snow"
-                        snowLabel.sizeToFit()
-                    }
-                    else{
-                        snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
-                        snowLabel.sizeToFit()
-                    }
-
-                    drawPermafrost()
-                }
+                drawSnow(view: view, newY: newLineYValue)
             }
-            
+            //update our ALT
             drawPermafrost()
-            
         }
         //Don't have image keep moving, set translation to zero because we are done
         recognizer.setTranslation(CGPoint.zero, in: self.view)
     }
-
+  
     //MARK: didReceiveMemoryWarning()
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -659,34 +589,86 @@ class ViewController: UIViewController {
     }
     
     //MARK: Helper Functions
-    
-    func getUnits(topAverageValue: CGFloat, maxValue: CGFloat, maxHeight: CGFloat, newHeight: CGFloat, percentage: CGFloat)->CGFloat{
-        //Find out when the switch happens (what height)
-        let heightAtSwitch = maxHeight * percentage
-        var value: CGFloat = 0.0
-        if(newHeight < heightAtSwitch){
-            //we are in the average case
-            value = turnHeightMovementIntoUnits(maxHeight: heightAtSwitch, maxValue: topAverageValue, newHeight: newHeight, minValue: value)
-
-            if(value < 0.09){
-                value = 0.0
-            }
-        }
-        else{
-            //we are not in the average
-            value = turnHeightMovementIntoUnits(maxHeight: maxHeight - heightAtSwitch, maxValue: maxValue, newHeight: newHeight - heightAtSwitch, minValue: topAverageValue)
-            if(value > maxValue){
-                value = maxValue
-            }
+    func drawSnow(view: UIView, newY: CGFloat){
+        var newLineYValue = newY
+        let previousView = skyView
+        //How small the static ground plant layer image is allowed to be
+        
+        let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
+        let heightBound: CGFloat = 0.0
+        var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
+        
+        var previousViewHeight: CGFloat = (previousView?.frame.height)!
+        
+        let validMovement = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        
+        view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
+            y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))
+        
+        snowImageView.frame = CGRect(origin: CGPoint(x: view.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
+        skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
+        
+        //Update label
+        tempLabel.sizeToFit()
+        
+        //y grows down, but in the app we want it to grow up
+        
+        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        
+        
+        //only update the snow level if the movement is valid
+        if(validMovement){
             
+            Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
+            Hs = Double(roundToHundredths(num: CGFloat(Hs)))
+            
+            if(Hs == 0.0){
+                snowLabel.text = "No Snow"
+                snowLabel.sizeToFit()
+            }
+            else{
+                snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
+                snowLabel.sizeToFit()
+            }
         }
-            return value
+        
+        updateSnowLabel()
+        
     }
     
-    func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeight: CGFloat, minValue: CGFloat)->CGFloat{
-        return (newHeight * (maxValue/maxHeight)) + minValue
+    func drawOrganic(view: UIView, newY: CGFloat){
+        var newLineYValue = newY
+        let previousView = organicLayer
+        
+        //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
+        let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
+        
+        var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
+        
+        var previousViewHeight: CGFloat = (previousView?.frame.height)!
+        
+        let validMovement = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        
+        view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
+            y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
+        
+        groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
+        organicLayer.frame = CGRect(origin: CGPoint(x: organicLayer.frame.minX, y: organicLayer.frame.minY), size: CGSize(width: (organicLayer.frame.width),height: previousViewHeight))
+        
+        //Re-draw label with new coordinates
+        if(validMovement){
+            var num = getUnits(topAverageValue: 0, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0)
+            
+            num = roundToHundredths(num: num)
+            Hv = Double(num)
+            
+            updateOrganicLabel()
+           
+            drawPermafrost()
+        }
+        
+        
     }
-
     /**
         Updates the Atmospheric Temperature Label (the sun). Since there is a subscript, we have to use attributed strings, which is easier in a function.
      
@@ -697,14 +679,6 @@ class ViewController: UIViewController {
         ````
     */
     func updateAairLabel(newText: String){
-        /*
-        let aTemp = "A"
-        let subATemp = "t"
-        let restOfString = " = " + String(describing: newText) + " °C"
-        let bigFont = UIFont(name: "Helvetica", size: 17)
-        let smFont = UIFont(name: "Helvetica", size: 14)
-        atmosphericTempLabel.attributedText = subscriptTheString(str: aTemp, toSub: subATemp, strAtEnd: restOfString, bigFont: bigFont!, smallFont: smFont!) */
-        
         atmosphericTempLabel.text = "Air Temp Amplitude = " + newText + " °C"
         atmosphericTempLabel.sizeToFit()
     }
@@ -712,59 +686,130 @@ class ViewController: UIViewController {
     func drawPermafrost(){
 
         updatePermafrostLabel()
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
 
+        var zeroInView = barHeight + padding/2
+        
         //the maximum the permafrost line can go to not interfere with bottom labels
-        let maxY = screenHeight - padding/2 - (groundLabel.frame.height * 2) //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
+        let maxY = screenHeight - (padding * (3/4)) - (groundLabel.frame.height * 2) - permafrostImageView.frame.height //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
  
         //the minimum the permafrost line can go (ground)
-        let minY = staticLineGround.frame.maxY  + (navBar.frame.height)  //nav bar height
+        let minY = (screenHeight * (0.5)) + staticLineGround.frame.height + zeroInView // + (navBar.frame.height)  //nav bar height
         
-        print("lineground: " + String(describing: lineGround.frame.maxY))
-        print("staticLineGroundmaxY: " + String(describing: minY))
-        print("Screenheight: " + String(describing: screenHeight))
-        print("groundlabel: " + String(describing: groundLabel.frame.minY))
-        print("snowimageview: " + String(describing: snowImageView.frame.minY))
-        
-
         //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
         //then it will expand by 1m/screenUnit until max
-        
-        
         let maxHeight = maxY - minY
 
         let maxVal:CGFloat = 2.0 // change later - stakeholder TODO //////////////////////////////////////////////////////////
-
+        
         var height: CGFloat = 0
         //calculate where the line should be drawn
         if(ALT < groundMaxUnitHeight){
-            print("ALT < 0.25")
-            height = ALT *  (maxOrganicLayerHeight + navBar.frame.height) / (groundMaxUnitHeight)
+            height = ALT *  (maxOrganicLayerHeight) / (groundMaxUnitHeight)
         }
         else{
-            height = ALT * (maxHeight - maxOrganicLayerHeight + navBar.frame.height)/maxVal + (maxOrganicLayerHeight + navBar.frame.height)
+            height = ALT * (maxHeight - maxOrganicLayerHeight)/maxVal + (maxOrganicLayerHeight)
         }
-        print("permafrost line minY: " + String(describing: minY))
         var yPos = height + minY //the actual y value on the screen
-        print("new y pos of Pline: " + String(describing: yPos))
-//        if yPos < minY {
-//            yPos = minY
-//        }
-//        else if yPos > maxY {
-//            yPos = maxY
-//        }
-        let rect = CGRect(origin: CGPoint(x: permafrostImageView.frame.minX, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
+        if yPos < minY {
+            yPos = minY
+        }
+        else if yPos > maxY {
+            yPos = maxY
+        }
+        
+        //find where the coordinates are
+        let rect = CGRect(origin: CGPoint(x: 0, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
         permafrostImageView.frame = rect
 
         updatePermafrostLabel()
-
     }
     
     //Load the location's values to this UI
     @IBAction func unwindToUI(sender: UIStoryboardSegue){
-        print(sender.source)
-        print("Unwound")
-        print(location.name)
-        print(location.Hs)
+
+        //TODO STOP UNITS FROM GOING OVER -> USER CAN ENTER INPUTS TOO LARGE? AND ROUNDING
+        
+        //load the location values in
+        Kvf = location.Kvf
+        Kvt = location.Kvt
+        Kmf = location.Kmf
+        Kmt = location.Kmt
+        Cmf = location.Cmf
+        Cmt = location.Cmt
+        Cvf = location.Cvf
+        Cvt = location.Cvt
+        Hs = location.Hs
+        Hv = location.Hv
+        Cs = location.Cs
+        Tgs = location.Tgs
+        eta = location.eta
+        Ks = location.Ks
+        Tair = CGFloat(location.Tair)
+        Aair = CGFloat(location.Aair)
+        ALT = CGFloat(location.ALT)
+        
+        //Update Temp labels
+        
+        //Update SkyView
+        
+        //Update
+        
+        //Update Snow Layer
+        //change the positions of the views to match
+        var newHeight = getHeightFromUnits(unit: CGFloat(Hs), maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        //update label
+        updateSnowLabel()
+        //draw views based on new heights
+        redrawSnowBasedOnNewHeight(newHeight: newHeight)
+        
+        //draw organic layer's height
+        newHeight = getHeightFromUnits(unit: CGFloat(Hv), maxHeight: maxOrganicLayerHeight, maxValue: groundMaxUnitHeight, percentage: 0.0, topAverageValue: 0.0)
+        redrawOrganicBasedOnNewHeight(newHeight: newHeight)
+        
+    }
+    
+    func redrawSnowBasedOnNewHeight(newHeight: CGFloat){
+         snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.minY - snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
+    }
+    
+    func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
+        organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
+    }
+    
+    func updateSnowLabel(){
+        if(Hs == 0.0){
+            snowLabel.text = "No Snow"
+            snowLabel.sizeToFit()
+        }
+        else{
+            snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
+            snowLabel.sizeToFit()
+        }
+        
+        //redraw the label to end in the same place on the screen
+        let snowLabelNewX: CGFloat = organicLayer.frame.maxX - snowLabel.frame.width - padding/4
+        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: snowLabel.frame.minY), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+    }
+    
+    func updateOrganicLabel(){
+        if(Hv < 0.0001){
+            Hv = 0.0
+            groundLabel.text = "No Organic"
+        }else{
+            groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
+        }
+        groundLabel.sizeToFit()
+        
+        let groundLabelNewX: CGFloat = organicLayer.frame.maxX - groundLabel.frame.width - padding/4
+        let groundLabelNewY: CGFloat = padding/4
+        groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
     }
 
 }
