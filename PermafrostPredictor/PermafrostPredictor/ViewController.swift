@@ -223,7 +223,8 @@ class ViewController: UIViewController {
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
         lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as! UIImageView
-        groundImageView = changeViewsYValue(view: groundImageView, newX: 0.0, newY: lineGround.frame.maxY)
+        groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
+        //)) changeViewsYValue(view: groundImageView, newX: 0.0, newY: lineGround.frame.maxY)
         
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         
@@ -771,12 +772,15 @@ class ViewController: UIViewController {
         Tair = CGFloat(location.Tair)
         Aair = CGFloat(location.Aair)
         ALT = CGFloat(location.ALT)
+
         
         //Update Temp labels
-        
+        tempLabel.text = String("Mean Air Temp = " + String(describing: Tair) + " °C")
+        tempLabel.sizeToFit()
+        updateAairLabel(newText: String(describing: Aair))
         //Update SkyView
+        skyView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: screenWidth, height: snowLineView.frame.minY))
         
-        //Update
         
         //Update Snow Layer
         //change the positions of the views to match
@@ -787,9 +791,13 @@ class ViewController: UIViewController {
         redrawSnowBasedOnNewHeight(newHeight: newHeight)
         
         //draw organic layer's height
+        
         newHeight = getHeightFromUnits(unit: CGFloat(Hv), maxHeight: maxOrganicLayerHeight, maxValue: groundMaxUnitHeight, percentage: 0.0, topAverageValue: 0.0)
         redrawOrganicBasedOnNewHeight(newHeight: newHeight)
-        
+
+        updateOrganicLabel()
+        //Update ALT and Tgs labels
+        drawPermafrost()
     }
     
     func redrawSnowBasedOnNewHeight(newHeight: CGFloat){

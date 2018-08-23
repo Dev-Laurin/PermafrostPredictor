@@ -55,7 +55,7 @@ func getHeightFromUnits(unit: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, pe
     var newHeight: CGFloat = 0.0
     let heightAtSwitch = maxHeight * percentage
     //In the lower section of height
-    if(unit <= topAverageValue){
+    if(unit <= topAverageValue && topAverageValue > 0){
         newHeight = turnUnitsIntoHeight(value: unit, maxHeight: heightAtSwitch, maxValue: topAverageValue, minHeight: 0.0, minValue: 0.0)
     }
     else {

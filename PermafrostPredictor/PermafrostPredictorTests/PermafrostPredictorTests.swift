@@ -242,6 +242,8 @@ class PermafrostPredictorTests: XCTestCase {
         
         location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
         XCTAssertNil(location)
+        
+        //test that values don't crash app (vc. ) 
     }
     
     func testPermafrostLinePosition(){
@@ -319,5 +321,7 @@ class PermafrostPredictorTests: XCTestCase {
         
         
     }
+    
+    
     
 }
