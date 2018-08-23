@@ -276,15 +276,27 @@ class ViewController: UIViewController {
         groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
         groundTempLabel.sizeToFit()
         
+        
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
+        
+        var zeroInView = barHeight + padding/2
+        
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
-        var groundY = groundImageView.frame.minY + padding/4
+        var groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
         var groundFrame = groundLabel.frame
-        print("organic thickness label: " + String(describing: groundY))
+        
+        print("organic thickness label: " + String(describing: groundImageView.frame.minY + groundLabel.frame.minY))
         groundFrame.origin = CGPoint(x: 0, y: groundY)
-        print("groundFrame maxY: " + String(describing: groundFrame.maxY))
+        print("groundFrame minY: " + String(describing: groundFrame.minY))
         print("groundFrame height: " + String(describing: groundFrame.height))
-        print("Staticlineground: " + String(describing: staticLineGround.frame.minY))
+        print("lineground: " + String(describing: lineGround.frame.maxY))
         
         if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame])){
             print(String(describing: permafrostLabel.frame.minY) + " max: " + String(describing: permafrostLabel.frame.maxY))
@@ -684,13 +696,8 @@ class ViewController: UIViewController {
             
             num = roundToHundredths(num: num)
             Hv = Double(num)
-            
-            updateOrganicLabel()
-           
-            drawPermafrost()
         }
-        
-        
+        updateOrganicLabel()
     }
     /**
         Updates the Atmospheric Temperature Label (the sun). Since there is a subscript, we have to use attributed strings, which is easier in a function.
