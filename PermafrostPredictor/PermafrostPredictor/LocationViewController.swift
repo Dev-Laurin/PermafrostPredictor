@@ -19,6 +19,7 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var aairLabel: UILabel!
     @IBOutlet weak var tairLabel: UILabel!
     @IBOutlet weak var tempUIView: UIView!
+    @IBOutlet weak var tairStepper: UIStepper!
     
     
     //Snow
@@ -60,8 +61,29 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var porosityLabel: UILabel!
     
     
+    @IBAction func aairStepperChanged(_ sender: UIStepper) {
+        aairLabel.text = String(describing: sender.value)
+    }
+    
+    @IBAction func tairStepperChanged(_ sender: UIStepper) {
+        tairLabel.text = String(describing: sender.value)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //steppers
+        //steppers wrap around to other value
+        tairStepper.wraps = true
+        aairStepper.wraps = true
+        //if user holds down, the values will continue to change
+        tairStepper.autorepeat = true
+        aairStepper.autorepeat = true
+        
+        //stakeholder given values
+        tairStepper.maximumValue = 10.0
+        aairStepper.maximumValue = 25.0
+        tairStepper.minimumValue = -25.0 
+        aairStepper.minimumValue = 0.0
         
         //update labels to include units in superscript form
         let bigFont = UIFont(name: "Helvetica", size: 17)!
