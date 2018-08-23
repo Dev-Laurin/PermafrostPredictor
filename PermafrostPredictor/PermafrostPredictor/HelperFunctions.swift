@@ -9,6 +9,17 @@
 import Foundation
 import UIKit
 
+func intersects(newY: CGFloat, label: UILabel, frames: [CGRect])->Bool{
+    let maxY = newY + label.frame.height
+    for f in frames {
+        if (maxY > f.minY && newY < f.minY) || (newY <= f.maxY && maxY >= f.maxY){
+            //it intersects
+            return true
+        }
+    }
+    return false
+}
+
 func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeight: CGFloat, minValue: CGFloat)->CGFloat{
     return (newHeight * (maxValue/maxHeight)) + minValue
 }

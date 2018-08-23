@@ -239,7 +239,7 @@ class ViewController: UIViewController {
         //Tair
         tempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY + tempLabel.frame.height + padding/4)
         //Snow
-        snowLabel.frame.origin = CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: skyView.frame.height - snowLabel.frame.height - padding/4)
+        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
         //Organic
         groundLabel.frame.origin = CGPoint(x: organicLayer.frame.maxX - groundLabel.frame.width - padding/4, y: padding/4)
         //ALT
@@ -303,16 +303,7 @@ class ViewController: UIViewController {
          permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
     
-    func intersects(newY: CGFloat, label: UILabel, frames: [CGRect])->Bool{
-        let maxY = newY + label.frame.height
-        for f in frames {
-            if (maxY > f.minY && newY < f.minY) || (newY <= f.maxY && maxY >= f.maxY){
-                //it intersects
-                return true
-            }
-        }
-        return false
-    }
+    
     
     //Snow layer was tapped - display values for entering
     @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
