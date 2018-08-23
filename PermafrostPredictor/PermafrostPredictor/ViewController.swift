@@ -265,15 +265,11 @@ class ViewController: UIViewController {
         ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
 
         //update the display
-        print("ALT: " )
-        print(ALT)
         ALT = roundToHundredths(num: ALT)
         permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
         permafrostLabel.sizeToFit()
         
         //update ground temperature label
-        print("Tgs:")
-        print(Tgs)
         if(Tgs.isNaN){
             groundTempLabel.text = "Mean Annual Ground Temp = " + "NaN" + " °C"
         }
@@ -291,11 +287,11 @@ class ViewController: UIViewController {
             barHeight = 44.0
         }
         
-        var zeroInView = barHeight + padding/2
+        let zeroInView = barHeight + padding/2
         
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
-        var groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
+        let groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
         var groundFrame = groundLabel.frame
         
         groundFrame.origin = CGPoint(x: 0, y: groundY)
@@ -325,7 +321,7 @@ class ViewController: UIViewController {
         textBoxPopup.addTitle(title: "Snow Layer")
         let bigFont = UIFont(name: "Helvetica", size: 17)!
         let smFont = UIFont(name: "Helvetica", size: 14)!
-        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        let heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
         textBoxPopup.addTitle(title: heatCapacityUnits)
         
         //Cs
@@ -387,7 +383,7 @@ class ViewController: UIViewController {
         //Volumetric Heat capacity
         let bigFont = UIFont(name: "Helvetica", size: 17)!
         let smFont = UIFont(name: "Helvetica", size: 14)!
-        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        let heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
         textBoxPopup.addTitle(title: heatCapacityUnits)
         //Cvt - "thawed" volumetric heat capacity & Cvf
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
@@ -448,8 +444,8 @@ class ViewController: UIViewController {
         //Add units to porosity label with superscript
         let bigFont = UIFont(name: "Helvetica", size: 17)!
         let smFont = UIFont(name: "Helvetica", size: 14)!
-        var porosityLabel = superscriptTheString(str: "Porosity [m", toSuper: "3", strAtEnd: "/m", bigFont: bigFont, smallFont: smFont)
-        var porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
+        let porosityLabel = superscriptTheString(str: "Porosity [m", toSuper: "3", strAtEnd: "/m", bigFont: bigFont, smallFont: smFont)
+        let porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
         porosityLabel.append(porosityLabelEnding)
         textBoxPopup.addTitle(title: porosityLabel)
         textBoxPopup.addTextField(text: String(eta), tag: 0)
@@ -458,7 +454,7 @@ class ViewController: UIViewController {
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         textBoxPopup.addTextFields(text: String(Kmt), text2: String(Kmf), outputTag1: 1, outputTag2: 2)
         
-        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        let heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
         textBoxPopup.addTitle(title: heatCapacityUnits)
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         textBoxPopup.addTextFields(text: String(Cmt), text2: String(Cmf), outputTag1: 3, outputTag2: 4)
@@ -473,7 +469,9 @@ class ViewController: UIViewController {
     func mineralPopupButtonPressend(dictionary: [Int: String]){
         var dict = dictionary
         
-        checkIfValidNumber(tag: 0, variable: &eta, errorMessage: "Invalid Porosity", dict: &dict)
+        if !checkIfValidNumber(tag: 0, variable: &eta, errorMessage: "Invalid Porosity", dict: &dict) {
+            return
+        }
         //Porosity is between 0 and 1
         if(eta > 1){
             eta = 1
@@ -586,7 +584,7 @@ class ViewController: UIViewController {
         if let view = recognizer.view{
             
             //The new yVal of the line
-            var newLineYValue = view.frame.minY + translation.y
+            let newLineYValue = view.frame.minY + translation.y
 
             //We are moving the ground layer
             if view == lineGround {
@@ -722,7 +720,7 @@ class ViewController: UIViewController {
             barHeight = 44.0
         }
 
-        var zeroInView = barHeight + padding/2
+        let zeroInView = barHeight + padding/2
         
         //the maximum the permafrost line can go to not interfere with bottom labels
         let maxY = screenHeight - (padding * (3/4)) - (groundLabel.frame.height * 2) - permafrostImageView.frame.height //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4

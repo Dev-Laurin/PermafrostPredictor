@@ -92,44 +92,25 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     //Computing an effect of snow cover
     let a = 2*Aair*Cvf/(L*eta)
     let b = abs(Tair)*2*Cvf/(L*eta)
-    print(a+1)
-    print(b+1)
-    print((a+1)/(b+1))
-    print((a-b) - log((a+1)/(b+1)))
-    print("Denominator: " + String(describing: ((a-b)-log((a+1)/(b+1))) ))
-    print("Numerator: " + String(describing: Cvf*(a-b)))
-    print(((Cvf*(a-b)) / ((a-b)-log((a+1)/(b+1)))))
 
     let Cfe = (Cvf*(a-b))/((a-b)-log((a+1)/(b+1))) // if a == b, log(0) == 0 == dividing by 0
     let mu = (sqrt(Ks*Cs)-sqrt(Kvf*Cfe))/(sqrt(Ks*Cs)+sqrt(Kvf*Cfe))
     let r=2*Hs*sqrt(pi*Cs/(tau*Ks))
     let s = exp(r) + 2*mu*cos(r) + mu*mu*exp(-r)
-    print("a: " + String(describing: a))
-    print("b: " + String(describing: b))
-    print("Cfe: " + String(describing: Cfe))
-    print("Cvf: " + String(describing: Cvf))
-    print("r: " + String(describing: r))
-    print("s: " + String(describing: s))
-    print("mu: " + String(describing: mu))
     
     let da   = Aair*(1-(1+mu)/sqrt(s))
     let dAs = da*tau_w/tau
     let dTs = (2/pi)*dAs
     let Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
     let Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
-    print("da: " + String(describing: da))
-    print("dAs: " + String(describing: dAs))
-    print("dTs: " + String(describing: dTs))
-    print("tau: " + String(describing: tau))
-    
+
     //Computing an effect of the vegetation layer
     let daw = (Avs - Tvs)*(1-exp(-Hv*sqrt(pi/(Dvf*2*tau_w))))
     let das = (Aair - Tair)*(1-exp(-Hv*sqrt(pi/(Dvt*2*tau_s))))
     
     let dAv = (daw*tau_w + das*tau_s)/tau
     let dTv = (daw*tau_w - das*tau_s)/tau*2/pi
-    print("Tvs: " + String(describing: Tvs))
-    print("dTv: " + String(describing: dTv))
+
     Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
     let Ags=Avs-dAv    //Amplitude of the temperature at the top of mineral layer
 

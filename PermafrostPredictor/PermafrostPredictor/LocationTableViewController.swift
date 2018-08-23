@@ -144,7 +144,7 @@ class LocationTableViewController: UITableViewController {
             }
             //the view controller after navigation should be the detail view
             guard let locationDetailViewController = navController.topViewController as? LocationViewController else{
-                fatalError("Expected detail controller: \(navController.topViewController)")
+                fatalError("Expected detail controller: \(String(describing: navController.topViewController))")
             }
             //pass the current UI data
             locationDetailViewController.location = uiLocation
@@ -156,7 +156,7 @@ class LocationTableViewController: UITableViewController {
             }
             //get the selected cell
             guard let cell = sender as? UITableViewCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             //get the index of the selected cell
             guard let indexPath = tableView.indexPath(for: cell) else {
@@ -168,17 +168,15 @@ class LocationTableViewController: UITableViewController {
             locationDetailViewController.location = selectedLocation
         
         case "LoadUI":
-            print("Loading UI")
             //downcast the destination view controller
             guard let viewController = segue.destination as? ViewController else {
                 fatalError("Expected destination: \(segue.destination)")
             }
             //get the selected cell
             guard let button = sender as? UIButton else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             guard let cell = button.superview?.superview as? LocationTableViewCell else {
-                print(button.superview?.superview)
                 fatalError("Could not get tableviewcell from button superview")
                 
             }
@@ -192,7 +190,7 @@ class LocationTableViewController: UITableViewController {
             viewController.location = selectedLocation
             
         default:
-            fatalError("Unexpected segue identifier: \(segue.identifier)")
+            fatalError("Unexpected segue identifier: \(String(describing: segue.identifier))")
         }
     }
     //MARK: Private Methods

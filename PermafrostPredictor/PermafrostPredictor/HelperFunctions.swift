@@ -37,18 +37,12 @@ func getUnits(topAverageValue: CGFloat, maxValue: CGFloat, maxHeight: CGFloat, n
 }
 
 func turnUnitsIntoHeight(value: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, minHeight: CGFloat, minValue: CGFloat)->CGFloat{
-    print("maxvalue:")
-    print(maxValue)
-    print("maxHeight:")
-    print(maxHeight)
-    print("value")
-    print(value)
     return ((value - minValue) * (maxHeight/maxValue)) + minHeight
 }
 
 func getHeightFromUnits(unit: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, percentage: CGFloat, topAverageValue: CGFloat )->CGFloat{
     var newHeight: CGFloat = 0.0
-    var heightAtSwitch = maxHeight * percentage
+    let heightAtSwitch = maxHeight * percentage
     //In the lower section of height
     if(unit <= topAverageValue){
         newHeight = turnUnitsIntoHeight(value: unit, maxHeight: heightAtSwitch, maxValue: topAverageValue, minHeight: 0.0, minValue: 0.0)

@@ -66,13 +66,13 @@ class LocationViewController: UIViewController {
         //update labels to include units in superscript form
         let bigFont = UIFont(name: "Helvetica", size: 17)!
         let smFont = UIFont(name: "Helvetica", size: 14)!
-        var heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+        let heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
         snowVolHeatCapacityLabel.attributedText = heatCapacityUnits
         organicVolHeatCapacityLabel.attributedText = heatCapacityUnits
         mineralVolHeatCapacityLabel.attributedText = heatCapacityUnits
 
-        var porosityLabel1 = superscriptTheString(str: "Porosity [m", toSuper: "3", strAtEnd: "/m", bigFont: bigFont, smallFont: smFont)
-        var porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
+        let porosityLabel1 = superscriptTheString(str: "Porosity [m", toSuper: "3", strAtEnd: "/m", bigFont: bigFont, smallFont: smFont)
+        let porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
         porosityLabel1.append(porosityLabelEnding)
         porosityLabel.attributedText = porosityLabel1
         

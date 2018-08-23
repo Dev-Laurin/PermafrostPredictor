@@ -176,9 +176,9 @@ class PermafrostPredictorTests: XCTestCase {
         var heightBound: CGFloat = 10
         var newYValue: CGFloat = 19 //just below the previous height bound
         
-        var lineHeight: CGFloat = 5
+        let lineHeight: CGFloat = 5
 
-        var screenHeight = UIScreen.main.bounds.height
+        let screenHeight = UIScreen.main.bounds.height
 
         //store our results
         var pViewHeightResult:CGFloat = 0
@@ -227,7 +227,7 @@ class PermafrostPredictorTests: XCTestCase {
         
         //Test 4 - other views ontop and below
         //given
-        var lowerScreenHeight: CGFloat = 500.0 // a view is below our previous and other view
+        let lowerScreenHeight: CGFloat = 500.0 // a view is below our previous and other view
         //when
         res = getMovement(previousViewMinY: previousMinY, previousViewHeight: previousHeight, previousHeightBound: previousHeightBound, heightBound: CGFloat(heightBound), newLineYValue: &newYValue, viewHeight: lineHeight, followingMinY: lowerScreenHeight, previousViewNewHeight: &pViewHeightResult, newHeight: &heightResult)
         //then
