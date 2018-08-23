@@ -263,19 +263,25 @@ class ViewController: UIViewController {
     func updatePermafrostLabel(){
         //update the value
         ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
-        if(ALT.isNaN){
-            //alert the user that this is not valid inputs (air temperatures are
-        }
+
         //update the display
+        print("ALT: " )
+        print(ALT)
         ALT = roundToHundredths(num: ALT)
         permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
         permafrostLabel.sizeToFit()
         
         //update ground temperature label
-        Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
-        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
-        groundTempLabel.sizeToFit()
-        
+        print("Tgs:")
+        print(Tgs)
+        if(Tgs.isNaN){
+            groundTempLabel.text = "Mean Annual Ground Temp = " + "NaN" + " °C"
+        }
+        else {
+            Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
+            groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
+            groundTempLabel.sizeToFit()
+        }
         
         var barHeight: CGFloat = 44.0
         if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
@@ -292,17 +298,9 @@ class ViewController: UIViewController {
         var groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
         var groundFrame = groundLabel.frame
         
-        print("organic thickness label: " + String(describing: groundImageView.frame.minY + groundLabel.frame.minY))
         groundFrame.origin = CGPoint(x: 0, y: groundY)
-        print("groundFrame minY: " + String(describing: groundFrame.minY))
-        print("groundFrame height: " + String(describing: groundFrame.height))
-        print("lineground: " + String(describing: lineGround.frame.maxY))
-        
+
         if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame])){
-            print(String(describing: permafrostLabel.frame.minY) + " max: " + String(describing: permafrostLabel.frame.maxY))
-            print("intersects")
-            print(groundFrame)
-            print(groundTempLabel.frame)
             //it intersects a label
             newY = groundTempLabel.frame.maxY + padding/4
         }

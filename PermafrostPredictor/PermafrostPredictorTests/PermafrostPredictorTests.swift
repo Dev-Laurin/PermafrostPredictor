@@ -115,6 +115,10 @@ class PermafrostPredictorTests: XCTestCase {
         //test given by stakeholder - May 22, 2018
         var temp: Double = 0
         XCTAssert(roundToThousandths(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15))) == 0.86)
+        
+        //Test with units that cause NaN
+        XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15).isNaN)
+        
     }
     
     //testing the popup class
