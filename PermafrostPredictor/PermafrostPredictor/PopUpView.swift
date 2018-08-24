@@ -299,7 +299,7 @@ class PopUpView: UIView{
     }
     
     //resizes the view to contain the elements inside, up to the screen size
-    func resizeView(){
+    func resizeView(navBarHeight: CGFloat){
         if(self.subviews.count == 0){
             return // we have no views to resize
         }
@@ -326,7 +326,7 @@ class PopUpView: UIView{
         var newWidth = maxWidth + (padding * 4)
         var newHeight = totalHeight + (padding) //padding is included in currentY as views are added
         
-        let screenHeight = UIScreen.main.bounds.height
+        let screenHeight = UIScreen.main.bounds.height + navBarHeight
         let screenWidth = UIScreen.main.bounds.width
         
         //bound the view to grow to screen size only

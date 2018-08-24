@@ -329,7 +329,17 @@ class ViewController: UIViewController {
         addGreyedOutView()
         
         //resize view to fit elements
-        textBoxPopup.resizeView()
+        updatePermafrostLabel()
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
+        
+        let zeroInView = barHeight + padding/2
+        textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         self.view.addSubview(textBoxPopup)
     }
@@ -386,7 +396,18 @@ class ViewController: UIViewController {
         textBoxPopup.addButton(buttonText: "Submit", callback: popUpButtonPressed)
         
         //resize popup to fit the elements better - cleaner look
-        textBoxPopup.resizeView()
+        updatePermafrostLabel()
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
+        
+        let zeroInView = barHeight + padding/2
+        
+        textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         //create a greyed out view to go underneath so user knows this popup is active
         addGreyedOutView()
@@ -452,7 +473,18 @@ class ViewController: UIViewController {
         textBoxPopup.addTextFields(text: String(Cmt), text2: String(Cmf), outputTag1: 3, outputTag2: 4)
         textBoxPopup.addButton(buttonText: "Submit", callback: mineralPopupButtonPressend)
         
-        textBoxPopup.resizeView()
+        updatePermafrostLabel()
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
+        
+        let zeroInView = barHeight + padding/2
+        
+        textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         addGreyedOutView()
         self.view.addSubview(textBoxPopup)
