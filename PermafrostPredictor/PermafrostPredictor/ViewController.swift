@@ -81,6 +81,9 @@ class ViewController: UIViewController {
     var ALT: CGFloat //Active Layer Thickness
     
     var location: Location
+    
+    //where the view actually starts being drawn (taking out navbar)
+    var zeroInView: CGFloat
 
     //MARK: Initialization
     /**
@@ -136,7 +139,9 @@ class ViewController: UIViewController {
         ALT = 0 //our ALT in meters
         Tair = 10.0 //Mean annual air temperature
         Aair = 25.0 //Amplitude of the air temperature
-
+        
+        //Wait until views are loaded to set real value
+        zeroInView = 0
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -186,6 +191,16 @@ class ViewController: UIViewController {
         groundTempLabel.sizeToFit()
         
         drawPermafrost()
+        
+        var barHeight: CGFloat = 44.0
+        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+            barHeight = navBarHeight
+        }
+        else {
+            barHeight = 44.0
+        }
+        
+        zeroInView = barHeight + padding/2
         
     }
     
@@ -280,16 +295,6 @@ class ViewController: UIViewController {
             groundTempLabel.sizeToFit()
         }
         
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
-            barHeight = navBarHeight
-        }
-        else {
-            barHeight = 44.0
-        }
-        
-        let zeroInView = barHeight + padding/2
-        
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
         let groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
@@ -329,16 +334,6 @@ class ViewController: UIViewController {
         addGreyedOutView()
         
         //resize view to fit elements
-        updatePermafrostLabel()
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
-            barHeight = navBarHeight
-        }
-        else {
-            barHeight = 44.0
-        }
-        
-        let zeroInView = barHeight + padding/2
         textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         self.view.addSubview(textBoxPopup)
@@ -396,17 +391,6 @@ class ViewController: UIViewController {
         textBoxPopup.addButton(buttonText: "Submit", callback: popUpButtonPressed)
         
         //resize popup to fit the elements better - cleaner look
-        updatePermafrostLabel()
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
-            barHeight = navBarHeight
-        }
-        else {
-            barHeight = 44.0
-        }
-        
-        let zeroInView = barHeight + padding/2
-        
         textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         //create a greyed out view to go underneath so user knows this popup is active
@@ -472,17 +456,6 @@ class ViewController: UIViewController {
         textBoxPopup.addLabels(text: "thawed", text2: "frozen")
         textBoxPopup.addTextFields(text: String(Cmt), text2: String(Cmf), outputTag1: 3, outputTag2: 4)
         textBoxPopup.addButton(buttonText: "Submit", callback: mineralPopupButtonPressend)
-        
-        updatePermafrostLabel()
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
-            barHeight = navBarHeight
-        }
-        else {
-            barHeight = 44.0
-        }
-        
-        let zeroInView = barHeight + padding/2
         
         textBoxPopup.resizeView(navBarHeight: zeroInView)
         
@@ -736,16 +709,7 @@ class ViewController: UIViewController {
     func drawPermafrost(){
 
         updatePermafrostLabel()
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
-            barHeight = navBarHeight
-        }
-        else {
-            barHeight = 44.0
-        }
 
-        let zeroInView = barHeight + padding/2
-        
         //the maximum the permafrost line can go to not interfere with bottom labels
         let maxY = screenHeight - (padding * (3/4)) - (groundLabel.frame.height * 2) - permafrostImageView.frame.height //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
  
