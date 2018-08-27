@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 /**
     Our one-page app. This is where everything happens, the view controller.
@@ -80,9 +81,10 @@ class ViewController: UIViewController {
     var Aair : CGFloat //Amplitude of the air temperature
     var ALT: CGFloat //Active Layer Thickness
     
+    //Our location object so we can pass our values and load other locations from this UI easily
     var location: Location
     
-    //where the view actually starts being drawn (taking out navbar)
+    //where the view actually starts being drawn (taking out the navbar)
     var zeroInView: CGFloat
 
     //MARK: Initialization
@@ -96,15 +98,17 @@ class ViewController: UIViewController {
          ````
     */
     required init(coder: NSCoder){
+        
         //default
         location = Location()
+
         
         //screen size
         screenHeight = UIScreen.main.bounds.height 
         screenWidth = UIScreen.main.bounds.width
 
-        //max image view heights
-        maxSnowHeight = 0.0
+        //max image view heights - some of these will change later
+        maxSnowHeight = 0.0  //changes later when the views load according to storyboard
         maxGroundHeight = 0.0
         groundMaxUnitHeight = 0.25
         maxOrganicLayerHeight = (screenHeight * 0.15)
@@ -145,11 +149,25 @@ class ViewController: UIViewController {
         
         //Call the super version, recommended
         super.init(coder: coder )!
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationWillResignActive, object: nil)
+    }
+    
+    @objc func suspending(_ notification: Notification){
+        print("Suspending.")
+        saveUILocation()
     }
     
     //MARK: viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //if the user had manipulated the UI before - load the last configuration
+        if let savedLocation = loadLocation() {
+            location = savedLocation[0] //only 1 is saved but it returns an array
+        }
+        
         // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
@@ -206,7 +224,14 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        draw()
+        draw() //set initial
+        
+        //if the user was working on a location last time that was saved - load that into the UI to continue
+        if(location != Location()) {
+            print(location.Hs)
+            loadUI()
+        }
+        
     }
     
     //Draw our views programmatically based on our screen size
@@ -614,6 +639,10 @@ class ViewController: UIViewController {
         }
         //send the location created by the user using the UI in case the user wants to make a new one
         locationTableViewController.uiLocation = Location(name: "current", Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: Tgs, eta: eta, Ks: Ks, Tair: Double(Tair), Aair: Double(Aair), ALT: Double(ALT)) ?? Location()
+        
+        //save our configuration in case nothing changes
+        saveUILocation()
+        
     }
     
     //MARK: Helper Functions
@@ -749,7 +778,12 @@ class ViewController: UIViewController {
     @IBAction func unwindToUI(sender: UIStoryboardSegue){
 
         //TODO STOP UNITS FROM GOING OVER -> USER CAN ENTER INPUTS TOO LARGE? AND ROUNDING
+        loadUI()
         
+    }
+    
+    func loadUI(){
+        print("loadUI")
         //load the location values in
         Kvf = location.Kvf
         Kvt = location.Kvt
@@ -768,40 +802,48 @@ class ViewController: UIViewController {
         Tair = CGFloat(location.Tair)
         Aair = CGFloat(location.Aair)
         ALT = CGFloat(location.ALT)
-
         
         //Update Temp labels
         tempLabel.text = String("Mean Air Temp = " + String(describing: Tair) + " °C")
         tempLabel.sizeToFit()
         updateAairLabel(newText: String(describing: Aair))
+        
         //Update SkyView
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: screenWidth, height: snowLineView.frame.minY))
-        
         
         //Update Snow Layer
         //change the positions of the views to match
         var newHeight = getHeightFromUnits(unit: CGFloat(Hs), maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
-        //update label
-        updateSnowLabel()
         //draw views based on new heights
         redrawSnowBasedOnNewHeight(newHeight: newHeight)
+        //update label
+        updateSnowLabel()
         
         //draw organic layer's height
-        
         newHeight = getHeightFromUnits(unit: CGFloat(Hv), maxHeight: maxOrganicLayerHeight, maxValue: groundMaxUnitHeight, percentage: 0.0, topAverageValue: 0.0)
         redrawOrganicBasedOnNewHeight(newHeight: newHeight)
-
+        
         updateOrganicLabel()
+        
+        updateMineralLayer()
+        
         //Update ALT and Tgs labels
         drawPermafrost()
     }
     
     func redrawSnowBasedOnNewHeight(newHeight: CGFloat){
-         snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.minY - snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
+         snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.minY - newHeight), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
+        snowLineView.frame.origin = CGPoint(x: 0.0, y: snowImageView.frame.minY - snowLineView.frame.height)
     }
     
     func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
-        organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
+        organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
+        lineGround.frame.origin = CGPoint(x: 0.0, y: organicLayer.frame.maxY )
+    }
+    
+    func updateMineralLayer(){
+        var maxY = groundImageView.frame.maxY
+        groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: maxY - staticLineGround.frame.maxY))
     }
     
     func updateSnowLabel(){
@@ -816,7 +858,7 @@ class ViewController: UIViewController {
         
         //redraw the label to end in the same place on the screen
         let snowLabelNewX: CGFloat = organicLayer.frame.maxX - snowLabel.frame.width - padding/4
-        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: snowLabel.frame.minY), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
     }
     
     func updateOrganicLabel(){
@@ -831,6 +873,42 @@ class ViewController: UIViewController {
         let groundLabelNewX: CGFloat = organicLayer.frame.maxX - groundLabel.frame.width - padding/4
         let groundLabelNewY: CGFloat = padding/4
         groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
+    }
+    
+    //load the UI values into the location variable
+    func updateLocation(){
+        location.Kvf =  Kvf
+        location.Kvt = Kvt
+        location.Kmf = Kmf
+        location.Kmt = Kmt
+        location.Cmf = Cmf
+        location.Cmt = Cmt
+        location.Cvf = Cvf
+        location.Cvt = Cvt
+        location.Hs = Hs
+        location.Hv = Hv
+        location.Cs = Cs
+        location.Tgs = Tgs
+        location.eta = eta
+        location.Ks = Ks
+        location.Tair = Double(Tair)
+        location.Aair = Double(Aair)
+        location.ALT = Double(ALT)
+    }
+    
+    private func saveUILocation(){
+        updateLocation()
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(location, toFile: Location.oneLocationURL.path)
+        if isSuccessfulSave {
+            os_log("Location successfully saved.", log: OSLog.default, type: .debug)
+        }
+        else{
+            os_log("Failed to save locations...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadLocation()->[Location]?{
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Location.oneLocationURL.path) as? [Location]
     }
 
 }
