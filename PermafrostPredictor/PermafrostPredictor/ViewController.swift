@@ -155,7 +155,6 @@ class ViewController: UIViewController {
     }
     
     @objc func suspending(_ notification: Notification){
-        print("Suspending.")
         saveUILocation()
     }
     
@@ -228,7 +227,6 @@ class ViewController: UIViewController {
         
         //if the user was working on a location last time that was saved - load that into the UI to continue
         if(location != Location()) {
-            print(location.Hs)
             loadUI()
         }
         
@@ -306,7 +304,7 @@ class ViewController: UIViewController {
         ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
 
         //update the display
-        ALT = roundToHundredths(num: ALT)
+        ALT = round(num: ALT, format: ".2")
         permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
         permafrostLabel.sizeToFit()
         
@@ -315,7 +313,7 @@ class ViewController: UIViewController {
             groundTempLabel.text = "Mean Annual Ground Temp = " + "NaN" + " °C"
         }
         else {
-            Tgs = Double(roundToHundredths(num: CGFloat(Tgs)))
+            Tgs = Double(round(num: CGFloat(Tgs), format: ".2"))
             groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
             groundTempLabel.sizeToFit()
         }
@@ -569,8 +567,8 @@ class ViewController: UIViewController {
         atmosTemp += Aair
 
        
-        //Round to the Hundredths place
-        temp = roundToTenths(num: temp)
+        //round to tenths
+        temp = round(num: temp, format: ".1")
         if(temp < -25){
             temp = -25
         }
@@ -580,7 +578,7 @@ class ViewController: UIViewController {
         tempLabel.text = String("Mean Air Temp = " + String(describing: temp) + " °C")
         tempLabel.sizeToFit()
         
-        atmosTemp = roundToTenths(num: atmosTemp)
+        atmosTemp = round(num: atmosTemp, format: ".1")
         if(atmosTemp < 0){
             atmosTemp = 0
         }
@@ -677,7 +675,7 @@ class ViewController: UIViewController {
         if(validMovement){
             
             Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
-            Hs = Double(roundToHundredths(num: CGFloat(Hs)))
+            Hs = Double(round(num: CGFloat(Hs), format: ".2"))
             
             if(Hs == 0.0){
                 snowLabel.text = "No Snow"
@@ -716,7 +714,7 @@ class ViewController: UIViewController {
         if(validMovement){
             var num = getUnits(topAverageValue: 0, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0)
             
-            num = roundToHundredths(num: num)
+            num = round(num: num, format: ".2")
             Hv = Double(num)
         }
         updateOrganicLabel()
@@ -783,7 +781,6 @@ class ViewController: UIViewController {
     }
     
     func loadUI(){
-        print("loadUI")
         //load the location values in
         Kvf = location.Kvf
         Kvt = location.Kvt
@@ -842,7 +839,7 @@ class ViewController: UIViewController {
     }
     
     func updateMineralLayer(){
-        var maxY = groundImageView.frame.maxY
+        let maxY = groundImageView.frame.maxY
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: maxY - staticLineGround.frame.maxY))
     }
     

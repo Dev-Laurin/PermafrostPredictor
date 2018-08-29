@@ -1,6 +1,14 @@
-version: "Apple Swift version 4.0.3 (swiftlang-900.0.74.1 clang-900.0.39.2)"
-options: "fa020c06b226daa6432a55bcf62af5a8"
-build_time: [1520642207, 168645000]
+version: "Apple Swift version 4.1.2 (swiftlang-902.0.54 clang-902.0.39.2)"
+options: "6dca9386075891f3b5acd24563d938db"
+build_time: [1535499067, 972867000]
 inputs:
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/matlabConvertedFunctions.swift": [9223372036, 854775807]
   "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/HelperFunctions.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewController.swift": [9223372036, 854775807]
   "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/AppDelegate.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewCell.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationViewController.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift": [9223372036, 854775807]
+  "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift": [9223372036, 854775807]

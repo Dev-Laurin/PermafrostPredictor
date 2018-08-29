@@ -25,11 +25,6 @@ class PermafrostPredictorTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
@@ -48,7 +43,6 @@ class PermafrostPredictorTests: XCTestCase {
         //Assert
         XCTAssert(newImage.size.height == newImageSize)
         
-        
         //Test if imageview sized, then image cropped, then imageView sized again works?
         imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.minX, y: imageView.frame.minY), size: CGSize(width: imageView.frame.width, height: newImageSize))
         imageView.image = newImage
@@ -56,8 +50,6 @@ class PermafrostPredictorTests: XCTestCase {
         //Assert
         XCTAssert(newImage.size.height == newImageSize)
         XCTAssert(imageView.image?.size.height == newImageSize)
-        
-        
         
         //Test uploading the image again, cropping, and changing imageView bounds
         let img = UIImage(named: "Sun")
@@ -83,18 +75,35 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert(turnTranslationIntoTemp(translation: CGPoint(x: 0, y:0)) == 0)
     }
     
-    func testRoundToHundredths(){
-        XCTAssert(roundToHundredths(num: 1.55555) == 1.56)
-        XCTAssert(roundToHundredths(num: 0.05) == 0.05)
-        XCTAssert(roundToHundredths(num: -3.356) == -3.36)
-        XCTAssert(roundToHundredths(num: 1.22222) == 1.22)
-    }
-    
-    func testRoundToThousandths(){
-        XCTAssert(roundToThousandths(num: 1.7772) == 1.777)
-        XCTAssert(roundToThousandths(num: 0.05) == 0.05)
-        XCTAssert(roundToThousandths(num: -4.2323) == -4.232)
-        XCTAssert(roundToThousandths(num: 3.2347) == 3.235)
+    func testRound() {
+        //Tenths
+        //round up
+        var num: CGFloat = 2.555
+        XCTAssert(round(num: num, format: ".1") == 2.6)
+        
+        //round down
+        num = 2.54
+        XCTAssert(round(num: num, format: ".1") == 2.5)
+        
+        //Hundredths
+        num = 1.55555
+        XCTAssert(round(num: num, format: ".2") == 1.56)
+        num = 0.05
+        XCTAssert(round(num: num, format: ".2") == 0.05)
+        num = -3.356
+        XCTAssert(round(num: num, format: ".2") == -3.36)
+        num = 1.22222
+        XCTAssert(round(num: num, format: ".2") == 1.22)
+        
+        //Thousandths
+        num = 1.7772
+        XCTAssert(round(num: num, format: ".3") == 1.777)
+        num = 0.05
+        XCTAssert(round(num: num, format: ".3") == 0.05)
+        num = -4.2323
+        XCTAssert(round(num: num, format: ".3") == -4.232)
+        num = 3.2347
+        XCTAssert(round(num: num, format: ".3") == 3.235)
     }
     
     func testChangeViewsYValue(){
@@ -107,57 +116,6 @@ class PermafrostPredictorTests: XCTestCase {
         tempView = changeViewsYValue(view: tempView, newX: -50, newY: 0)
         XCTAssert(tempView.frame.minX == -50)
         XCTAssert(tempView.frame.minY == 0)
-        
-    }
-
-    //test the permafrost calculating functions
-    func testMatlabConvertedFunctions(){
-        //test given by stakeholder - May 22, 2018
-        var temp: Double = 0
-        XCTAssert(roundToThousandths(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15))) == 0.86)
-        
-        //Test with units that cause NaN
-        XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15).isNaN)
-        
-    }
-    
-    //testing the popup class
-    func testPopupView(){
-        //test the default size
-        let screenHeight = UIScreen.main.bounds.height
-        let screenWidth = UIScreen.main.bounds.width
-        
-        //popup should initially be 75% of the screen - until resizing
-        let height = screenHeight * 0.75
-        let width = screenWidth * 0.75
-        let popup = PopUpView()
-        XCTAssert(popup.frame.width == width)
-        XCTAssert(popup.frame.height == height)
-        
-        //resize an empty popup
-        popup.resizeView()
-        XCTAssert(popup.frame.width == width)
-        XCTAssert(popup.frame.height == height)
-        
-        //call the non-existant callback? - inaccessable - pass
-        //popup.submitButtoncallback([1: "test"])
-        
-        //resize a popup with a title
-        popup.addTitle(title: "test")
-        popup.resizeView()
-        
-        //add a button - test callback
-        popup.addButton(buttonText: "submit", callback: buttonPressed)
-        
-        //calling button pressed functions early - unaccessable -pass
-        //popup.submitButtonPressed()
-        
-        popup.exit()
-    }
-    
-    //for the popup class test - the button callback
-    func buttonPressed(dict: [Int: String]){
-        //nothing - doesn't get called due to lack of UI
     }
 
     //test the getmovement helper function -- no longer requires UIViews, so we can
@@ -209,7 +167,6 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert(res==true)
         XCTAssert(Int(pViewHeightResult) == Int(30.0))
         XCTAssert(Int(heightResult) == Int(screenHeight - (newYValue + lineHeight)))
-        print(Int(screenHeight - (newYValue + lineHeight)))
         
         
         //Test 3 - invalid - our other view is too small - previous overstretched
@@ -236,16 +193,155 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert(Int(heightResult)==Int(heightBound))
     }
 
-    func testLocationClass(){
-        var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0)
-        XCTAssertNotNil(location)
+    func testGetHeightFromUnits(){
         
-        location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
-        XCTAssertNil(location)
+        //Test Snow View above the average height
+        let maxSnowHeight: CGFloat = 400.0
+        var newHeight = getHeightFromUnits(unit: 2.5, maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        var unit = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newHeight, percentage: 0.66)
+
+        //can't compare floats easily == 2.5
+        XCTAssert( 2.4 < unit && unit < 2.6 )
         
-        //test that values don't crash app (vc. ) 
+        //Test Snow below average height
+        newHeight = getHeightFromUnits(unit: 0.5, maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        unit = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newHeight, percentage: 0.66)
+        //can't compare floats easily == 0.5
+        XCTAssert( 0.4 < unit && unit < 0.6 )
+        
+        //Test Snow at average height
+        newHeight = getHeightFromUnits(unit: 1.0, maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        unit = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newHeight, percentage: 0.66)
+        
+        XCTAssert(newHeight == maxSnowHeight*0.66)
+        //can't compare floats easily == 1.0
+        XCTAssert( 0.9 < unit && unit < 1.1 )
+        
+        //Test Organic above
+        let maxOrganicHeight: CGFloat = 500.0
+        newHeight = getHeightFromUnits(unit: 0.25, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
+        
+        XCTAssert(newHeight == maxOrganicHeight)
+        //can't compare floats easily == 0.25
+        XCTAssert( 0.24 < unit && unit < 0.26 )
+        
+        //Test Organic below
+        newHeight = getHeightFromUnits(unit: 0.22, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
+        
+        //can't compare floats easily == 0.22
+        XCTAssert( 0.21 < unit && unit < 0.23 )
+    
+        //Test Organic at 0
+        newHeight = getHeightFromUnits(unit: 0, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
+        
+        XCTAssert(newHeight == 0.0)
+        //can't compare floats easily == 0
+        XCTAssert( -0.1 < unit && unit < 0.1 )
+        
     }
     
+    func testIntersects(){
+        let label = UILabel()
+        label.frame = CGRect(origin: CGPoint(x: 0.0, y: 44.0), size: CGSize(width: 40, height: 20))
+        let label1 = UILabel()
+        label1.frame = CGRect(origin: CGPoint(x: 0.0, y: 40.0), size: CGSize(width: 40, height: 20))
+        let label2 = UILabel()
+        label2.frame = CGRect(origin: CGPoint(x: 0.0, y: 100.0), size: CGSize(width: 40, height: 20))
+        
+        //Intersects
+        XCTAssert(intersects(newY: 44.0, label: label, frames: [label1.frame, label2.frame]))
+        //Doesn't intersect
+        XCTAssert(!intersects(newY: 44.0, label: label, frames: [label2.frame]))
+    }
+    
+    func testHeightMovementIntoUnits(){
+        
+        let result = turnHeightMovementIntoUnits(maxHeight: 100.0, maxValue: 5.0, newHeight: 50.0, minValue: 0.0)
+        XCTAssert(2.4 < result && result < 2.6)
+        
+        XCTAssert(turnHeightMovementIntoUnits(maxHeight: 0.0, maxValue: 0.0, newHeight: 0.0, minValue: 0.0).isNaN)
+    }
+    
+    func testTurnUnitsIntoHeight() {
+        
+    }
+    
+    func testSubscriptTheString() {
+        //test to see it doesn't crash -
+        let font = UIFont(name: "Helvetica", size: 20)!
+        let smallFont = UIFont(name: "Helvetica", size: 10)! //we want this smaller
+        let s = "X" //We want X_t with t subscripted
+        let stringToSubscript = "t"
+        _ = subscriptTheString(str: s, toSub: stringToSubscript, strAtEnd: "", bigFont: font,  smallFont: smallFont)
+        XCTAssert(true) // no crash - count it as a test passed
+    }
+    
+    func testSuperscriptTheString() {
+        let font = UIFont(name: "Helvetica", size: 20)!
+        let smallFont = UIFont(name: "Helvetica", size: 10)! //we want this smaller
+        let s = "X" //We want X^2
+        let stringToSuperscript = "2"
+        _ = superscriptTheString(str: s, toSuper: stringToSuperscript, strAtEnd: "", bigFont: font,  smallFont: smallFont)
+    }
+    
+    //MARK: matlabConvertedFunctions.swift
+    //test the permafrost calculating functions
+    func testMatlabConvertedFunctions(){
+        //test given by stakeholder - May 22, 2018
+        var temp: Double = 0
+        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15)), format: ".3") == 0.86)
+        
+        //Test with units that cause NaN
+        XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15).isNaN)
+        
+    }
+    
+    //MARK: PopUpView.swift
+    //testing the popup class
+    func testPopupView(){
+        //test the default size
+        let screenHeight = UIScreen.main.bounds.height
+        let screenWidth = UIScreen.main.bounds.width
+        //get the navigation bar height
+        let barHeight: CGFloat = 0.0
+        
+        //popup should initially be 75% of the screen - until resizing
+        let height = screenHeight * 0.75
+        let width = screenWidth * 0.75
+        let popup = PopUpView()
+        XCTAssert(popup.frame.width == width)
+        XCTAssert(popup.frame.height == height)
+        
+        //resize an empty popup
+        popup.resizeView(navBarHeight: barHeight)
+        XCTAssert(popup.frame.width == width)
+        XCTAssert(popup.frame.height == height)
+        
+        //call the non-existant callback? - inaccessable - pass
+        //popup.submitButtoncallback([1: "test"])
+        
+        //resize a popup with a title
+        popup.addTitle(title: "test")
+        popup.resizeView(navBarHeight: barHeight)
+        
+        //add a button - test callback
+        popup.addButton(buttonText: "submit", callback: buttonPressed)
+        
+        //calling button pressed functions early - unaccessable -pass
+        //popup.submitButtonPressed()
+        
+        popup.exit()
+    }
+    
+    //for the popup class test - the button callback
+    func buttonPressed(dict: [Int: String]){
+        //nothing - doesn't get called due to lack of UI
+    }
+    
+    //MARK: ViewController.swift
     func testPermafrostLinePosition(){
         
         //make sure permafrost line can't go above the solid ground line = 0.0m
@@ -271,7 +367,7 @@ class PermafrostPredictorTests: XCTestCase {
         //the minimum
         let min = vc.staticLineGround.frame.maxY
         XCTAssert(vc.permafrostImageView.frame.minY >= min)
-       
+        
         //it can't go below the the labels (intersect)
         vc.Kvf = 0.25
         vc.Kvt = 0.1
@@ -292,36 +388,18 @@ class PermafrostPredictorTests: XCTestCase {
         vc.drawPermafrost()
         //the maximum
         let max = UIScreen.main.bounds.height - (vc.padding * (3/4)) - (vc.groundLabel.frame.height * 2) - vc.permafrostImageView.frame.height
-        print("Max")
-        print(max)
-        print("Frame maxY")
-        print(vc.permafrostImageView.frame.maxY)
+        
         XCTAssert(vc.permafrostImageView.frame.maxY <= max)
-        print(vc.permafrostImageView.frame.minY)
-        
-        
     }
     
-    func testGetHeightFromUnits(){
+    //MARK: Location.swift
+    func testLocationClass(){
+        var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0)
+        XCTAssertNotNil(location)
         
-        //Test Snow View above the average height
-        let newHeight = getHeightFromUnits(unit: 2.5, maxHeight: vc.maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
-        let unit = getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: vc.maxSnowHeight, newHeight: newHeight, percentage: 0.66)
-        XCTAssert(unit == 2.5)
-        
-        //Test Snow below average height
-        
-        //Test Snow at average height
-        
-        //Test Organic above
-        
-        //Test Organic below
-        
-    
-        
+        location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
+        XCTAssertNil(location)
         
     }
-    
-    
     
 }

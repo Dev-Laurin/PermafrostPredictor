@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /**
- Class PopUpView: inherits from UIView. A class for an easy popupbox which can contain titles, labels, textfields, and a submit button. Titles and buttons are one column while the labels and fields are two columns. ELements are automatically centered.
+ Class PopUpView: inherits from UIView. A class for an easy popupbox which can contain titles, labels, textfields, and a submit button. Titles and buttons are one column while the labels and fields are two columns. Elements are automatically centered.
  
  Important: tags are used to keep track of the textfields when the submit button is pressed in the textFields array. This class is to be paired with a greyed out view with tag 100 for garbage collection.
  
@@ -61,16 +61,15 @@ class PopUpView: UIView{
     }
     
 /**
-     Sets the background color of the popup.
-     
-     -parameter color: An UIColor object.
-     # Usage Example: #
-     ````
-     var popup = PopUpView()
-     popup.setBackGroundColor(UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0))
-     ````
+ Sets the background color of the popup.
+ 
+ -parameter color: An UIColor object.
+ # Usage Example: #
+ ````
+ var popup = PopUpView()
+ popup.setBackGroundColor(UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0))
+ ````
  */
-    //user can set the textbox's background color
     func setBackGroundColor(color: UIColor){
         self.backgroundColor = color
     }
@@ -90,7 +89,6 @@ class PopUpView: UIView{
      popup.addButton("Submit", buttonPressed)
      ````
 */
-    //Add a button to the view.
     func addButton(buttonText: String, callback: @escaping (_ textFields: [Int: String])->Void){
         
         //give extra space on the sides of the button by making it have a big initial text
