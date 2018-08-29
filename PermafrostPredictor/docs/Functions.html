@@ -13,7 +13,7 @@
     <a title="Functions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> Docs</a> (7% documented)</p>
+        <p><a href="index.html"> Docs</a> (8% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -470,7 +470,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Given a height, get the corresponding unit value according to the maximum value to maximum height ratio. Meant for positive numbers, with maxHeight != 0.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">turnHeightMovementIntoUnits</span><span class="p">(</span><span class="nv">maxHeight</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nv">newHeight</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span> <span class="nv">minValue</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="c1">//Result == 2.5</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -480,6 +484,61 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">turnHeightMovementIntoUnits</span><span class="p">(</span><span class="nv">maxHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">newHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">minValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">CGFloat</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum height the view can have.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new height of the view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The minimum value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -497,7 +556,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get the value/unit at the given height of the view.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">getUnits</span><span class="p">(</span><span class="nv">topAverageValue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nv">maxHeight</span><span class="p">:</span> <span class="n">maxSnowHeight</span><span class="p">,</span> <span class="nv">newHeight</span><span class="p">:</span> <span class="n">newImageViewHeight</span><span class="p">,</span> <span class="nv">percentage</span><span class="p">:</span> <span class="mf">0.66</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -507,6 +569,73 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getUnits</span><span class="p">(</span><span class="nv">topAverageValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">maxHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">newHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">percentage</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">CGFloat</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>topAverageValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value where the switch in the increase/decrease rate changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum height of the view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new height of the view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>percentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The percentage of the height where the value rate changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -524,7 +653,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get the corresponding view height given a value and the max height max value ratio.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">turnUnitsIntoHeight</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nv">maxHeight</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nv">minHeight</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">minValue</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="c1">//Result == 100</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -534,6 +667,73 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">turnUnitsIntoHeight</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">maxHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">maxValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">minHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">minValue</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">CGFloat</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The unit/value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum height the view can be.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum value the view can be.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The minimum height the view has to be.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minValue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The minimum value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -650,7 +850,16 @@
                       <div class="abstract">
                         <p>Given information about 2 views, this function gives you the new height of both the previous view and the current view, seperated by lineViews. This gives the correct new sizes so that the views still cover the parent view (one view shrink or grows the other.) This also calculates the heights in respect to given bounds (can&rsquo;t shrink beyond this&hellip; can&rsquo;t grow beyond that&hellip;). It returns true or false if the movement was valid or not (no bounds were hit).</p>
 <h1 id='usage-example' class='heading'>Usage Example:</h1>
-<pre class="highlight swift"><code>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">newLineYValue</span> <span class="o">=</span> <span class="n">newY</span>
+<span class="k">let</span> <span class="nv">previousView</span> <span class="o">=</span> <span class="n">skyView</span>
+
+<span class="k">let</span> <span class="nv">skyViewHeightBound</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="n">sunView</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">maxY</span> <span class="o">+</span> <span class="n">tempLabel</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">padding</span><span class="o">/</span><span class="mi">2</span>
+<span class="k">let</span> <span class="nv">heightBound</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="k">var</span> <span class="nv">newImageViewHeight</span> <span class="o">=</span> <span class="n">staticLineGround</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">minY</span> <span class="o">-</span> <span class="p">(</span><span class="n">newLineYValue</span> <span class="o">+</span> <span class="n">view</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+<span class="k">var</span> <span class="nv">previousViewHeight</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="p">(</span><span class="n">previousView</span><span class="p">?</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">height</span><span class="p">)</span><span class="o">!</span>
+
+<span class="k">let</span> <span class="nv">validMovement</span> <span class="o">=</span> <span class="nf">getMovement</span><span class="p">(</span><span class="nv">previousViewMinY</span><span class="p">:</span> <span class="n">skyView</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">minY</span><span class="p">,</span> <span class="nv">previousViewHeight</span><span class="p">:</span> <span class="n">skyView</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="nv">previousHeightBound</span><span class="p">:</span> <span class="n">skyViewHeightBound</span><span class="p">,</span> <span class="nv">heightBound</span><span class="p">:</span> <span class="n">heightBound</span><span class="p">,</span> <span class="nv">newLineYValue</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">newLineYValue</span><span class="p">,</span> <span class="nv">viewHeight</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="nv">followingMinY</span><span class="p">:</span> <span class="n">staticLineGround</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">minY</span><span class="p">,</span> <span class="nv">previousViewNewHeight</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">previousViewHeight</span><span class="p">,</span> <span class="nv">newHeight</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">newImageViewHeight</span><span class="p">)</span>
 </code></pre>
 
                       </div>

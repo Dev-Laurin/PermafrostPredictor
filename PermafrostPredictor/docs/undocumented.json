@@ -57,27 +57,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/HelperFunctions.swift",
-      "line": 37,
-      "symbol": "turnHeightMovementIntoUnits(maxHeight:maxValue:newHeight:minValue:)",
-      "symbol_kind": "source.lang.swift.decl.function.free",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/HelperFunctions.swift",
-      "line": 41,
-      "symbol": "getUnits(topAverageValue:maxValue:maxHeight:newHeight:percentage:)",
-      "symbol_kind": "source.lang.swift.decl.function.free",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/HelperFunctions.swift",
-      "line": 64,
-      "symbol": "turnUnitsIntoHeight(value:maxHeight:maxValue:minHeight:minValue:)",
-      "symbol_kind": "source.lang.swift.decl.function.free",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
       "line": 12,
       "symbol": "Location",

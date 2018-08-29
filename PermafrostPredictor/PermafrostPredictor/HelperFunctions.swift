@@ -100,7 +100,8 @@ func getUnits(topAverageValue: CGFloat, maxValue: CGFloat, maxHeight: CGFloat, n
  
  # Usage Example: #
  ````
- 
+ let result = turnUnitsIntoHeight(value: 1.0, maxHeight: 500, maxValue: 5.0, minHeight: 0.0, minValue: 0.0)
+ //Result == 100
  ````
  */
 func turnUnitsIntoHeight(value: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, minHeight: CGFloat, minValue: CGFloat)->CGFloat{
@@ -155,7 +156,16 @@ func getHeightFromUnits(unit: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, pe
  
  # Usage Example: #
  ````
+ var newLineYValue = newY
+ let previousView = skyView
+
+ let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
+ let heightBound: CGFloat = 0.0
+ var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
  
+ var previousViewHeight: CGFloat = (previousView?.frame.height)!
+ 
+ let validMovement = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
  ````
  
 */

@@ -219,7 +219,7 @@ class PermafrostPredictorTests: XCTestCase {
         
         //Test Organic above
         let maxOrganicHeight: CGFloat = 500.0
-        newHeight = getHeightFromUnits(unit: 0.25, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        newHeight = getHeightFromUnits(unit: 0.25, maxHeight: maxOrganicHeight, maxValue: 0.25, percentage: 0, topAverageValue: 0.0)
         unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
         
         XCTAssert(newHeight == maxOrganicHeight)
@@ -227,14 +227,14 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssert( 0.24 < unit && unit < 0.26 )
         
         //Test Organic below
-        newHeight = getHeightFromUnits(unit: 0.22, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        newHeight = getHeightFromUnits(unit: 0.22, maxHeight: maxOrganicHeight, maxValue: 0.25, percentage: 0, topAverageValue: 0.0)
         unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
         
         //can't compare floats easily == 0.22
         XCTAssert( 0.21 < unit && unit < 0.23 )
     
         //Test Organic at 0
-        newHeight = getHeightFromUnits(unit: 0, maxHeight: maxOrganicHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        newHeight = getHeightFromUnits(unit: 0, maxHeight: maxOrganicHeight, maxValue: 0.25, percentage: 0.66, topAverageValue: 1.0)
         unit = getUnits(topAverageValue: 0, maxValue: 0.25, maxHeight: maxOrganicHeight, newHeight: newHeight, percentage: 0)
         
         XCTAssert(newHeight == 0.0)
@@ -266,7 +266,12 @@ class PermafrostPredictorTests: XCTestCase {
     }
     
     func testTurnUnitsIntoHeight() {
+       let result = turnUnitsIntoHeight(value: 1.0, maxHeight: 500, maxValue: 5.0, minHeight: 0.0, minValue: 0.0)
         
+        XCTAssert(99.0 < result && result < 101.0)
+        
+        let res = turnUnitsIntoHeight(value: 1.0, maxHeight: 0, maxValue: 0.0, minHeight: 0.0, minValue: 0.0)
+        XCTAssert(res.isNaN)
     }
     
     func testSubscriptTheString() {
