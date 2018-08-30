@@ -27,16 +27,17 @@ import UIKit
  
  */
 class PopUpView: UIView{
+    //MARK: Class Variables
     //keep track of the current position
     private var currentX:CGFloat = 0
     private var currentY:CGFloat = 20
-    private var textFields = [UITextField]() //Keep track of the text fields for when
-                          //the submit button is pressed
+    private var textFields = [UITextField]() //Keep track of the text fields for when the submit button is pressed
     private var padding: CGFloat = 20 //padding added to the sides of the text box (text not filling entire space)
+    
     //function to call when a submit button is added. Intended to "callback" the user's provided function
     private var submitButtoncallback = {(dict: [Int: String])->Void in /*do nothing yet */}
 
-    //Initialization
+    //MARK: Initialization
     required init(){
         //Have the popup's size depend on the screen's
         let screenHeight = UIScreen.main.bounds.height
@@ -60,6 +61,7 @@ class PopUpView: UIView{
         super.init(coder: aDecoder)
     }
     
+    //MARK: Class Functions
 /**
  Sets the background color of the popup.
  
@@ -75,8 +77,7 @@ class PopUpView: UIView{
     }
     
 /**
-     Adds a submit button to the view. The button added is a button that closes the view and
-        accepts the changes. This is the only supported button, meant to use once.
+     Adds a submit button to the view. The button added is a button that closes the view and accepts the changes. This is the only supported button, meant to use once.
      
      -parameter buttonText: The text that will appear on the button.
      -parameter callback: The function that will be called upon the button being pressed. This isn't javascript, so the function is limited to a dictionary for input and a void output.
@@ -131,9 +132,11 @@ class PopUpView: UIView{
      -parameter text: The text for the left label.
      -parameter text2: The text for the right label.
      
-     # Usage Example: # 
+     # Usage Example: #
+     ````
+     
+     ````
 */
-    //add 2 labels side by side to the view
     func addLabels(text: String, text2: String){
         let label = UILabel()
         label.text = text
@@ -159,6 +162,19 @@ class PopUpView: UIView{
         
     }
     
+/**
+ Add a title to the popup. This is just a label but it is one column on its own.
+ 
+ - parameter title: The title string of type NSMutableAttributedString to include super and subscripts.
+ 
+ # Usage Example: #
+ ````
+ let bigFont = UIFont(name: "Helvetica", size: 17)!
+ let smFont = UIFont(name: "Helvetica", size: 14)!
+ let heatCapacityUnits = superscriptTheString(str: "Volumetric Heat Capacity [MJ/m", toSuper: "3", strAtEnd: "/°C]", bigFont: bigFont, smallFont: smFont)
+ textBoxPopup.addTitle(title: heatCapacityUnits)
+ ````
+ */
     func addTitle(title: NSMutableAttributedString) {
         //make it a label
         let titleLabel = UILabel()
@@ -183,7 +199,17 @@ class PopUpView: UIView{
         //add to view
         self.addSubview(titleLabel)
     }
-    //Add a title (label) centered in view
+    
+/**
+ Adding a title (UILabel) to the popup which takes up one column.
+ 
+ - parameter title: The title string.
+ 
+ # Usage Example: #
+ ````
+ popup.addTitle("Section1")
+ ````
+ */
     func addTitle(title: String){
         //make it a label
         let titleLabel = UILabel()
@@ -208,8 +234,21 @@ class PopUpView: UIView{
         //add to view
         self.addSubview(titleLabel)
     }
-    
+
+/**
+ Adds a textfield to the popup which is only one column (nothing by its side).
+ 
+ - parameter text: The textfield's default string.
+ - parameter tag: The tag value of the textfield used to determine what textfield it is when the submit button is pressed and this class returns the array of textfields.
+ 
+ # Usage Example: #
+ ````
+popup.addTextField(text: "0.0", tag: 1)
+ ````
+ */
     func addTextField(text: String, tag: Int){
+        //insert bigger text so field will resize and not crowd
+        //actual text
         let textfield = UITextField()
         textfield.text = "enter here"
         textfield.sizeToFit()
@@ -221,18 +260,32 @@ class PopUpView: UIView{
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 5
         
+        //calculate spacing so field is in the middle of the popup
         let space = self.frame.width - textfield.frame.width
         let pad = space/2
         
         textfield.frame.origin = CGPoint(x: currentX + pad, y: currentY)
         currentY += textfield.frame.height + padding
         
+        //save into our array for when the submit button callback occurs
         textFields.append(textfield)
         
         self.addSubview(textfield)
     }
+
+/**
+     Adds two textfields side by side into the popup.
     
-    //Add 2 textfields side by side, centered in view
+     - parameter text: The text of the left field.
+     - parameter text2: The text of the right field.
+     - parameter outputTag1: The tag of the left field.
+     - parameter outputTag2: The tag of the right field.
+     
+     # Usage Example: #
+     ````
+     textBoxPopup.addTextFields(text: String(Kvt), text2: String(Kvf), outputTag1: 0, outputTag2: 1)
+     ````
+ */
     func addTextFields(text: String, text2: String, outputTag1: Int, outputTag2: Int){
         
         //create textfields
@@ -276,8 +329,16 @@ class PopUpView: UIView{
         self.addSubview(textField2)
     }
     
-    //return a dictionary containing the text field's values as strings & their corresponding tags as keys 
+/**
+     Returns the textfields that were added to the popup in a dictionary where the tag is the key.
+     
+     # Usage Example: #
+     ````
+     getValues()
+     ````
+ */
     func getValues()->[Int: String]{
+        //return a dictionary containing the text field's values as strings & their corresponding tags as keys
         var dict: [Int: String] = [:]
         for t in textFields{
             dict[t.tag] = t.text
@@ -285,6 +346,9 @@ class PopUpView: UIView{
         return dict
     }
     
+/**
+     Our class callback for the submit button being pressed. This allows us to remove the popup view from whatever parent it has and pass our user input textfield values back.
+ */
     @objc private func submitButtonPressed(){
         //do callback
         submitButtoncallback(getValues())
@@ -292,11 +356,24 @@ class PopUpView: UIView{
         exit()
     }
     
+/**
+     When the button is pressed down, change its color to grey for the user.
+ */
     @objc private func buttonHold(sender: UIButton){
         sender.backgroundColor = .gray
     }
     
-    //resizes the view to contain the elements inside, up to the screen size
+/**
+     Resizes the view to contain the elements inside, up to the screen size
+     
+     - parameter navBarHeight: If there is a navigation bar, give it's height so the view is resized correctly within the view of the screen.
+     
+     # Usage Example: #
+     ````
+     //resize view to fit elements
+     textBoxPopup.resizeView(navBarHeight: 44.0)
+     ````
+ */
     func resizeView(navBarHeight: CGFloat){
         if(self.subviews.count == 0){
             return // we have no views to resize
@@ -362,14 +439,18 @@ class PopUpView: UIView{
                     self.subviews[index-1].frame.origin = CGPoint(x: spacing, y: self.subviews[index-1].frame.origin.y)
                     self.subviews[index].frame.origin = CGPoint(x: (spacing * 2) + self.subviews[index-1].frame.width, y: self.subviews[index].frame.origin.y)
                 }
-
             }
         }
-
-
     }
     
-    //popup is done - exit
+/**
+     Remove the popup from the parent view (closing).
+     
+     # Usage Example: #
+     ````
+     popup.exit()
+     ````
+ */
     func exit(){
         //remove greyed out view
         if let greyView = self.superview?.viewWithTag(100) {

@@ -9,6 +9,9 @@
 import UIKit
 import os.log
 
+/**
+    An object to hold all of our permafrost finding variables. This will be used to save the configurations of different physical locations for the user in a table view.
+ */
 class Location : NSObject, NSCoding {
  
     //Name of the place
@@ -105,6 +108,9 @@ class Location : NSObject, NSCoding {
     }
     
     //MARK: NSCoding
+    /**
+     Encode the data for saving to device for persistance.
+     */
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: PropertyKey.name)
         aCoder.encode(Kvf, forKey: PropertyKey.Kvf)
@@ -130,6 +136,9 @@ class Location : NSObject, NSCoding {
         aCoder.encode(ALT, forKey: PropertyKey.ALT)
     }
     
+    /**
+        Decode values and intialize object with values.
+     */
     required convenience init?(coder aDecoder: NSCoder){
         //the name is required, if cannot decode should fail
         guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String else {

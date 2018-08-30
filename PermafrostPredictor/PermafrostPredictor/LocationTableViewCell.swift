@@ -8,7 +8,9 @@
 
 import UIKit
 
-
+/**
+ A custom table view cell so we can add a load button in order to pass values from the cell to the first view controller (UI).
+ */
 class LocationTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var locationName: UILabel!
@@ -20,7 +22,6 @@ class LocationTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

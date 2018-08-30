@@ -338,6 +338,24 @@ class PermafrostPredictorTests: XCTestCase {
         //calling button pressed functions early - unaccessable -pass
         //popup.submitButtonPressed()
         
+        
+        //Test Longer than Screen Width & Height
+        popup.addLabels(text: "Ratione sint sit est nisi iusto labore voluptas facilis. Quo ut ea est ut quaerat. Optio dolorem quibusdam accusamus. Velit aut at repudiandae omnis est nobis perspiciatis. Qui asperiores explicabo aliquid animi. Quam et natus quasi deleniti suscipit", text2: "test")
+        XCTAssert(popup.frame.width <= screenWidth)
+        XCTAssert(popup.frame.height <= screenHeight)
+        
+        //Add too much text for a button
+        popup.addButton(buttonText: "Ratione sint sit est nisi iusto labore voluptas facilis. Quo ut ea est ut quaerat. Optio dolorem quibusdam accusamus. Velit aut at repudiandae omnis est nobis perspiciatis. Qui asperiores explicabo aliquid animi. Quam et natus quasi deleniti suscipit", callback: buttonPressed)
+        
+        //add a negative tag
+        popup.addTextField(text: "Ratione sint sit est nisi iusto labore voluptas facilis. Quo ut ea est ut quaerat. Optio dolorem quibusdam accusamus. Velit aut at repudiandae omnis est nobis perspiciatis. Qui asperiores explicabo aliquid animi. Quam et natus quasi deleniti suscipit", tag: -2)
+        
+        //test if textfields added are recorded
+        let popup2 = PopUpView()
+        popup2.addTextField(text: "test", tag: 0)
+        var vals = popup2.getValues()
+        XCTAssert(vals[0] == "test")
+        
         popup.exit()
     }
     
@@ -406,5 +424,8 @@ class PermafrostPredictorTests: XCTestCase {
         XCTAssertNil(location)
         
     }
+    
+    //MARK: LocationTableViewController
+    
     
 }

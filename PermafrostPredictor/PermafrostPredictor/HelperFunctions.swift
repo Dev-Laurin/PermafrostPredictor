@@ -13,7 +13,7 @@ import UIKit
  Tests whether objects intersect with a given label.
  
  - parameter newY: The y value of the label we have to check against the other objects in the array.
- - parameter label: The UILabel that we are checking intersects any object in our array.
+ - parameter label: The UILabel that we are checking if intersects any object in our array.
  - parameter frames: An array of object frames.
  
  # Example Usage: #
@@ -55,7 +55,7 @@ func turnHeightMovementIntoUnits(maxHeight: CGFloat, maxValue: CGFloat, newHeigh
 /**
  Get the value/unit at the given height of the view.
  
- - parameter topAverageValue: The value where the switch in the increase/decrease rate changes.
+ - parameter topAverageValue: The value where the switch in the increase/decrease rate changes (All values after this are effected).
  - parameter maxValue: The maximum value.
  - parameter maxHeight: The maximum height of the view.
  - parameter newHeight: The new height of the view.
@@ -145,11 +145,12 @@ func getHeightFromUnits(unit: CGFloat, maxHeight: CGFloat, maxValue: CGFloat, pe
 /**
     Given information about 2 views, this function gives you the new height of both the previous view and the current view, seperated by lineViews. This gives the correct new sizes so that the views still cover the parent view (one view shrink or grows the other.) This also calculates the heights in respect to given bounds (can't shrink beyond this... can't grow beyond that...). It returns true or false if the movement was valid or not (no bounds were hit).
  
- - parameter previousView: The view that is above the view you are moving / resizing on the screen.
- - parameter previousHeightBound: The minimum height the previous view can be. (So we don't shrink it to 0 if we don't want it to)
+ - parameter previousViewMinY: The minimum y of the view that is above the view you are moving / resizing on the screen.
+ - parameter previousViewHeight: The height of the previous view.
+ - parameter previousHeightBound: The minimum height the previous view can be. (So we don't shrink it to 0 if we don't want it to.)
  - parameter heightBound: The minimum height the other view can be. So we don't overexpand the previous view.
  - parameter newLineYValue: The Y value of the line view we are moving. (UI has 2 views seperated by a line view. Line views are movable and resize the other views via this function.)
- - parameter view: The line view we are moving.
+ - parameter viewHeight: The line view height we are moving.
  - parameter followingMinY: The Y value of the view after our other view. (Previous view, other view, following view).
  - parameter previousViewNewHeight: A variable passed by reference to place the previous view's height that we calculate.
  - parameter newHeight: A variable passed by reference to hold the other view's height that we calculate.

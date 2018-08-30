@@ -201,15 +201,19 @@ SWIFT_CLASS("_TtC19PermafrostPredictor11AppDelegate")
 
 @class NSCoder;
 
+/// An object to hold all of our permafrost finding variables. This will be used to save the configurations of different physical locations for the user in a table view.
 SWIFT_CLASS("_TtC19PermafrostPredictor8Location")
 @interface Location : NSObject <NSCoding>
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Encode the data for saving to device for persistance.
 - (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+/// Decode values and intialize object with values.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder;
 @end
 
 @class UILabel;
 
+/// A custom table view cell so we can add a load button in order to pass values from the cell to the first view controller (UI).
 SWIFT_CLASS("_TtC19PermafrostPredictor21LocationTableViewCell")
 @interface LocationTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified locationName;
@@ -303,14 +307,6 @@ SWIFT_CLASS("_TtC19PermafrostPredictor9PopUpView")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
-@end
-
-
-SWIFT_CLASS("_TtC19PermafrostPredictor7SunView")
-@interface SunView : UIView
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
-- (void)drawRect:(CGRect)rect;
 @end
 
 @class UINavigationItem;

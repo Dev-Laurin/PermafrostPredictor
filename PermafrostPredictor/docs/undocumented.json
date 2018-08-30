@@ -58,343 +58,315 @@
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 12,
-      "symbol": "Location",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 15,
+      "line": 18,
       "symbol": "Location.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 16,
+      "line": 19,
       "symbol": "Location.Kvf",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 17,
+      "line": 20,
       "symbol": "Location.Kvt",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 18,
+      "line": 21,
       "symbol": "Location.Kmf",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 19,
+      "line": 22,
       "symbol": "Location.Kmt",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 20,
+      "line": 23,
       "symbol": "Location.Cmf",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 21,
+      "line": 24,
       "symbol": "Location.Cmt",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 22,
+      "line": 25,
       "symbol": "Location.Cvf",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 23,
+      "line": 26,
       "symbol": "Location.Cvt",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 24,
+      "line": 27,
       "symbol": "Location.Hs",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 25,
+      "line": 28,
       "symbol": "Location.Hv",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 26,
+      "line": 29,
       "symbol": "Location.Cs",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 27,
+      "line": 30,
       "symbol": "Location.Tgs",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 28,
+      "line": 31,
       "symbol": "Location.eta",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 29,
+      "line": 32,
       "symbol": "Location.Ks",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 30,
+      "line": 33,
       "symbol": "Location.Tair",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 31,
+      "line": 34,
       "symbol": "Location.Aair",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 32,
+      "line": 35,
       "symbol": "Location.ALT",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 35,
+      "line": 38,
       "symbol": "Location.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 57,
+      "line": 60,
       "symbol": "Location.init(name:Kvf:Kvt:Kmf:Kmt:Cmf:Cmt:Cvf:Cvt:Hs:Hv:Cs:Tgs:eta:Ks:Tair:Aair:ALT:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 85,
+      "line": 88,
       "symbol": "Location.PropertyKey",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 86,
+      "line": 89,
       "symbol": "Location.PropertyKey.name",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 87,
+      "line": 90,
       "symbol": "Location.PropertyKey.Kvf",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 88,
+      "line": 91,
       "symbol": "Location.PropertyKey.Kvt",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 89,
+      "line": 92,
       "symbol": "Location.PropertyKey.Kmf",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 90,
+      "line": 93,
       "symbol": "Location.PropertyKey.Kmt",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 91,
+      "line": 94,
       "symbol": "Location.PropertyKey.Cmf",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 92,
+      "line": 95,
       "symbol": "Location.PropertyKey.Cmt",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 93,
+      "line": 96,
       "symbol": "Location.PropertyKey.Cvf",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 94,
+      "line": 97,
       "symbol": "Location.PropertyKey.Cvt",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 95,
+      "line": 98,
       "symbol": "Location.PropertyKey.Hs",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 96,
+      "line": 99,
       "symbol": "Location.PropertyKey.Hv",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 97,
+      "line": 100,
       "symbol": "Location.PropertyKey.Cs",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 98,
+      "line": 101,
       "symbol": "Location.PropertyKey.Tgs",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 99,
+      "line": 102,
       "symbol": "Location.PropertyKey.eta",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 100,
+      "line": 103,
       "symbol": "Location.PropertyKey.Ks",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 101,
+      "line": 104,
       "symbol": "Location.PropertyKey.Tair",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 102,
+      "line": 105,
       "symbol": "Location.PropertyKey.Aair",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 103,
+      "line": 106,
       "symbol": "Location.PropertyKey.ALT",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 108,
-      "symbol": "Location.encode(with:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 133,
-      "symbol": "Location.init(coder:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 213,
+      "line": 222,
       "symbol": "Location.DocumentsDirectory",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 214,
+      "line": 223,
       "symbol": "Location.ArchiveURL",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/Location.swift",
-      "line": 215,
+      "line": 224,
       "symbol": "Location.oneLocationURL",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewCell.swift",
-      "line": 12,
-      "symbol": "LocationTableViewCell",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewCell.swift",
-      "line": 14,
+      "line": 16,
       "symbol": "LocationTableViewCell.locationName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewCell.swift",
-      "line": 16,
+      "line": 18,
       "symbol": "LocationTableViewCell.awakeFromNib()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/LocationTableViewCell.swift",
-      "line": 21,
+      "line": 23,
       "symbol": "LocationTableViewCell.setSelected(_:animated:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -786,21 +758,21 @@
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 31,
+      "line": 32,
       "symbol": "PopUpView.currentX",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 32,
+      "line": 33,
       "symbol": "PopUpView.currentY",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 33,
+      "line": 34,
       "symbol": "PopUpView.textFields",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
@@ -814,141 +786,22 @@
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 37,
+      "line": 38,
       "symbol": "PopUpView.submitButtoncallback",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 40,
+      "line": 41,
       "symbol": "PopUpView.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 59,
+      "line": 60,
       "symbol": "PopUpView.init(coder:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 137,
-      "symbol": "PopUpView.addLabels(text:text2:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 162,
-      "symbol": "PopUpView.addTitle(title:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 187,
-      "symbol": "PopUpView.addTitle(title:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 212,
-      "symbol": "PopUpView.addTextField(text:tag:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 236,
-      "symbol": "PopUpView.addTextFields(text:text2:outputTag1:outputTag2:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 280,
-      "symbol": "PopUpView.getValues()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 288,
-      "symbol": "PopUpView.submitButtonPressed()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 295,
-      "symbol": "PopUpView.buttonHold(sender:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 300,
-      "symbol": "PopUpView.resizeView(navBarHeight:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/PopUpView.swift",
-      "line": 373,
-      "symbol": "PopUpView.exit()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 11,
-      "symbol": "SunView",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 13,
-      "symbol": "SunView.path",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 14,
-      "symbol": "SunView.color",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 17,
-      "symbol": "SunView.init(frame:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 25,
-      "symbol": "SunView.init(coder:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 31,
-      "symbol": "SunView.draw(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/SunView.swift",
-      "line": 49,
-      "symbol": "SunView.setColor(newColor:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
