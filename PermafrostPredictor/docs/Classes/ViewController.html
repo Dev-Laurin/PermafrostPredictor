@@ -14,7 +14,7 @@
     <a title="ViewController Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (14% documented)</p>
+        <p><a href="../index.html"> Docs</a> (39% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -1343,7 +1343,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The app is suspending, save the location previously loaded in the ui so the user can pick up where they left off.</p>
 
                       </div>
                       <div class="declaration">
@@ -1381,7 +1381,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The view loaded, load the old location the user last used. Init views.</p>
 
                       </div>
                       <div class="declaration">
@@ -1408,7 +1408,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The view has appeared - the views are done loading and drawing in the correct places. Now we can set the views to their real positions based on a save location.</p>
 
                       </div>
                       <div class="declaration">
@@ -1435,7 +1435,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>To initialize our drawing of the views. We initialize the view placement themselves based on the device&rsquo;s dimensions, as well as initialize the labels and the maximum drawing variables for when we re-draw later.</p>
 
                       </div>
                       <div class="declaration">
@@ -1462,7 +1462,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draw the views initially with respect to each other (non-overlapping)</p>
 
                       </div>
                       <div class="declaration">
@@ -1489,7 +1489,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draw the label locations initially</p>
 
                       </div>
                       <div class="declaration">
@@ -1516,7 +1516,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Find the maximums for the snow and ground layers.</p>
 
                       </div>
                       <div class="declaration">
@@ -1543,7 +1543,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Run the algorithm to find the permafrost depth and the ground temperature. Update the permafrost labels with the new values.</p>
 
                       </div>
                       <div class="declaration">
@@ -1570,7 +1570,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Snow layer was tapped - display values for entering.</p>
 
                       </div>
                       <div class="declaration">
@@ -1597,7 +1597,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Popup submit button was pressed for the snow layer. Validate the user input values and update the permafrost views.</p>
+
+<p>-parameter dictionary: A dictionary with key Int and value String. The Int is the tag of the textfields in the popup. The text is the user inputted value.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="n">textBoxPopup</span><span class="o">.</span><span class="nf">addButton</span><span class="p">(</span><span class="nv">buttonText</span><span class="p">:</span> <span class="s">"Submit"</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="n">snowPopupSubmitted</span><span class="p">)</span>
+<span class="c1">//the function gets called later when popup exits</span>
+<span class="kd">func</span> <span class="nf">snowPopupSubmitted</span><span class="p">(</span><span class="nv">dictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span> <span class="kt">String</span><span class="p">]){</span>
+   <span class="o">...</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1624,7 +1633,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A view that is all grey to cover the screen. Used for when a popup is being displayed. The tag must be 100 for the popup to remove from the superview automatically when the popup exits.</p>
 
                       </div>
                       <div class="declaration">
@@ -1651,7 +1660,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The organic layer was tapped - display popup.</p>
 
                       </div>
                       <div class="declaration">
@@ -1659,33 +1668,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">organicLayerTapGesture</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">UITapGestureRecognizer</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:19PermafrostPredictor14ViewControllerC14saveTextFieldss10DictionaryVySiSSGSaySo6UIViewCG8subviews_SaySiG6valuestF"></a>
-                    <a name="//apple_ref/swift/Method/saveTextFields(subviews:values:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:19PermafrostPredictor14ViewControllerC14saveTextFieldss10DictionaryVySiSSGSaySo6UIViewCG8subviews_SaySiG6valuestF">saveTextFields(subviews:values:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveTextFields</span><span class="p">(</span><span class="nv">subviews</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">],</span> <span class="nv">values</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span><span class="o">-&gt;</span><span class="p">[</span><span class="kt">Int</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -1705,7 +1687,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The organic layer popup was submitted/exited. Check inputs and update the permafrost views.</p>
 
                       </div>
                       <div class="declaration">
@@ -1715,6 +1697,25 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">popUpButtonPressed</span><span class="p">(</span><span class="nv">dictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span> <span class="kt">String</span><span class="p">])</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dictionary</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A dictionary with key Int and value String. The Int is the tag of the textfields in the popup. The text is the user inputted value.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1732,7 +1733,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The mineral layer was tapped (grey bottom most layer). Show the popup with values.</p>
 
                       </div>
                       <div class="declaration">
@@ -1759,7 +1760,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The mineral layer popup was submitted. Check the values and update the permafrost views.</p>
 
                       </div>
                       <div class="declaration">
@@ -1786,7 +1787,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Checks if the input given is actually a number. This is used because the textfields have users enter strings, when in reality they should be doubles. Shows an alert box to the user if the input isn&rsquo;t valid.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="c1">//See any of the popupButtonPressed functions for better detail.</span>
+<span class="k">if</span> <span class="o">!</span><span class="nf">checkIfValidNumber</span><span class="p">(</span><span class="nv">tag</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nv">variable</span><span class="p">:</span> <span class="o">&amp;</span><span class="kt">Cmf</span><span class="p">,</span> <span class="nv">errorMessage</span><span class="p">:</span> <span class="s">"Invalid Cmf"</span><span class="p">,</span> <span class="nv">dict</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">dict</span><span class="p">){</span>
+<span class="k">return</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1796,6 +1803,61 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">checkIfValidNumber</span><span class="p">(</span><span class="nv">tag</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">variable</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">errorMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">dict</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span> <span class="kt">String</span><span class="p">])</span><span class="o">-&gt;</span><span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tag</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The tag of the textfield used in the dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>variable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The variable we are saving the value to if it is valid.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>errorMessage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message that is displayed in the alert.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dict</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dictionary of the textfields&rsquo; tags and values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1813,7 +1875,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Creates an alert given a title and error message.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="nf">createAlert</span><span class="p">(</span><span class="s">"Invalid"</span><span class="p">,</span> <span class="s">"Invalid input"</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1824,32 +1889,36 @@
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:19PermafrostPredictor14ViewControllerC10drawEvenly12CoreGraphics7CGFloatVSayAGG5items_AG19totalAvailableWidthtF"></a>
-                    <a name="//apple_ref/swift/Method/drawEvenly(items:totalAvailableWidth:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:19PermafrostPredictor14ViewControllerC10drawEvenly12CoreGraphics7CGFloatVSayAGG5items_AG19totalAvailableWidthtF">drawEvenly(items:totalAvailableWidth:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">drawEvenly</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="p">[</span><span class="kt">CGFloat</span><span class="p">],</span> <span class="nv">totalAvailableWidth</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">CGFloat</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The title of the alert box.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>errorMessage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message of the alert box.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1878,7 +1947,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Decrease the Sun Temperature based on movement.</p>
 
                       </div>
                       <div class="declaration">
@@ -1896,10 +1965,10 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/To%20recognize%20a%20pan%20gesture%20(dragging)%20on%20a%20view%20(our%20lines%20in%20the%20UI)"></a>
-                <a name="//apple_ref/swift/Section/To recognize a pan gesture (dragging) on a view (our lines in the UI)" class="dashAnchor"></a>
-                <a href="#/To%20recognize%20a%20pan%20gesture%20(dragging)%20on%20a%20view%20(our%20lines%20in%20the%20UI)">
-                  <h3 class="section-name">To recognize a pan gesture (dragging) on a view (our lines in the UI)</h3>
+                <a name="/Line%20Gesture%20Recognizer"></a>
+                <a name="//apple_ref/swift/Section/Line Gesture Recognizer" class="dashAnchor"></a>
+                <a href="#/Line%20Gesture%20Recognizer">
+                  <h3 class="section-name">Line Gesture Recognizer</h3>
                 </a>
               </div>
               <ul>
@@ -1916,7 +1985,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>To recognize a pan gesture (dragging) on a view (our lines in the UI)</p>
 
                       </div>
                       <div class="declaration">
@@ -1924,44 +1993,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">handleGesture</span><span class="p">(</span><span class="nv">recognizer</span><span class="p">:</span><span class="kt">UIPanGestureRecognizer</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/didReceiveMemoryWarning()"></a>
-                <a name="//apple_ref/swift/Section/didReceiveMemoryWarning()" class="dashAnchor"></a>
-                <a href="#/didReceiveMemoryWarning()">
-                  <h3 class="section-name">didReceiveMemoryWarning()</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@PermafrostPredictor@objc(cs)ViewController(im)didReceiveMemoryWarning"></a>
-                    <a name="//apple_ref/swift/Method/didReceiveMemoryWarning()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@PermafrostPredictor@objc(cs)ViewController(im)didReceiveMemoryWarning">didReceiveMemoryWarning()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">didReceiveMemoryWarning</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -1992,7 +2023,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>We are navigating to the table view, pass our location.</p>
 
                       </div>
                       <div class="declaration">
@@ -2030,7 +2061,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draws the snow view based on the new y value of the line view (user dragged it).</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="c1">//see handleGesture for more</span>
+<span class="nf">drawSnow</span><span class="p">(</span><span class="n">lineView</span><span class="p">,</span> <span class="mf">400.0</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -2040,6 +2075,37 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">drawSnow</span><span class="p">(</span><span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="nv">newY</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>view</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UIView that is a line in our app. The line is draggable by the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new proposed y value of the line view in our superview. It is proposed because it has been updated yet, not until it is verified to be valid movement.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -2057,7 +2123,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draw the organic layer and the views around it based on the line the user dragged.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="c1">//see handleGesture for more</span>
+<span class="nf">drawOrganic</span><span class="p">(</span><span class="n">lineView</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -2067,6 +2137,37 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">drawOrganic</span><span class="p">(</span><span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="nv">newY</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>view</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The line the user panned.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new y value of the line view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -2086,11 +2187,6 @@
                       <div class="abstract">
                         <p>Updates the Atmospheric Temperature Label (the sun). Since there is a subscript, we have to use attributed strings, which is easier in a function.</p>
 
-<p># Example Usage #</p>
-<pre class="highlight swift"><code><span class="c1">//If we are in a gesture function ...</span>
-<span class="nf">updateAairLabel</span><span class="p">()</span>
-</code></pre>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2099,6 +2195,29 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateAairLabel</span><span class="p">(</span><span class="nv">newText</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newText</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new temperature value of the Aair variable.</p>
+<h1 id='example-usage' class='heading'>Example Usage</h1>
+<pre class="highlight swift"><code><span class="c1">//If we are in a gesture function ...</span>
+<span class="nf">updateAairLabel</span><span class="p">()</span>
+</code></pre>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -2116,7 +2235,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draws the permafrost image view and the permafrost label in the correct location on the device.</p>
 
                       </div>
                       <div class="declaration">
@@ -2143,7 +2262,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Load the location value from the table view cell.</p>
 
                       </div>
                       <div class="declaration">
@@ -2170,7 +2289,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Load the location values into our variables in our class.</p>
 
                       </div>
                       <div class="declaration">
@@ -2197,7 +2316,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Draw the snow image view given a new height.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="c1">//see loadUI() for more</span>
+<span class="nf">redrawSnowBasedOnNewHeight</span><span class="p">(</span><span class="mf">400.0</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -2207,6 +2330,25 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">redrawSnowBasedOnNewHeight</span><span class="p">(</span><span class="nv">newHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new height of the snow image view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -2224,7 +2366,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Redraw the organic image view based on height value.</p>
+<h1 id='usage-example' class='heading'>Usage Example:</h1>
+<pre class="highlight swift"><code><span class="nf">redrawOrganicBasedOnNewHeight</span><span class="p">(</span><span class="mf">400.0</span><span class="p">)</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -2234,6 +2379,25 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">redrawOrganicBasedOnNewHeight</span><span class="p">(</span><span class="nv">newHeight</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>newHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new height of the organic view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -2251,7 +2415,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Redraw the mineral layer view based on the views around it.</p>
 
                       </div>
                       <div class="declaration">
@@ -2278,7 +2442,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Update the snow label&rsquo;s text and position.</p>
 
                       </div>
                       <div class="declaration">
@@ -2305,7 +2469,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Update the organic label&rsquo;s text and position.</p>
 
                       </div>
                       <div class="declaration">
@@ -2332,7 +2496,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Load the UI values into the location object variable.</p>
 
                       </div>
                       <div class="declaration">
@@ -2359,7 +2523,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Save the location object to the device. (Is only saved to be loaded by the UI. Will not appear in the tableview.)</p>
 
                       </div>
                       <div class="declaration">
@@ -2386,7 +2550,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Load a saved location object from the device to be manipulated again in the UI.</p>
 
                       </div>
                       <div class="declaration">
@@ -2405,7 +2569,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-08-29)</p>
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-08-30)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

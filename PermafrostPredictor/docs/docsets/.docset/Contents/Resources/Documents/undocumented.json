@@ -946,6 +946,258 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 157,
+      "symbol": "ViewController.suspending(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 162,
+      "symbol": "ViewController.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 224,
+      "symbol": "ViewController.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 236,
+      "symbol": "ViewController.draw()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 246,
+      "symbol": "ViewController.drawInitViews()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 275,
+      "symbol": "ViewController.drawInitLabels()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 290,
+      "symbol": "ViewController.findMaxHeightsBasedOnScreen()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 302,
+      "symbol": "ViewController.updatePermafrostLabel()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 338,
+      "symbol": "ViewController.snowLayerTapGesture(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 365,
+      "symbol": "ViewController.snowPopupSubmitted(dictionary:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 379,
+      "symbol": "ViewController.addGreyedOutView()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 389,
+      "symbol": "ViewController.organicLayerTapGesture(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 424,
+      "symbol": "ViewController.saveTextFields(subviews:values:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 438,
+      "symbol": "ViewController.popUpButtonPressed(dictionary:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 458,
+      "symbol": "ViewController.mineralLayerTapGesture(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 489,
+      "symbol": "ViewController.mineralPopupButtonPressend(dictionary:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 521,
+      "symbol": "ViewController.checkIfValidNumber(tag:variable:errorMessage:dict:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 534,
+      "symbol": "ViewController.createAlert(title:errorMessage:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 542,
+      "symbol": "ViewController.drawEvenly(items:totalAvailableWidth:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 555,
+      "symbol": "ViewController.handleSkyGesture(recognizer:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 599,
+      "symbol": "ViewController.handleGesture(recognizer:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 625,
+      "symbol": "ViewController.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 631,
+      "symbol": "ViewController.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 647,
+      "symbol": "ViewController.drawSnow(view:newY:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 694,
+      "symbol": "ViewController.drawOrganic(view:newY:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 736,
+      "symbol": "ViewController.drawPermafrost()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 776,
+      "symbol": "ViewController.unwindToUI(sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 783,
+      "symbol": "ViewController.loadUI()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 831,
+      "symbol": "ViewController.redrawSnowBasedOnNewHeight(newHeight:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 836,
+      "symbol": "ViewController.redrawOrganicBasedOnNewHeight(newHeight:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 841,
+      "symbol": "ViewController.updateMineralLayer()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 846,
+      "symbol": "ViewController.updateSnowLabel()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 861,
+      "symbol": "ViewController.updateOrganicLabel()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 876,
+      "symbol": "ViewController.updateLocation()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 896,
+      "symbol": "ViewController.saveUILocation()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/ViewController.swift",
+      "line": 907,
+      "symbol": "ViewController.loadLocation()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/laurin/Documents/Work/PermafrostPredictor/PermafrostPredictor/PermafrostPredictor/matlabConvertedFunctions.swift",
       "line": 11,
       "symbol": "compute_ALTf(L:eta:Kt:Ct:Ags:magt:tau:)",

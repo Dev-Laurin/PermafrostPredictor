@@ -9,8 +9,12 @@
 import UIKit
 import os.log 
 
+/**
+    The location detail view. This is where the user can edit location values directly as well as save new locations to be added to the list.
+ */
 class LocationViewController: UIViewController {
     
+    //MARK: Variables
     //items
     @IBOutlet weak var locationNameTextField: UITextField!
     
@@ -20,7 +24,6 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var tairLabel: UILabel!
     @IBOutlet weak var tempUIView: UIView!
     @IBOutlet weak var tairStepper: UIStepper!
-    
     
     //Snow
     @IBOutlet weak var volumetricSnow: UITextField!
@@ -60,14 +63,10 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var mineralVolHeatCapacityLabel: UILabel!
     @IBOutlet weak var porosityLabel: UILabel!
     
-    
-    @IBAction func aairStepperChanged(_ sender: UIStepper) {
-        aairLabel.text = String(describing: sender.value)
-    }
-    
-    @IBAction func tairStepperChanged(_ sender: UIStepper) {
-        tairLabel.text = String(describing: sender.value)
-    }
+    //MARK: Initialization
+    /**
+     View loaded, setup the steppers, titles, and background images.
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,6 +74,7 @@ class LocationViewController: UIViewController {
         //steppers wrap around to other value
         tairStepper.wraps = true
         aairStepper.wraps = true
+        
         //if user holds down, the values will continue to change
         tairStepper.autorepeat = true
         aairStepper.autorepeat = true
@@ -97,7 +97,6 @@ class LocationViewController: UIViewController {
         let porosityLabelEnding = superscriptTheString(str: "", toSuper: "3", strAtEnd: "]", bigFont: bigFont, smallFont: smFont)
         porosityLabel1.append(porosityLabelEnding)
         porosityLabel.attributedText = porosityLabel1
-        
         
         //View loaded, if we are editing an existing - load
         if let location = location {
@@ -132,13 +131,11 @@ class LocationViewController: UIViewController {
             mineralUIVIew.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     //MARK: Navigation
+    /**
+     If the save button was pressed, perform the segue.
+    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //call super's
         super.prepare(for: segue, sender: sender)
@@ -149,6 +146,9 @@ class LocationViewController: UIViewController {
         }
     }
     
+    /**
+        The cancel button was pressed, unwind to the previous view controller without changing anything.
+    */
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         //depending on the presentation/segue type, we need to choose a dismissal type
         let isPresentingInAddMealMode = presentingViewController is UINavigationController
@@ -163,22 +163,53 @@ class LocationViewController: UIViewController {
         }
     }
     
+    /**
+     A function to determine if the save should go through. We validate the user inputs before we perform the segue. If the inputs are within the correct bounds, we segue.
+    */
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return validate()
     }
     
+    //MARK: Public functions
+    /**
+     The Aair stepper changed values, update the Aair label.
+    */
+    @IBAction func aairStepperChanged(_ sender: UIStepper) {
+        aairLabel.text = String(describing: sender.value)
+    }
+    
+    /**
+     The Tair stepper changed values, update the Tair label.
+    */
+    @IBAction func tairStepperChanged(_ sender: UIStepper) {
+        tairLabel.text = String(describing: sender.value)
+    }
+    
     //MARK: Private functions
-    //create an alert to show in the view when
+    /**
+     An alert function that creates a popup. Used to alert the user that an input is invalid.
+     
+     - parameter title: The title of the alert.
+     - parameter errorMessage: The message of the alert.
+     
+     # Usage Example: #
+     ````
+     createAlert("Error", "Input is invalid")
+     ````
+    */
     private func createAlert(title: String, errorMessage: String){
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-    //to validate the inputs before they are saved
+    /**
+        To validate the inputs before they are saved
+    */
     private func validate()->Bool{
         //validate the inputs
         let name = locationNameTextField.text ?? "untitled"
+        
         //Temperature
         //Air Amplitude
         guard let aair = Double(aairLabel.text!) else {
@@ -197,7 +228,6 @@ class LocationViewController: UIViewController {
             createAlert(title: "Invalid Tair Input", errorMessage: "Mean Annual Temperature must be a number.")
             return false
         }
-        
         
         //Snow inputs
         //Volumetric Heat Capacity
@@ -218,7 +248,6 @@ class LocationViewController: UIViewController {
             createAlert(title: "Invalid Snow Height", errorMessage: "Must be between 0 and 5 meters.")
             return false
         }
-        
         
         //Organic inputs
         //Thermal Conductivity Thawed
@@ -250,7 +279,6 @@ class LocationViewController: UIViewController {
             createAlert(title: "Invalid Organic Thickness", errorMessage: "Must be between 0 and 0.25 meters.")
             return false
         }
-        
         
         //Mineral Layer
         //Porosity

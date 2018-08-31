@@ -61,7 +61,11 @@ class PermafrostPredictorUITests: XCTestCase {
         
     }
     
-    
+    //MARK: LocationViewController
+    func testLocationViewController(){
+        //Give invalid inputs
+        
+    }
 
     
 }

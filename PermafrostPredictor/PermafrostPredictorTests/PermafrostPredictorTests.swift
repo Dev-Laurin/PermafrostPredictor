@@ -425,7 +425,4 @@ class PermafrostPredictorTests: XCTestCase {
         
     }
     
-    //MARK: LocationTableViewController
-    
-    
 }

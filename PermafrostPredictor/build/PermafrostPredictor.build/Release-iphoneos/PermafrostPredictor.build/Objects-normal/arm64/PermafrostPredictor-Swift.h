@@ -227,16 +227,24 @@ SWIFT_CLASS("_TtC19PermafrostPredictor21LocationTableViewCell")
 @class UIStoryboardSegue;
 @class NSBundle;
 
+/// A class to control our table view. Contains a list of location objects.
 SWIFT_CLASS("_TtC19PermafrostPredictor27LocationTableViewController")
 @interface LocationTableViewController : UITableViewController
+/// The view loaded, initialize our list with previous saved ones, or defaults if there are none.
 - (void)viewDidLoad;
-- (void)didReceiveMemoryWarning;
+/// The number of sections in our table. We only have need of 1 big section.
 - (NSInteger)numberOfSectionsInTableView:(UITableView * _Nonnull)tableView SWIFT_WARN_UNUSED_RESULT;
+/// Return how many objects we have as our rows.
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+/// When cell is tapped, return that cell’s location object.
 - (UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+/// We have returned from the location detail view where we can edit a location and are adding/changing that location in the list.
 - (IBAction)unwindToLocationListWithSender:(UIStoryboardSegue * _Nonnull)sender;
+/// Return true so that we can delete cells.
 - (BOOL)tableView:(UITableView * _Nonnull)tableView canEditRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+/// Override to support editing the table view.
 - (void)tableView:(UITableView * _Nonnull)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+/// Preparing for navigation to another view controller.
 - (void)prepareForSegue:(UIStoryboardSegue * _Nonnull)segue sender:(id _Nullable)sender;
 - (nonnull instancetype)initWithStyle:(UITableViewStyle)style OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
@@ -248,6 +256,7 @@ SWIFT_CLASS("_TtC19PermafrostPredictor27LocationTableViewController")
 @class UIView;
 @class UIBarButtonItem;
 
+/// The location detail view. This is where the user can edit location values directly as well as save new locations to be added to the list.
 SWIFT_CLASS("_TtC19PermafrostPredictor22LocationViewController")
 @interface LocationViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified locationNameTextField;
@@ -277,13 +286,18 @@ SWIFT_CLASS("_TtC19PermafrostPredictor22LocationViewController")
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified organicVolHeatCapacityLabel;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified mineralVolHeatCapacityLabel;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified porosityLabel;
-- (IBAction)aairStepperChanged:(UIStepper * _Nonnull)sender;
-- (IBAction)tairStepperChanged:(UIStepper * _Nonnull)sender;
+/// View loaded, setup the steppers, titles, and background images.
 - (void)viewDidLoad;
-- (void)didReceiveMemoryWarning;
+/// If the save button was pressed, perform the segue.
 - (void)prepareForSegue:(UIStoryboardSegue * _Nonnull)segue sender:(id _Nullable)sender;
+/// The cancel button was pressed, unwind to the previous view controller without changing anything.
 - (IBAction)cancel:(UIBarButtonItem * _Nonnull)sender;
+/// A function to determine if the save should go through. We validate the user inputs before we perform the segue. If the inputs are within the correct bounds, we segue.
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString * _Nonnull)identifier sender:(id _Nullable)sender SWIFT_WARN_UNUSED_RESULT;
+/// The Aair stepper changed values, update the Aair label.
+- (IBAction)aairStepperChanged:(UIStepper * _Nonnull)sender;
+/// The Tair stepper changed values, update the Tair label.
+- (IBAction)tairStepperChanged:(UIStepper * _Nonnull)sender;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -338,16 +352,25 @@ SWIFT_CLASS("_TtC19PermafrostPredictor14ViewController")
 ///
 /// \endcode
 - (nonnull instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+/// The app is suspending, save the location previously loaded in the ui so the user can pick up where they left off.
 - (void)suspending:(NSNotification * _Nonnull)notification;
+/// The view loaded, load the old location the user last used. Init views.
 - (void)viewDidLoad;
+/// The view has appeared - the views are done loading and drawing in the correct places. Now we can set the views to their real positions based on a save location.
 - (void)viewDidAppear:(BOOL)animated;
+/// Snow layer was tapped - display values for entering.
 - (IBAction)snowLayerTapGesture:(UITapGestureRecognizer * _Nonnull)sender;
+/// The organic layer was tapped - display popup.
 - (IBAction)organicLayerTapGesture:(UITapGestureRecognizer * _Nonnull)sender;
+/// The mineral layer was tapped (grey bottom most layer). Show the popup with values.
 - (IBAction)mineralLayerTapGesture:(UITapGestureRecognizer * _Nonnull)sender;
+/// Decrease the Sun Temperature based on movement.
 - (IBAction)handleSkyGestureWithRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
+/// To recognize a pan gesture (dragging) on a view (our lines in the UI)
 - (IBAction)handleGestureWithRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
-- (void)didReceiveMemoryWarning;
+/// We are navigating to the table view, pass our location.
 - (void)prepareForSegue:(UIStoryboardSegue * _Nonnull)segue sender:(id _Nullable)sender;
+/// Load the location value from the table view cell.
 - (IBAction)unwindToUIWithSender:(UIStoryboardSegue * _Nonnull)sender;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end

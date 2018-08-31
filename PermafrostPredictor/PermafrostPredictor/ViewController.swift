@@ -154,11 +154,17 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationWillResignActive, object: nil)
     }
     
+    /**
+     The app is suspending, save the location previously loaded in the ui so the user can pick up where they left off.
+    */
     @objc func suspending(_ notification: Notification){
         saveUILocation()
     }
     
     //MARK: viewDidLoad()
+    /**
+     The view loaded, load the old location the user last used. Init views.
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -167,7 +173,6 @@ class ViewController: UIViewController {
             location = savedLocation[0] //only 1 is saved but it returns an array
         }
         
-        // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
@@ -207,8 +212,10 @@ class ViewController: UIViewController {
         groundTempLabel.backgroundColor = .white
         groundTempLabel.sizeToFit()
         
+        //update the permafrost view
         drawPermafrost()
         
+        //The navigation bar size for some of the views for drawing
         var barHeight: CGFloat = 44.0
         if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
             barHeight = navBarHeight
@@ -217,10 +224,13 @@ class ViewController: UIViewController {
             barHeight = 44.0
         }
         
+        //the actual 'zero' in the view if we discount the navbar
         zeroInView = barHeight + padding/2
-        
     }
     
+    /**
+        The view has appeared - the views are done loading and drawing in the correct places. Now we can set the views to their real positions based on a save location.
+    */
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         draw() //set initial
@@ -233,6 +243,9 @@ class ViewController: UIViewController {
     }
     
     //Draw our views programmatically based on our screen size
+    /**
+        To initialize our drawing of the views. We initialize the view placement themselves based on the device's dimensions, as well as initialize the labels and the maximum drawing variables for when we re-draw later.
+    */
     func draw(){
         //Draw initial here
         drawInitViews()
@@ -242,11 +255,11 @@ class ViewController: UIViewController {
         findMaxHeightsBasedOnScreen()
     }
     
-    
+    /**
+        Draw the views initially with respect to each other (non-overlapping)
+    */
     func drawInitViews(){
-
         //Draw views on screen
-       
         //make transparent
         skyView.backgroundColor = UIColor(white: 1, alpha: 0)
         let sunViewSize: CGFloat = skyView.frame.width/3
@@ -260,18 +273,20 @@ class ViewController: UIViewController {
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as! UIImageView
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
-        lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as! UIImageView
-        groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
-        //)) changeViewsYValue(view: groundImageView, newX: 0.0, newY: lineGround.frame.maxY)
         
+        lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as! UIImageView
+        
+        groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
+
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: screenWidth, height: screenHeight -  snowImageView.frame.minY - snowLineView.frame.height))
-
     }
     
-    //Draw the label locations initially
+    /**
+     Draw the label locations initially
+    */
     func drawInitLabels(){
         //Aair label
         atmosphericTempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY)
@@ -287,6 +302,9 @@ class ViewController: UIViewController {
         groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
     }
     
+    /**
+        Find the maximums for the snow and ground layers.
+    */
     func findMaxHeightsBasedOnScreen(){
         let screenHeight = UIScreen.main.bounds.height
         
@@ -299,6 +317,9 @@ class ViewController: UIViewController {
         maxGroundHeight = screenHeight - heightBasedOffPercentage //the minimum the grey view can be
     }
     
+    /**
+        Run the algorithm to find the permafrost depth and the ground temperature. Update the permafrost labels with the new values.
+    */
     func updatePermafrostLabel(){
         //update the value
         ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
@@ -332,9 +353,9 @@ class ViewController: UIViewController {
          permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
     
-    
-    
-    //Snow layer was tapped - display values for entering
+    /**
+     Snow layer was tapped - display values for entering.
+    */
     @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
         //make popup
         let textBoxPopup = PopUpView()
@@ -362,6 +383,20 @@ class ViewController: UIViewController {
         self.view.addSubview(textBoxPopup)
     }
     
+    /**
+     Popup submit button was pressed for the snow layer. Validate the user input values and update the permafrost views.
+     
+     -parameter dictionary: A dictionary with key Int and value String. The Int is the tag of the textfields in the popup. The text is the user inputted value.
+     
+     # Usage Example: #
+     ````
+     textBoxPopup.addButton(buttonText: "Submit", callback: snowPopupSubmitted)
+     //the function gets called later when popup exits
+     func snowPopupSubmitted(dictionary: [Int: String]){
+        ...
+     }
+     ````
+    */
     func snowPopupSubmitted(dictionary: [Int: String]){
         var dict = dictionary
         
@@ -376,6 +411,9 @@ class ViewController: UIViewController {
         drawPermafrost()
     }
     
+    /**
+        A view that is all grey to cover the screen. Used for when a popup is being displayed. The tag must be 100 for the popup to remove from the superview automatically when the popup exits.
+    */
     func addGreyedOutView(){
         //create a greyed out view to go underneath so user knows this popup is active
         let greyView = UIView()
@@ -386,6 +424,9 @@ class ViewController: UIViewController {
         self.view.addSubview(greyView)
     }
     
+    /**
+        The organic layer was tapped - display popup.
+    */
     @IBAction func organicLayerTapGesture(_ sender: UITapGestureRecognizer) {
         
         //Make a new popup - give position on screen x & y
@@ -421,20 +462,11 @@ class ViewController: UIViewController {
         self.view.addSubview(textBoxPopup)
     }
     
-    func saveTextFields(subviews: [UIView], values: [Int])->[Int: String]{
-        
-        var dict: [Int: String] = [:]
-        for view in subviews {
-            for v in values {
-                if view.tag == v {
-                    let textField:UITextField = view as! UITextField
-                    dict[v] = textField.text
-                }
-            }
-        }
-        return dict
-    }
-    
+    /**
+        The organic layer popup was submitted/exited. Check inputs and update the permafrost views.
+     
+     - parameter dictionary: A dictionary with key Int and value String. The Int is the tag of the textfields in the popup. The text is the user inputted value.
+    */
     func popUpButtonPressed(dictionary: [Int: String]){
         
        var dict = dictionary
@@ -455,11 +487,13 @@ class ViewController: UIViewController {
         drawPermafrost()
     }
     
+    /**
+        The mineral layer was tapped (grey bottom most layer). Show the popup with values.
+    */
     @IBAction func mineralLayerTapGesture(_ sender: UITapGestureRecognizer){
         let textBoxPopup = PopUpView()
         
         textBoxPopup.addTitle(title: "Mineral Layer")
-        
         
         //Add units to porosity label with superscript
         let bigFont = UIFont(name: "Helvetica", size: 17)!
@@ -486,6 +520,9 @@ class ViewController: UIViewController {
         self.view.addSubview(textBoxPopup)
     }
     
+    /**
+        The mineral layer popup was submitted. Check the values and update the permafrost views.
+    */
     func mineralPopupButtonPressend(dictionary: [Int: String]){
         var dict = dictionary
         
@@ -517,7 +554,22 @@ class ViewController: UIViewController {
         drawPermafrost()
     }
     
-    
+    /**
+        Checks if the input given is actually a number. This is used because the textfields have users enter strings, when in reality they should be doubles. Shows an alert box to the user if the input isn't valid.
+     
+     - parameter tag: The tag of the textfield used in the dictionary.
+     - parameter variable: The variable we are saving the value to if it is valid.
+     - parameter errorMessage: The message that is displayed in the alert.
+     - parameter dict: The dictionary of the textfields' tags and values.
+     
+     # Usage Example: #
+     ````
+     //See any of the popupButtonPressed functions for better detail.
+     if !checkIfValidNumber(tag: 4, variable: &Cmf, errorMessage: "Invalid Cmf", dict: &dict){
+     return
+     }
+     ````
+    */
     func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String])->Bool{
         if let x = Double(dict[tag]!) {
             variable = x
@@ -531,31 +583,30 @@ class ViewController: UIViewController {
         }
     }
     
+    /**
+        Creates an alert given a title and error message.
+     
+     - parameter title: The title of the alert box.
+     - parameter errorMessage: The message of the alert box.
+     
+     # Usage Example: #
+     ````
+     createAlert("Invalid", "Invalid input")
+     ````
+    */
     func createAlert(title: String, errorMessage: String){
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-
     
-    //Given an array of floats, find spacing that allows the items to be close to centered
-    func drawEvenly(items: [CGFloat], totalAvailableWidth: CGFloat)->CGFloat{
-        var totalSpacing = totalAvailableWidth
-        //Subtract all the items' widths that are on one line
-        for i in items{
-            totalSpacing -= i
-        }
-        return totalSpacing/CGFloat(items.count + 1) //the most even spacing distributed among the items (space in bet each)
-    }
-
-    
-
     //MARK: SkyView Gesture recognizer
-        //Decrease the Sun Temperature based on movement
+    /**
+        Decrease the Sun Temperature based on movement.
+    */
     @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
         let unitPerMovement:CGFloat = 1/10.0
-
         
         //Get the movement difference in degrees
         var temp = unitPerMovement * translation.x
@@ -566,7 +617,6 @@ class ViewController: UIViewController {
         temp += Tair
         atmosTemp += Aair
 
-       
         //round to tenths
         temp = round(num: temp, format: ".1")
         if(temp < -25){
@@ -595,7 +645,10 @@ class ViewController: UIViewController {
         drawPermafrost()
     }
     
-    //MARK: To recognize a pan gesture (dragging) on a view (our lines in the UI)
+    //MARK: Line Gesture Recognizer
+    /**
+    To recognize a pan gesture (dragging) on a view (our lines in the UI)
+ */
     @IBAction func handleGesture(recognizer:UIPanGestureRecognizer){
         //get the translation movement from the recognizer
         let translation = recognizer.translation(in: self.view)
@@ -620,14 +673,11 @@ class ViewController: UIViewController {
         //Don't have image keep moving, set translation to zero because we are done
         recognizer.setTranslation(CGPoint.zero, in: self.view)
     }
-  
-    //MARK: didReceiveMemoryWarning()
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     //MARK: Navigation
+    /**
+        We are navigating to the table view, pass our location.
+    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -635,74 +685,90 @@ class ViewController: UIViewController {
         guard let locationTableViewController = segue.destination as? LocationTableViewController else {
             fatalError("Expected destination: \(segue.destination)")
         }
-        //send the location created by the user using the UI in case the user wants to make a new one
-        locationTableViewController.uiLocation = Location(name: "current", Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: Tgs, eta: eta, Ks: Ks, Tair: Double(Tair), Aair: Double(Aair), ALT: Double(ALT)) ?? Location()
         
         //save our configuration in case nothing changes
         saveUILocation()
         
+        //send the location created by the user using the UI in case the user wants to make a new one
+        location.name = "Current"
+        locationTableViewController.uiLocation = location
+        
     }
     
     //MARK: Helper Functions
+    /**
+     Draws the snow view based on the new y value of the line view (user dragged it).
+     
+     - parameter view: A UIView that is a line in our app. The line is draggable by the user.
+     - parameter newY: The new proposed y value of the line view in our superview. It is proposed because it has been updated yet, not until it is verified to be valid movement.
+     
+     # Usage Example: #
+     ````
+     //see handleGesture for more
+     drawSnow(lineView, 400.0)
+     ````
+    */
     func drawSnow(view: UIView, newY: CGFloat){
         var newLineYValue = newY
+        //the view above/before this one (will get resized because snow grows up)
         let previousView = skyView
-        //How small the static ground plant layer image is allowed to be
-        
+
         let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
         let heightBound: CGFloat = 0.0
         var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
         
         var previousViewHeight: CGFloat = (previousView?.frame.height)!
         
-        let validMovement = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        _ = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
         
-        view.frame = CGRect(origin: CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
-            y: newLineYValue), size: CGSize(width: snowLineView.frame.width, height: snowLineView.frame.height))
-        
+        view.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
+            y: newLineYValue)
         snowImageView.frame = CGRect(origin: CGPoint(x: view.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
         skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
         
-        //Update label
-        tempLabel.sizeToFit()
-        
-        //y grows down, but in the app we want it to grow up
-        
+        //Update label position
         snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
         
+        //update the values
+        Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
+        Hs = Double(round(num: CGFloat(Hs), format: ".2"))
         
-        //only update the snow level if the movement is valid
-        if(validMovement){
-            
-            Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
-            Hs = Double(round(num: CGFloat(Hs), format: ".2"))
-            
-            if(Hs == 0.0){
-                snowLabel.text = "No Snow"
-                snowLabel.sizeToFit()
-            }
-            else{
-                snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
-                snowLabel.sizeToFit()
-            }
+        if(Hs == 0.0){
+            snowLabel.text = "No Snow"
+            snowLabel.sizeToFit()
         }
-        
+        else{
+            snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
+            snowLabel.sizeToFit()
+        }
+
         updateSnowLabel()
-        
     }
     
+    /**
+     Draw the organic layer and the views around it based on the line the user dragged.
+     
+     - parameter view: The line the user panned.
+     - parameter newY: The new y value of the line view.
+     
+     # Usage Example: #
+     ````
+     //see handleGesture for more
+     drawOrganic(lineView, 400)
+     ````
+    */
     func drawOrganic(view: UIView, newY: CGFloat){
         var newLineYValue = newY
         let previousView = organicLayer
         
         //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
-        let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height //get 15% of screen for roots maxGroundHeight -
+        let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height
         
         var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
         
         var previousViewHeight: CGFloat = (previousView?.frame.height)!
         
-        let validMovement = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        _ = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
         
         view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
             y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
@@ -710,17 +776,18 @@ class ViewController: UIViewController {
         groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
         organicLayer.frame = CGRect(origin: CGPoint(x: organicLayer.frame.minX, y: organicLayer.frame.minY), size: CGSize(width: (organicLayer.frame.width),height: previousViewHeight))
         
-        //Re-draw label with new coordinates
-        if(validMovement){
-            var num = getUnits(topAverageValue: 0, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0)
-            
-            num = round(num: num, format: ".2")
-            Hv = Double(num)
-        }
+        //Re-draw label with new coordinates and values
+        var num = getUnits(topAverageValue: 0, maxValue: groundMaxUnitHeight, maxHeight: maxOrganicLayerHeight, newHeight: previousViewHeight, percentage: 0.0)
+        
+        num = round(num: num, format: ".2")
+        Hv = Double(num)
         updateOrganicLabel()
     }
+    
     /**
         Updates the Atmospheric Temperature Label (the sun). Since there is a subscript, we have to use attributed strings, which is easier in a function.
+     
+     - parameter newText: The new temperature value of the Aair variable.
      
          # Example Usage #
         ````
@@ -733,21 +800,26 @@ class ViewController: UIViewController {
         atmosphericTempLabel.sizeToFit()
     }
     
+    /**
+        Draws the permafrost image view and the permafrost label in the correct location on the device.
+    */
     func drawPermafrost(){
 
+        //update the permafrost value so we know where to draw
         updatePermafrostLabel()
 
         //the maximum the permafrost line can go to not interfere with bottom labels
-        let maxY = screenHeight - (padding * (3/4)) - (groundLabel.frame.height * 2) - permafrostImageView.frame.height //+ navBar.frame.height  // permafrostLabel.frame.minY - padding/4
+        let maxY = screenHeight - (padding * (3/4)) - (groundLabel.frame.height * 2) - permafrostImageView.frame.height
  
         //the minimum the permafrost line can go (ground)
-        let minY = (screenHeight * (0.5)) + staticLineGround.frame.height + zeroInView // + (navBar.frame.height)  //nav bar height
+        let minY = (screenHeight * (0.5)) + staticLineGround.frame.height + zeroInView
         
         //the permafrost line will line up with the organic layer thickness (up to 0.25 on screen)
         //then it will expand by 1m/screenUnit until max
         let maxHeight = maxY - minY
 
-        let maxVal:CGFloat = 2.0 // change later - stakeholder TODO //////////////////////////////////////////////////////////
+        //Can change for Stakeholder needs
+        let maxVal:CGFloat = 2.0
         
         var height: CGFloat = 0
         //calculate where the line should be drawn
@@ -769,17 +841,20 @@ class ViewController: UIViewController {
         let rect = CGRect(origin: CGPoint(x: 0, y: yPos), size: CGSize(width: UIScreen.main.bounds.width, height: permafrostImageView.frame.height))
         permafrostImageView.frame = rect
 
+        //update the permafrost's label position to be under the image view
         updatePermafrostLabel()
     }
     
-    //Load the location's values to this UI
+    /**
+     Load the location value from the table view cell.
+    */
     @IBAction func unwindToUI(sender: UIStoryboardSegue){
-
-        //TODO STOP UNITS FROM GOING OVER -> USER CAN ENTER INPUTS TOO LARGE? AND ROUNDING
         loadUI()
-        
     }
     
+    /**
+     Load the location values into our variables in our class.
+    */
     func loadUI(){
         //load the location values in
         Kvf = location.Kvf
@@ -828,21 +903,48 @@ class ViewController: UIViewController {
         drawPermafrost()
     }
     
+    /**
+     Draw the snow image view given a new height.
+     
+     - parameter newHeight: The new height of the snow image view.
+     
+     # Usage Example: #
+     ````
+     //see loadUI() for more
+     redrawSnowBasedOnNewHeight(400.0)
+     ````
+    */
     func redrawSnowBasedOnNewHeight(newHeight: CGFloat){
          snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.minY - newHeight), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
         snowLineView.frame.origin = CGPoint(x: 0.0, y: snowImageView.frame.minY - snowLineView.frame.height)
     }
     
+    /**
+        Redraw the organic image view based on height value.
+     
+     - parameter newHeight: The new height of the organic view.
+     
+     # Usage Example: #
+     ````
+     redrawOrganicBasedOnNewHeight(400.0)
+     ````
+    */
     func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
         organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
         lineGround.frame.origin = CGPoint(x: 0.0, y: organicLayer.frame.maxY )
     }
     
+    /**
+     Redraw the mineral layer view based on the views around it.
+    */
     func updateMineralLayer(){
         let maxY = groundImageView.frame.maxY
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: maxY - staticLineGround.frame.maxY))
     }
     
+    /**
+     Update the snow label's text and position.
+    */
     func updateSnowLabel(){
         if(Hs == 0.0){
             snowLabel.text = "No Snow"
@@ -858,6 +960,9 @@ class ViewController: UIViewController {
         snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
     }
     
+    /**
+     Update the organic label's text and position.
+    */
     func updateOrganicLabel(){
         if(Hv < 0.0001){
             Hv = 0.0
@@ -872,7 +977,9 @@ class ViewController: UIViewController {
         groundLabel.frame = CGRect(origin: CGPoint(x: groundLabelNewX, y: groundLabelNewY), size: CGSize(width: groundLabel.frame.width, height: groundLabel.frame.height))
     }
     
-    //load the UI values into the location variable
+    /**
+        Load the UI values into the location object variable.
+   */
     func updateLocation(){
         location.Kvf =  Kvf
         location.Kvt = Kvt
@@ -893,6 +1000,9 @@ class ViewController: UIViewController {
         location.ALT = Double(ALT)
     }
     
+    /**
+        Save the location object to the device. (Is only saved to be loaded by the UI. Will not appear in the tableview.)
+    */
     private func saveUILocation(){
         updateLocation()
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(location, toFile: Location.oneLocationURL.path)
@@ -904,6 +1014,9 @@ class ViewController: UIViewController {
         }
     }
     
+    /**
+        Load a saved location object from the device to be manipulated again in the UI.
+    */
     private func loadLocation()->[Location]?{
         return NSKeyedUnarchiver.unarchiveObject(withFile: Location.oneLocationURL.path) as? [Location]
     }

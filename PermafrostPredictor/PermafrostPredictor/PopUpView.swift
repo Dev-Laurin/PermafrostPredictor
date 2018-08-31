@@ -134,7 +134,7 @@ class PopUpView: UIView{
      
      # Usage Example: #
      ````
-     
+     popup.addLabels("Label1", "Label2")
      ````
 */
     func addLabels(text: String, text2: String){
