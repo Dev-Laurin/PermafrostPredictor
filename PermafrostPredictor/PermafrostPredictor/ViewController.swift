@@ -43,6 +43,10 @@ class ViewController: UIViewController {
     private var permafrostLabel: UILabel
     private var permafrostImageView: UIImageView
     
+    //Copyright & GI Logo
+    private var giLogo : UIImageView
+    private var copyrightGIUAF : UILabel
+    
     //Ground Temperature Label
     private var groundTempLabel: UILabel
     
@@ -119,10 +123,13 @@ class ViewController: UIViewController {
         //the permafrost view - where the line marking the permafrost lives
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
         
+        //the gi logo
+        giLogo = UIImageView(image: UIImage(named: "GI_Logo"))
+        
         //Labels
         permafrostLabel = UILabel()
         groundTempLabel = UILabel()
-        
+        copyrightGIUAF = UILabel()
         
         //Our inputs for our permafrost formula
         Kvf = 0.25    //Thermal conductivity of frozen organic layer 
@@ -172,12 +179,14 @@ class ViewController: UIViewController {
             location = savedLocation[0] //only 1 is saved but it returns an array
         }
         
+        view.addSubview(giLogo)
+        view.addSubview(copyrightGIUAF)
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
         
         //make the background/underneath view a sky color
-        self.view.backgroundColor = UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Sky")!)//UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
         
         //Initialize Temperature Label (Mean Temperature)
         tempLabel.text = "Mean Air Temp = " + String(describing: Tair) + " °C"
@@ -195,6 +204,10 @@ class ViewController: UIViewController {
 
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
+        copyrightGIUAF.text = "©2018 GI UAF, dev by Laurin Fisher"
+        copyrightGIUAF.textColor = .white
+        copyrightGIUAF.sizeToFit()
+        
         snowLabel.backgroundColor = .white
         snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
@@ -279,6 +292,9 @@ class ViewController: UIViewController {
 
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         
+        var logoWidth = screenWidth/5
+        giLogo.frame = CGRect(origin: CGPoint(x: 0, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
+        
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: screenWidth, height: screenHeight -  snowImageView.frame.minY - snowLineView.frame.height))
     }
@@ -299,6 +315,9 @@ class ViewController: UIViewController {
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
         //Tgs
         groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        
+        //Copyright text
+        copyrightGIUAF.frame.origin = CGPoint(x: padding/4 + giLogo.frame.width + padding/4, y: screenHeight - padding/4 - copyrightGIUAF.frame.height)
     }
     
     /**

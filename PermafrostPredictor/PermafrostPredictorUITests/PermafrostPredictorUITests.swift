@@ -69,7 +69,7 @@ class PermafrostPredictorUITests: XCTestCase {
         submitButton.tap()
         
         let closeButton = app.alerts["Input Error"].buttons["Close"]
-        closeButton.tap()
+ //       closeButton.tap()
         element.tap()
         
         let textField2 = element5.children(matching: .textField).element(boundBy: 1)
@@ -162,7 +162,7 @@ class PermafrostPredictorUITests: XCTestCase {
         let scrollViewsQuery = app.scrollViews
         let element2 = scrollViewsQuery.children(matching: .other).element.children(matching: .other).element
         let element = element2.children(matching: .other).element(boundBy: 1).children(matching: .other).element
-        element.swipeUp()
+   //     element.swipeUp()
         scrollViewsQuery.otherElements.staticTexts["Snow Layer"].swipeDown()
         
         let element3 = element2.children(matching: .other).element(boundBy: 0).children(matching: .other).element
@@ -318,6 +318,7 @@ class PermafrostPredictorUITests: XCTestCase {
         let element2 = app.scrollViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1)
         element2.swipeUp()
         saveButton.tap()
+        
         
         let tablesQuery = app.tables
         let loadButton = tablesQuery.children(matching: .cell).element(boundBy: 11).buttons["Load"]
