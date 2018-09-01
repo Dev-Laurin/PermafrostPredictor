@@ -364,57 +364,6 @@ class PermafrostPredictorTests: XCTestCase {
         //nothing - doesn't get called due to lack of UI
     }
     
-    //MARK: ViewController.swift
-    func testPermafrostLinePosition(){
-        
-        //make sure permafrost line can't go above the solid ground line = 0.0m
-        vc.Kvf = 0.25
-        vc.Kvt = 0.1
-        vc.Kmf = 1.8
-        vc.Kmt = 1.0
-        vc.Cmf = 2000000
-        vc.Cmt = 3000000
-        vc.Cvf = 1000000
-        vc.Cvt = 2000000
-        vc.Hs = 5.0
-        vc.Hv = 0
-        vc.Cs = 500000
-        vc.Tgs = 0.0
-        vc.eta = 0.45
-        vc.Ks = 0.15
-        vc.Tair = 10
-        vc.Aair = 20.3
-        vc.drawPermafrost()
-        XCTAssert(vc.ALT == 0.0)
-        
-        //the minimum
-        let min = vc.staticLineGround.frame.maxY
-        XCTAssert(vc.permafrostImageView.frame.minY >= min)
-        
-        //it can't go below the the labels (intersect)
-        vc.Kvf = 0.25
-        vc.Kvt = 0.1
-        vc.Kmf = 1.8
-        vc.Kmt = 1.0
-        vc.Cmf = 2000000
-        vc.Cmt = 3000000
-        vc.Cvf = 1000000
-        vc.Cvt = 2000000
-        vc.Hs = 0
-        vc.Hv = 0
-        vc.Cs = 500000
-        vc.Tgs = 0.0
-        vc.eta = 0.45
-        vc.Ks = 0.15
-        vc.Tair = 6.8
-        vc.Aair = 25.0
-        vc.drawPermafrost()
-        //the maximum
-        let max = UIScreen.main.bounds.height - (vc.padding * (3/4)) - (vc.groundLabel.frame.height * 2) - vc.permafrostImageView.frame.height
-        
-        XCTAssert(vc.permafrostImageView.frame.maxY <= max)
-    }
-    
     //MARK: Location.swift
     func testLocationClass(){
         var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0)

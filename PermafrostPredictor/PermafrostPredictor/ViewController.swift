@@ -40,52 +40,52 @@ class ViewController: UIViewController {
     @IBOutlet weak var groundImageView: UIView!
     
     //Permafrost Layer
-    var permafrostLabel: UILabel
-    var permafrostImageView: UIImageView
+    private var permafrostLabel: UILabel
+    private var permafrostImageView: UIImageView
     
     //Ground Temperature Label
-    var groundTempLabel: UILabel
+    private var groundTempLabel: UILabel
     
     //Padding is for drawing within a view so it's not touching the edges (labels)
-    var padding: CGFloat = 40.0
+    private var padding: CGFloat = 40.0
 
     //Get the max heights of this particular screen(calculated on every device)
         //This is for drawing purposes and setting the units, device independent
-    var maxSnowHeight: CGFloat
-    var maxGroundHeight: CGFloat
-    var maxOrganicLayerHeight: CGFloat
-    var groundMaxUnitHeight: CGFloat //the maximum height for the roots in units (0.25m)
+    private var maxSnowHeight: CGFloat
+    private var maxGroundHeight: CGFloat
+    private var maxOrganicLayerHeight: CGFloat
+    private var groundMaxUnitHeight: CGFloat //the maximum height for the roots in units (0.25m)
     //Screen size
     var screenHeight: CGFloat
     var screenWidth: CGFloat
     
     //Split snow & ground to 50% of screen
-    var heightBasedOffPercentage : CGFloat //screen grows down
+    private var heightBasedOffPercentage : CGFloat //screen grows down
     
     //Inputs for permafrost levels
-    var Kvf: Double
-    var Kvt: Double
-    var Kmf: Double
-    var Kmt: Double
-    var Cmf: Double
-    var Cmt: Double
-    var Cvf: Double
-    var Cvt: Double
-    var Hs: Double
-    var Hv: Double //organic layer thickness
-    var Cs: Double //volumetric heat capacity of snow
-    var Tgs: Double //Mineral layer temperature
-    var eta: Double //Volumetric water content
-    var Ks: Double //Thermal conductivity of snow
-    var Tair: CGFloat //Mean Annual temperature
-    var Aair : CGFloat //Amplitude of the air temperature
-    var ALT: CGFloat //Active Layer Thickness
+    private var Kvf: Double
+    private var Kvt: Double
+    private var Kmf: Double
+    private var Kmt: Double
+    private var Cmf: Double
+    private var Cmt: Double
+    private var Cvf: Double
+    private var Cvt: Double
+    private var Hs: Double
+    private var Hv: Double //organic layer thickness
+    private var Cs: Double //volumetric heat capacity of snow
+    private var Tgs: Double //Mineral layer temperature
+    private var eta: Double //Volumetric water content
+    private var Ks: Double //Thermal conductivity of snow
+    private var Tair: CGFloat //Mean Annual temperature
+    private var Aair : CGFloat //Amplitude of the air temperature
+    private var ALT: CGFloat //Active Layer Thickness
     
     //Our location object so we can pass our values and load other locations from this UI easily
     var location: Location
     
     //where the view actually starts being drawn (taking out the navbar)
-    var zeroInView: CGFloat
+    private var zeroInView: CGFloat
 
     //MARK: Initialization
     /**
@@ -149,8 +149,7 @@ class ViewController: UIViewController {
         
         //Call the super version, recommended
         super.init(coder: coder )!
-        
-        
+       //Call our function when the app goes into the background so we can save our configuration
         NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationWillResignActive, object: nil)
     }
     
@@ -246,7 +245,7 @@ class ViewController: UIViewController {
     /**
         To initialize our drawing of the views. We initialize the view placement themselves based on the device's dimensions, as well as initialize the labels and the maximum drawing variables for when we re-draw later.
     */
-    func draw(){
+    private func draw(){
         //Draw initial here
         drawInitViews()
         //put labels in initial spots
@@ -258,7 +257,7 @@ class ViewController: UIViewController {
     /**
         Draw the views initially with respect to each other (non-overlapping)
     */
-    func drawInitViews(){
+    private func drawInitViews(){
         //Draw views on screen
         //make transparent
         skyView.backgroundColor = UIColor(white: 1, alpha: 0)
@@ -287,7 +286,7 @@ class ViewController: UIViewController {
     /**
      Draw the label locations initially
     */
-    func drawInitLabels(){
+    private func drawInitLabels(){
         //Aair label
         atmosphericTempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY)
         //Tair
@@ -305,7 +304,7 @@ class ViewController: UIViewController {
     /**
         Find the maximums for the snow and ground layers.
     */
-    func findMaxHeightsBasedOnScreen(){
+    private func findMaxHeightsBasedOnScreen(){
         let screenHeight = UIScreen.main.bounds.height
         
         //How much can snow grow based on sun?
@@ -320,7 +319,7 @@ class ViewController: UIViewController {
     /**
         Run the algorithm to find the permafrost depth and the ground temperature. Update the permafrost labels with the new values.
     */
-    func updatePermafrostLabel(){
+    private func updatePermafrostLabel(){
         //update the value
         ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
 
@@ -397,7 +396,7 @@ class ViewController: UIViewController {
      }
      ````
     */
-    func snowPopupSubmitted(dictionary: [Int: String]){
+    private func snowPopupSubmitted(dictionary: [Int: String]){
         var dict = dictionary
         
         //check that the input is valid
@@ -414,7 +413,7 @@ class ViewController: UIViewController {
     /**
         A view that is all grey to cover the screen. Used for when a popup is being displayed. The tag must be 100 for the popup to remove from the superview automatically when the popup exits.
     */
-    func addGreyedOutView(){
+    private func addGreyedOutView(){
         //create a greyed out view to go underneath so user knows this popup is active
         let greyView = UIView()
         greyView.backgroundColor = UIColor(white: 1, alpha: 0.5)
@@ -467,7 +466,7 @@ class ViewController: UIViewController {
      
      - parameter dictionary: A dictionary with key Int and value String. The Int is the tag of the textfields in the popup. The text is the user inputted value.
     */
-    func popUpButtonPressed(dictionary: [Int: String]){
+    private func popUpButtonPressed(dictionary: [Int: String]){
         
        var dict = dictionary
         //save the values - but test if they can be converted to numbers first
@@ -523,7 +522,7 @@ class ViewController: UIViewController {
     /**
         The mineral layer popup was submitted. Check the values and update the permafrost views.
     */
-    func mineralPopupButtonPressend(dictionary: [Int: String]){
+    private func mineralPopupButtonPressend(dictionary: [Int: String]){
         var dict = dictionary
         
         if !checkIfValidNumber(tag: 0, variable: &eta, errorMessage: "Invalid Porosity", dict: &dict) {
@@ -570,7 +569,7 @@ class ViewController: UIViewController {
      }
      ````
     */
-    func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String])->Bool{
+    private func checkIfValidNumber(tag: Int, variable: inout Double, errorMessage: String, dict: inout [Int: String])->Bool{
         if let x = Double(dict[tag]!) {
             variable = x
             return true
@@ -594,7 +593,7 @@ class ViewController: UIViewController {
      createAlert("Invalid", "Invalid input")
      ````
     */
-    func createAlert(title: String, errorMessage: String){
+    private func createAlert(title: String, errorMessage: String){
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -708,7 +707,7 @@ class ViewController: UIViewController {
      drawSnow(lineView, 400.0)
      ````
     */
-    func drawSnow(view: UIView, newY: CGFloat){
+    private func drawSnow(view: UIView, newY: CGFloat){
         var newLineYValue = newY
         //the view above/before this one (will get resized because snow grows up)
         let previousView = skyView
@@ -757,7 +756,7 @@ class ViewController: UIViewController {
      drawOrganic(lineView, 400)
      ````
     */
-    func drawOrganic(view: UIView, newY: CGFloat){
+    private func drawOrganic(view: UIView, newY: CGFloat){
         var newLineYValue = newY
         let previousView = organicLayer
         
@@ -795,7 +794,7 @@ class ViewController: UIViewController {
         updateAairLabel()
         ````
     */
-    func updateAairLabel(newText: String){
+    private func updateAairLabel(newText: String){
         atmosphericTempLabel.text = "Air Temp Amplitude = " + newText + " °C"
         atmosphericTempLabel.sizeToFit()
     }
@@ -803,7 +802,7 @@ class ViewController: UIViewController {
     /**
         Draws the permafrost image view and the permafrost label in the correct location on the device.
     */
-    func drawPermafrost(){
+    private func drawPermafrost(){
 
         //update the permafrost value so we know where to draw
         updatePermafrostLabel()
@@ -855,7 +854,7 @@ class ViewController: UIViewController {
     /**
      Load the location values into our variables in our class.
     */
-    func loadUI(){
+    private func loadUI(){
         //load the location values in
         Kvf = location.Kvf
         Kvt = location.Kvt
@@ -929,7 +928,7 @@ class ViewController: UIViewController {
      redrawOrganicBasedOnNewHeight(400.0)
      ````
     */
-    func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
+    private func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
         organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
         lineGround.frame.origin = CGPoint(x: 0.0, y: organicLayer.frame.maxY )
     }
@@ -937,7 +936,7 @@ class ViewController: UIViewController {
     /**
      Redraw the mineral layer view based on the views around it.
     */
-    func updateMineralLayer(){
+    private func updateMineralLayer(){
         let maxY = groundImageView.frame.maxY
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: maxY - staticLineGround.frame.maxY))
     }
@@ -945,7 +944,7 @@ class ViewController: UIViewController {
     /**
      Update the snow label's text and position.
     */
-    func updateSnowLabel(){
+    private func updateSnowLabel(){
         if(Hs == 0.0){
             snowLabel.text = "No Snow"
             snowLabel.sizeToFit()
@@ -963,7 +962,7 @@ class ViewController: UIViewController {
     /**
      Update the organic label's text and position.
     */
-    func updateOrganicLabel(){
+    private func updateOrganicLabel(){
         if(Hv < 0.0001){
             Hv = 0.0
             groundLabel.text = "No Organic"
@@ -980,7 +979,7 @@ class ViewController: UIViewController {
     /**
         Load the UI values into the location object variable.
    */
-    func updateLocation(){
+    private func updateLocation(){
         location.Kvf =  Kvf
         location.Kvt = Kvt
         location.Kmf = Kmf

@@ -521,6 +521,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = PermafrostPredictorUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorUITests";
@@ -536,6 +537,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = PermafrostPredictorUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Geophysical-Institute.PermafrostPredictorUITests";
