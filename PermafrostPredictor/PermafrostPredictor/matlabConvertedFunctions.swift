@@ -57,7 +57,7 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter tTemp: Mean annual air temperature
  - parameter aTemp: Amplitude of the air temperature
 */
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: inout Double, tTemp: Double, aTemp: Double, eta: Double, Ks: Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, magt: inout Double, tTemp: Double, aTemp: Double, eta: Double, Ks: Double)->Double{
     
     let Tair = tTemp
     let Aair = aTemp
@@ -111,11 +111,11 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let dAv = (daw*tau_w + das*tau_s)/tau
     let dTv = (daw*tau_w - das*tau_s)/tau*2/pi
 
-    Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
+    let Tgs=Tvs+dTv    //Mean annual temperature at the top of mineral layer
     let Ags=Avs-dAv    //Amplitude of the temperature at the top of mineral layer
 
     var dTg:Double = 0.0 //to save it outside the if statement for use
-    var magt:Double = 0.0
+    magt = 0.0
     var ALD = 0.0
     
     //Phase change processes occur in the mineral soil
@@ -160,7 +160,6 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
         let Cf=Cvf*wv+Cmf*wm
         ALD=compute_ALTt(L: L, eta: eta, Kf: Kf, Cf: Cf, Ags: Avs, magt: magt, tau: tau)
     }
-    
     if(ALD<Hv){
         return ALD//ALT is within the organic layer. Remember that there phase change processes are not assumed in this layer.
     }

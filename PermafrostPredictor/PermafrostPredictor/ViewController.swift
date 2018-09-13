@@ -43,10 +43,6 @@ class ViewController: UIViewController {
     private var permafrostLabel: UILabel
     private var permafrostImageView: UIImageView
     
-    //Copyright & GI Logo
-    private var giLogo : UIImageView
-    private var copyrightGIUAF : UILabel
-    
     //Ground Temperature Label
     private var groundTempLabel: UILabel
     
@@ -90,6 +86,10 @@ class ViewController: UIViewController {
     
     //where the view actually starts being drawn (taking out the navbar)
     private var zeroInView: CGFloat
+    
+    //Keep track of the info popup - is it visible or not?
+    private var infoShowing: Bool
+    private var sidebar: UIView
 
     //MARK: Initialization
     /**
@@ -101,12 +101,10 @@ class ViewController: UIViewController {
          Hs = 2.0 //meters
          ````
     */
-    required init(coder: NSCoder){
-        
+    required init(coder: NSCoder){        
         //default
         location = Location()
 
-        
         //screen size
         screenHeight = UIScreen.main.bounds.height 
         screenWidth = UIScreen.main.bounds.width
@@ -123,14 +121,10 @@ class ViewController: UIViewController {
         //the permafrost view - where the line marking the permafrost lives
         permafrostImageView = UIImageView(image: UIImage(named: "PermafrostLine"))
         
-        //the gi logo
-        giLogo = UIImageView(image: UIImage(named: "GI_Logo"))
-        
         //Labels
         permafrostLabel = UILabel()
         groundTempLabel = UILabel()
-        copyrightGIUAF = UILabel()
-        
+
         //Our inputs for our permafrost formula
         Kvf = 0.25    //Thermal conductivity of frozen organic layer 
         Kvt = 0.1     //Thermal conductivity of thawed organic layer
@@ -153,6 +147,12 @@ class ViewController: UIViewController {
         
         //Wait until views are loaded to set real value
         zeroInView = 0
+        
+        //info popup box
+        infoShowing = false
+        
+        //create a new view that is like a sidebar
+        sidebar = UIView()
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -179,8 +179,6 @@ class ViewController: UIViewController {
             location = savedLocation[0] //only 1 is saved but it returns an array
         }
         
-        view.addSubview(giLogo)
-        view.addSubview(copyrightGIUAF)
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
@@ -204,10 +202,7 @@ class ViewController: UIViewController {
 
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
-        copyrightGIUAF.text = "©2018 GI UAF, dev by Laurin Fisher"
-        copyrightGIUAF.textColor = .white
-        copyrightGIUAF.sizeToFit()
-        
+
         snowLabel.backgroundColor = .white
         snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
@@ -292,11 +287,33 @@ class ViewController: UIViewController {
 
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
         
-        var logoWidth = screenWidth/5
-        giLogo.frame = CGRect(origin: CGPoint(x: 0, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
-        
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: screenWidth, height: screenHeight -  snowImageView.frame.minY - snowLineView.frame.height))
+        
+        //Make Info sidebar view
+        sidebar.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenWidth/2, height: screenHeight))
+        let gi_logo = UIImageView(image: UIImage(named: "GI_Logo"))
+        let logoWidth = screenWidth/2 - padding/2
+        gi_logo.frame = CGRect(origin: CGPoint(x: padding/4, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
+        sidebar.addSubview(gi_logo)
+        sidebar.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
+        
+        let copyrightGIUAF = UILabel()
+        copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and Conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
+        copyrightGIUAF.textColor = .white
+        copyrightGIUAF.sizeToFit()
+        
+        //Dynamically wrapping
+        copyrightGIUAF.lineBreakMode = .byWordWrapping
+        copyrightGIUAF.numberOfLines = 0
+        
+        //set the size
+        var infoStartingY:CGFloat = 40
+        copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: infoStartingY), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - infoStartingY - (3*padding/4) - gi_logo.frame.height))
+        sidebar.addSubview(copyrightGIUAF)
+        
+        sidebar.frame.origin = CGPoint(x: -sidebar.frame.width, y: 0)
+        view.addSubview(sidebar)
     }
     
     /**
@@ -315,9 +332,6 @@ class ViewController: UIViewController {
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
         //Tgs
         groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
-        
-        //Copyright text
-        copyrightGIUAF.frame.origin = CGPoint(x: padding/4 + giLogo.frame.width + padding/4, y: screenHeight - padding/4 - copyrightGIUAF.frame.height)
     }
     
     /**
@@ -340,8 +354,8 @@ class ViewController: UIViewController {
     */
     private func updatePermafrostLabel(){
         //update the value
-        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), Tgs: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
-
+        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), magt: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
+        
         //update the display
         ALT = round(num: ALT, format: ".2")
         permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
@@ -371,6 +385,25 @@ class ViewController: UIViewController {
          permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
     
+    /**
+     
+    */
+    @IBAction func infoButtonPressed(_ sender: UIBarButtonItem) {
+        
+        //toggle sidebar
+        infoShowing = !infoShowing
+        if(infoShowing){
+            UIView.animate(withDuration: 0.5){
+                self.sidebar.center.x += self.sidebar.frame.width
+            }
+        }
+        else{
+            UIView.animate(withDuration: 0.5){
+                self.sidebar.center.x -= self.sidebar.frame.width
+            }
+        }
+        
+    }
     /**
      Snow layer was tapped - display values for entering.
     */
@@ -624,7 +657,7 @@ class ViewController: UIViewController {
     */
     @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
-        let unitPerMovement:CGFloat = 1/10.0
+        let unitPerMovement:CGFloat = 1/5.0
         
         //Get the movement difference in degrees
         var temp = unitPerMovement * translation.x
@@ -660,6 +693,8 @@ class ViewController: UIViewController {
             Tair = temp
             Aair = atmosTemp
         }
+        Tair = temp
+        Aair = atmosTemp
         drawPermafrost()
     }
     

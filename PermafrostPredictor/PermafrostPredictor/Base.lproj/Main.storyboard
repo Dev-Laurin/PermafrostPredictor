@@ -127,6 +127,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Permafrost Predictor" id="5cX-WY-RkT">
+                        <barButtonItem key="leftBarButtonItem" image="Info" id="HtM-58-T9O">
+                            <connections>
+                                <action selector="infoButtonPressed:" destination="BYZ-38-t0r" id="HjA-Sz-f89"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Locations" id="VIz-AZ-XaK">
                             <connections>
                                 <segue destination="2d0-7C-Xpb" kind="show" id="Wuq-wl-Vp4"/>
@@ -876,8 +881,9 @@
     </scenes>
     <resources>
         <image name="DashedLine" width="150" height="10"/>
+        <image name="Info" width="48" height="48"/>
         <image name="Line" width="150" height="10"/>
-        <image name="Sun" width="320" height="320"/>
+        <image name="Sun" width="253" height="252"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QME-Fj-7nO"/>
