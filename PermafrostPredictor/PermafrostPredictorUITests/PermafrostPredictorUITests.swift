@@ -45,241 +45,106 @@ class PermafrostPredictorUITests: XCTestCase {
         
     }
     
-    //entered invalid string into label, submitted, tried again
-    func testPopups(){
-        
-        let app = XCUIApplication()
-        let element7 = app.otherElements.containing(.navigationBar, identifier:"Permafrost Predictor").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
-        let element2 = element7.children(matching: .other).element
-        let dashedlineImage = element2.children(matching: .image).matching(identifier: "DashedLine").element(boundBy: 0)
-        dashedlineImage.swipeUp()
-        dashedlineImage.swipeUp()
-        dashedlineImage.tap()
-        dashedlineImage.tap()
-        
-        let element = element2.children(matching: .other).element(boundBy: 1)
-        element.tap()
-        
-        let element5 = element7.children(matching: .other).element(boundBy: 2)
-        let textField = element5.children(matching: .textField).element(boundBy: 0)
-        textField.tap()
-        textField.swipeLeft()
-        
-        let submitButton = app.buttons["Submit"]
-        submitButton.tap()
-        
-        let closeButton = app.alerts["Input Error"].buttons["Close"]
- //       closeButton.tap()
-        element.tap()
-        
-        let textField2 = element5.children(matching: .textField).element(boundBy: 1)
-        textField2.tap()
-        submitButton.tap()
-        closeButton.tap()
-        element.tap()
-        textField.tap()
-        submitButton.tap()
-        textField.tap()
-        textField.tap()
-        submitButton.tap()
-        closeButton.tap()
-        element2.children(matching: .image).matching(identifier: "DashedLine").element(boundBy: 1).swipeDown()
-        
-        let element3 = element2.children(matching: .other).element(boundBy: 2)
-        element3.tap()
-        textField.tap()
-        submitButton.tap()
-        closeButton.tap()
-        element3.tap()
-        textField2.swipeLeft()
-        submitButton.tap()
-        closeButton.tap()
-        element3.tap()
-        
-        let textField3 = element5.children(matching: .textField).element(boundBy: 2)
-        textField3.swipeLeft()
-        textField3.tap()
-        submitButton.tap()
-        closeButton.tap()
-        element3.tap()
-        
-        let textField4 = element5.children(matching: .textField).element(boundBy: 3)
-        textField4.tap()
-        submitButton.tap()
-        closeButton.tap()
-        
-        let element4 = element2.children(matching: .other).element(boundBy: 3)
-        element4.tap()
-        textField2.swipeLeft()
-        textField2/*@START_MENU_TOKEN@*/.press(forDuration: 0.5);/*[[".tap()",".press(forDuration: 0.5);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        submitButton.tap()
-        closeButton.tap()
-        element4.tap()
-        textField3/*@START_MENU_TOKEN@*/.press(forDuration: 0.6);/*[[".tap()",".press(forDuration: 0.6);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        submitButton.tap()
-        closeButton.tap()
-        element4.tap()
-        textField4.tap()
-        element5.tap()
-        submitButton.tap()
-        closeButton.tap()
-        element5.children(matching: .textField).element(boundBy: 4).tap()
-        submitButton.tap()
-        closeButton.tap()
-    }
-    
-    //test labels changing when dragging 
-    func testTempChange(){
-        
-        let element = XCUIApplication().otherElements.containing(.navigationBar, identifier:"Permafrost Predictor").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element.swipeDown()
-        element.swipeDown()
-        element.swipeDown()
-        element.swipeDown()
-        element.swipeDown()
-        element.swipeLeft()
-        element.swipeLeft()
-        element.swipeLeft()
-        element.swipeRight()
-        element.swipeRight()
-        element.swipeRight()
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-       
-    }
-    
     //MARK: LocationViewController
     func testLocationViewController(){
-        //Give invalid inputs
         
         let app = XCUIApplication()
-        let scrollViewsQuery = app.scrollViews
-        let element2 = scrollViewsQuery.children(matching: .other).element.children(matching: .other).element
-        let element = element2.children(matching: .other).element(boundBy: 1).children(matching: .other).element
-   //     element.swipeUp()
-        scrollViewsQuery.otherElements.staticTexts["Snow Layer"].swipeDown()
+        app.navigationBars["Permafrost Predictor"].buttons["Locations"].tap()
+        app.navigationBars["Locations"].buttons["Add"].tap()
         
-        let element3 = element2.children(matching: .other).element(boundBy: 0).children(matching: .other).element
-        let steppersQuery = element3.children(matching: .other).element(boundBy: 0).steppers
-        steppersQuery.buttons["Decrement"].tap()
+        let element6 = app.scrollViews.children(matching: .other).element.children(matching: .other).element
+        let element = element6.children(matching: .other).element(boundBy: 0).children(matching: .other).element
+        let steppersQuery = element.children(matching: .other).element(boundBy: 0).steppers
         steppersQuery.buttons["Increment"].tap()
         
-        let steppersQuery2 = element3.children(matching: .other).element(boundBy: 1).steppers
-        let decrementButton = steppersQuery2.buttons["Decrement"]
-        decrementButton.tap()
-        steppersQuery2.buttons["Increment"].tap()
+        let decrementButton = steppersQuery.buttons["Decrement"]
         decrementButton.tap()
         decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
-        decrementButton.tap()
+        element.tap()
         
-        let textField = element.children(matching: .textField).element(boundBy: 0)
-        textField.tap()
+        let steppersQuery2 = element.children(matching: .other).element(boundBy: 1).steppers
+        let incrementButton = steppersQuery2.buttons["Increment"]
+        incrementButton.tap()
         
-        let saveButton = app.navigationBars["Current"].buttons["Save"]
-        saveButton.tap()
-        app.alerts["Invalid Snow height"].buttons["Click"].tap()
+        let decrementButton2 = steppersQuery2.buttons["Decrement"]
+        decrementButton2.tap()
+        decrementButton2.tap()
+        incrementButton.tap()
+        incrementButton.tap()
+        incrementButton.tap()
         
-        let textField2 = element.children(matching: .textField).element(boundBy: 1)
-        textField2.tap()
-        saveButton.tap()
-        
-        let clickButton = app.alerts["Invalid Volumetric Heat Capacity of Snow"].buttons["Click"]
-        clickButton.tap()
-        textField.tap()
-        saveButton.tap()
-        clickButton.tap()
-        textField2.tap()
-        
-        let textField3 = element.children(matching: .textField).element(boundBy: 2)
-        textField3.tap()
-        textField3.tap()
-        saveButton.tap()
-        app.alerts["Invalid Thermal Conductivity of Snow"].buttons["Click"].tap()
-        
-        let element4 = element2.children(matching: .other).element(boundBy: 2).children(matching: .other).element
-        let textField4 = element4.children(matching: .textField).element
-        textField4.tap()
-        textField4.tap()
-        saveButton.tap()
-        app.alerts["Invalid Organic Thickness"].buttons["Click"].tap()
+        let element2 = element6.children(matching: .other).element(boundBy: 1)
         element2.swipeUp()
         
-        let element5 = element4.children(matching: .other).element(boundBy: 1)
-        let textField5 = element5.children(matching: .textField).element(boundBy: 0)
+        let element3 = element6.children(matching: .other).element(boundBy: 3)
+        element3.swipeUp()
+        
+        let element7 = element6.children(matching: .other).element(boundBy: 2).children(matching: .other).element
+        let element4 = element7.children(matching: .other).element(boundBy: 1)
+        element4.children(matching: .textField).element(boundBy: 0).tap()
+        
+        let textField = element7.children(matching: .textField).element
+        textField.tap()
+        textField.tap()
+        
+        let textField2 = element4.children(matching: .textField).element(boundBy: 1)
+        textField2.tap()
+        textField2.tap()
+        
+        let element8 = element7.children(matching: .other).element(boundBy: 3)
+        let textField3 = element8.children(matching: .textField).element(boundBy: 1)
+        textField3.tap()
+        textField3.tap()
+        
+        let textField4 = element8.children(matching: .textField).element(boundBy: 0)
+        textField4.tap()
+        textField4.tap()
+        
+        let element9 = element3.children(matching: .other).element
+        let textField5 = element9.children(matching: .textField).element
         textField5.tap()
         textField5.tap()
-        saveButton.tap()
-        app.alerts["Invalid Thawed Thermal Conductivity of Organic Layer"].buttons["Click"].tap()
         
-        let textField6 = element5.children(matching: .textField).element(boundBy: 1)
+        let element10 = element9.children(matching: .other).element(boundBy: 1)
+        let textField6 = element10.children(matching: .textField).element(boundBy: 0)
         textField6.tap()
         textField6.tap()
-        saveButton.tap()
-        app.alerts["Invalid Frozen Thermal Conductivity of Organic Layer"].buttons["Click"].tap()
         
-        let element6 = element4.children(matching: .other).element(boundBy: 3)
-        let textField7 = element6.children(matching: .textField).element(boundBy: 0)
+        let textField7 = element10.children(matching: .textField).element(boundBy: 1)
         textField7.tap()
         textField7.tap()
-        saveButton.tap()
-        app.alerts["Invalid Thawed Volumetric Heat Capacity of Organic Layer"].buttons["Click"].tap()
         
-        let textField8 = element6.children(matching: .textField).element(boundBy: 1)
+        let element11 = element9.children(matching: .other).element(boundBy: 3)
+        let textField8 = element11.children(matching: .textField).element(boundBy: 1)
         textField8.tap()
         textField8.tap()
-        saveButton.tap()
-        app.alerts["Invalid Frozen Volumetric Heat Capacity of Organic Layer"].buttons["Click"].tap()
-        element4.children(matching: .other).element(boundBy: 2).swipeUp()
         
-        let element7 = element2.children(matching: .other).element(boundBy: 3).children(matching: .other).element
-        let textField9 = element7.children(matching: .textField).element
+        let textField9 = element11.children(matching: .textField).element(boundBy: 0)
         textField9.tap()
         textField9.tap()
-        saveButton.tap()
-        app.alerts["Invalid Porosity of Mineral Layer"].buttons["Click"].tap()
+        element10.swipeDown()
         
-        let element8 = element7.children(matching: .other).element(boundBy: 1)
-        let textField10 = element8.children(matching: .textField).element(boundBy: 0)
+        let element5 = element2.children(matching: .other).element
+        element5.tap()
+        
+        let textField10 = element5.children(matching: .textField).element(boundBy: 0)
         textField10.tap()
         textField10.tap()
-        saveButton.tap()
-        app.alerts["Invalid Thawed Thermal Conductivity of Mineral Layer"].buttons["Click"].tap()
         
-        let textField11 = element8.children(matching: .textField).element(boundBy: 1)
+        let textField11 = element5.children(matching: .textField).element(boundBy: 1)
         textField11.tap()
         textField11.tap()
-        saveButton.tap()
-        app.alerts["Invalid Frozen Thermal Conductivity of Mineral Layer"].buttons["Click"].tap()
-    
+        
+        let textField12 = element5.children(matching: .textField).element(boundBy: 2)
+        textField12.tap()
+        textField12.tap()
+        element2.swipeDown()
+        
+        let textField13 = element6.children(matching: .textField).element
+        textField13.tap()
+        textField13.tap()
+        app.navigationBars["Current"].buttons["Save"].tap()
+       
     }
 
     func testLocationSaveandLoad(){
@@ -287,64 +152,25 @@ class PermafrostPredictorUITests: XCTestCase {
         let app = XCUIApplication()
         let locationsButton = app.navigationBars["Permafrost Predictor"].buttons["Locations"]
         locationsButton.tap()
+        app.navigationBars["Locations"].buttons["Add"].tap()
         
-        let locationsNavigationBar = app.navigationBars["Locations"]
-        let addButton = locationsNavigationBar.buttons["Add"]
-        addButton.tap()
+        let element3 = app.scrollViews.children(matching: .other).element.children(matching: .other).element
+        let element = element3.children(matching: .other).element(boundBy: 1)
+        element.swipeUp()
+        element3.children(matching: .other).element(boundBy: 2)/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeDown()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
         
-        let currentNavigationBar = app.navigationBars["Current"]
-        currentNavigationBar.buttons["Cancel"].tap()
-        
-        let permafrostPredictorButton = locationsNavigationBar.buttons["Permafrost Predictor"]
-        permafrostPredictorButton.tap()
-        
-        let element4 = app.otherElements.containing(.navigationBar, identifier:"Permafrost Predictor").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
-        let element = element4.children(matching: .other).element
-        let image = element.children(matching: .image).element(boundBy: 0)
-        image.swipeUp()
-        image.swipeUp()
-        image.swipeUp()
-        locationsButton.tap()
-        addButton.tap()
-        
-        let saveButton = currentNavigationBar.buttons["Save"]
-        saveButton.tap()
-        permafrostPredictorButton.tap()
-        element.children(matching: .image).element(boundBy: 1)/*@START_MENU_TOKEN@*/.press(forDuration: 0.9);/*[[".tap()",".press(forDuration: 0.9);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element.children(matching: .image).element(boundBy: 2).swipeDown()
-        locationsButton.tap()
-        addButton.tap()
-        
-        let element2 = app.scrollViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1)
-        element2.swipeUp()
-        saveButton.tap()
-        
+        let element2 = element.children(matching: .other).element
+        element2.children(matching: .textField).element(boundBy: 0).tap()
+        app.navigationBars["Current"].buttons["Save"].tap()
         
         let tablesQuery = app.tables
-        let loadButton = tablesQuery.children(matching: .cell).element(boundBy: 11).buttons["Load"]
-        loadButton.tap()
+        tablesQuery.cells.containing(.staticText, identifier:"Fairbanks").buttons["Load"].tap()
         locationsButton.tap()
+        tablesQuery.cells.containing(.staticText, identifier:"Default").buttons["Load"].tap()
+        locationsButton.tap()
+        tablesQuery.children(matching: .cell).element(boundBy: 7).buttons["Load"].tap()
         
-        let loadButton2 = tablesQuery.cells.containing(.staticText, identifier:"Fairbanks").buttons["Load"]
-        loadButton2.tap()
-        locationsButton.tap()
-        loadButton.tap()
-        
-        let element3 = element.children(matching: .other).element(boundBy: 1)
-        element3.tap()
-        element4.children(matching: .other).element(boundBy: 2).children(matching: .textField).element(boundBy: 0).tap()
-        
-        let submitButton = app.buttons["Submit"]
-        submitButton.tap()
-        locationsButton.tap()
-        addButton.tap()
-        element2.swipeUp()
-        saveButton.tap()
-        loadButton2.tap()
-        locationsButton.tap()
-        tablesQuery.children(matching: .cell).element(boundBy: 12).buttons["Load"].tap()
-        element3.tap()
-        submitButton.tap()
+       
     }
     
     

@@ -883,7 +883,7 @@
         <image name="DashedLine" width="150" height="10"/>
         <image name="Info" width="48" height="48"/>
         <image name="Line" width="150" height="10"/>
-        <image name="Sun" width="253" height="252"/>
+        <image name="Sun" width="94" height="92"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QME-Fj-7nO"/>

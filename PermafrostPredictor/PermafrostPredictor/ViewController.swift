@@ -183,8 +183,20 @@ class ViewController: UIViewController {
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
         
+//        UIGraphicsBeginImageContext(self.view.frame.size)
+//        UIImage(named: "Sky")?.draw(in: self.view.bounds)
+//
+//        if let image = UIGraphicsGetImageFromCurrentImageContext(){
+//            UIGraphicsEndImageContext()
+//            self.view.backgroundColor = UIColor(patternImage: image)
+//        }else{
+//            UIGraphicsEndImageContext()
+//            debugPrint("Image not available")
+//        }
+//
+        
         //make the background/underneath view a sky color
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Sky")!)//UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
+        self.view.backgroundColor = UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
         
         //Initialize Temperature Label (Mean Temperature)
         tempLabel.text = "Mean Air Temp = " + String(describing: Tair) + " °C"
@@ -299,20 +311,19 @@ class ViewController: UIViewController {
         sidebar.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
         
         let copyrightGIUAF = UILabel()
+        copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and Conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
         copyrightGIUAF.textColor = .white
-        copyrightGIUAF.sizeToFit()
-        
+    //    copyrightGIUAF.sizeToFit()
+         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         //Dynamically wrapping
         copyrightGIUAF.lineBreakMode = .byWordWrapping
         copyrightGIUAF.numberOfLines = 0
         
         //set the size
-        var infoStartingY:CGFloat = 40
-        copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: infoStartingY), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - infoStartingY - (3*padding/4) - gi_logo.frame.height))
-        sidebar.addSubview(copyrightGIUAF)
-        
         sidebar.frame.origin = CGPoint(x: -sidebar.frame.width, y: 0)
+        sidebar.addSubview(copyrightGIUAF)
+
         view.addSubview(sidebar)
     }
     
