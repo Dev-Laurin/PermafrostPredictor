@@ -57,7 +57,7 @@ func compute_ALTt(L: Double, eta: Double, Kf: Double, Cf: Double, Ags: Double, m
  - parameter tTemp: Mean annual air temperature
  - parameter aTemp: Amplitude of the air temperature
 */
-func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, magt: inout Double, tTemp: Double, aTemp: Double, eta: Double, Ks: Double)->Double{
+func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, magt: inout Double, tTemp: Double, aTemp: Double, eta: Double, Ks: Double, Tvs: inout Double)->Double{
     
     let Tair = tTemp
     let Aair = aTemp
@@ -101,7 +101,7 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
     let da   = Aair*(1-(1+mu)/sqrt(s))
     let dAs = da*tau_w/tau
     let dTs = (2/pi)*dAs
-    let Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
+    Tvs=Tair+dTs  //Mean annual temperature at the top of vegetation
     let Avs=Aair-dAs  //Amplitude of the temperature at the top of vegetation
 
     //Computing an effect of the vegetation layer

@@ -279,8 +279,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="c2k-cU-S48">
                                                 <rect key="frame" x="16" y="0.0" width="344" height="1215"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Location Name" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IQW-bo-w3O">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Location Name" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IQW-bo-w3O">
                                                         <rect key="frame" x="90" y="0.0" width="164" height="31"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="31" id="T6e-0J-c5T"/>
+                                                        </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -289,10 +292,10 @@
                                                         <rect key="frame" x="0.0" y="61" width="344" height="133"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Kxa-Yx-0xw">
-                                                                <rect key="frame" x="57.5" y="5" width="229" height="123"/>
+                                                                <rect key="frame" x="58" y="5" width="229" height="123"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Air Temperature Amplitude °C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ros-Ib-6oR">
-                                                                        <rect key="frame" x="0.5" y="0.0" width="228.5" height="21"/>
+                                                                        <rect key="frame" x="1" y="0.0" width="227" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="qCt-e5-WxR"/>
                                                                         </constraints>
@@ -303,25 +306,13 @@
                                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ll3-dF-oPX">
                                                                         <rect key="frame" x="34" y="29" width="161" height="28"/>
                                                                         <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7z-Th-Sdq">
-                                                                                <rect key="frame" x="0.0" y="5" width="47" height="18"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="dEF-2W-4Ox"/>
-                                                                                </constraints>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uvk-ZN-jqc">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="161" height="28"/>
                                                                                 <nil key="textColor"/>
-                                                                                <nil key="highlightedColor"/>
-                                                                            </label>
-                                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="WEV-LJ-D4K">
-                                                                                <rect key="frame" x="67" y="0.0" width="94" height="29"/>
-                                                                                <connections>
-                                                                                    <action selector="aairStepperChanged:" destination="ed6-Vw-hKe" eventType="valueChanged" id="p9o-9C-MW3"/>
-                                                                                </connections>
-                                                                            </stepper>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                                <textInputTraits key="textInputTraits"/>
+                                                                            </textField>
                                                                         </subviews>
-                                                                        <constraints>
-                                                                            <constraint firstItem="y7z-Th-Sdq" firstAttribute="top" secondItem="Ll3-dF-oPX" secondAttribute="top" constant="5" id="6yF-wf-TUL"/>
-                                                                        </constraints>
                                                                     </stackView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mean Air Temperature °C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-vl-Hba">
                                                                         <rect key="frame" x="18" y="65" width="193" height="21"/>
@@ -335,27 +326,19 @@
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FZN-TP-juW">
                                                                         <rect key="frame" x="34" y="94" width="161" height="29"/>
                                                                         <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNF-VP-8x7">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="47" height="29"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="vNP-Ds-RD9"/>
-                                                                                </constraints>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t0y-Mr-XL2">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="161" height="29"/>
                                                                                 <nil key="textColor"/>
-                                                                                <nil key="highlightedColor"/>
-                                                                            </label>
-                                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="9x8-a7-fdw">
-                                                                                <rect key="frame" x="67" y="0.0" width="94" height="29"/>
-                                                                                <connections>
-                                                                                    <action selector="tairStepperChanged:" destination="ed6-Vw-hKe" eventType="valueChanged" id="ojR-wh-Y4C"/>
-                                                                                </connections>
-                                                                            </stepper>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                                <textInputTraits key="textInputTraits"/>
+                                                                            </textField>
                                                                         </subviews>
                                                                     </stackView>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="Ll3-dF-oPX" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="34" id="0eR-zL-Q8i"/>
                                                                     <constraint firstItem="FZN-TP-juW" firstAttribute="top" secondItem="Kxa-Yx-0xw" secondAttribute="top" constant="94" id="AYy-Hz-yhq"/>
+                                                                    <constraint firstItem="Ros-Ib-6oR" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="1" id="EGK-jy-vgE"/>
                                                                     <constraint firstItem="Ll3-dF-oPX" firstAttribute="leading" secondItem="FZN-TP-juW" secondAttribute="leading" id="v0y-7S-MGe"/>
                                                                     <constraint firstItem="8gr-vl-Hba" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="18" id="w3k-tP-KGb"/>
                                                                 </constraints>
@@ -364,6 +347,7 @@
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="Kxa-Yx-0xw" firstAttribute="top" secondItem="VED-pj-YNn" secondAttribute="top" constant="5" id="3Nk-Bp-kMJ"/>
+                                                            <constraint firstItem="Kxa-Yx-0xw" firstAttribute="leading" secondItem="VED-pj-YNn" secondAttribute="leading" constant="58" id="Kom-bp-b14"/>
                                                             <constraint firstAttribute="bottom" secondItem="Kxa-Yx-0xw" secondAttribute="bottom" constant="5" id="PmK-2f-XQO"/>
                                                             <constraint firstItem="Kxa-Yx-0xw" firstAttribute="centerX" secondItem="VED-pj-YNn" secondAttribute="centerX" id="h8i-Fw-zNR"/>
                                                         </constraints>
@@ -453,7 +437,7 @@
                                                         <rect key="frame" x="0.0" y="523" width="344" height="334"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qvb-Dy-l11">
-                                                                <rect key="frame" x="37" y="27" width="270" height="280.5"/>
+                                                                <rect key="frame" x="37" y="27.5" width="270" height="280.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Organic Layer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkx-nN-UI5">
                                                                         <rect key="frame" x="37" y="0.0" width="196" height="24"/>
@@ -808,8 +792,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="1300"/>
                     <connections>
-                        <outlet property="aairLabel" destination="y7z-Th-Sdq" id="zwy-fH-fhl"/>
-                        <outlet property="aairStepper" destination="WEV-LJ-D4K" id="Q2L-kQ-Ugw"/>
+                        <outlet property="aairTextField" destination="uvk-ZN-jqc" id="Abe-yC-Bxg"/>
                         <outlet property="locationNameTextField" destination="IQW-bo-w3O" id="ZZc-PR-zrY"/>
                         <outlet property="mineralPorosityTextField" destination="6kP-1R-Hcw" id="gcG-Zn-gm7"/>
                         <outlet property="mineralThermalFrozenTextField" destination="OrA-MY-cqi" id="CAa-GX-uZr"/>
@@ -830,8 +813,7 @@
                         <outlet property="snowHeightTextField" destination="tiP-bc-nyd" id="sQV-uD-rRk"/>
                         <outlet property="snowUIView" destination="vqZ-FV-mVA" id="0z3-CT-gCi"/>
                         <outlet property="snowVolHeatCapacityLabel" destination="E96-Ir-7rO" id="3Gr-Sj-iMR"/>
-                        <outlet property="tairLabel" destination="fNF-VP-8x7" id="hlR-Vn-yiF"/>
-                        <outlet property="tairStepper" destination="9x8-a7-fdw" id="xcK-OH-fp6"/>
+                        <outlet property="tairTextField" destination="t0y-Mr-XL2" id="AGY-40-mMm"/>
                         <outlet property="tempUIView" destination="VED-pj-YNn" id="5b9-l7-8s4"/>
                         <outlet property="thermalSnow" destination="JAb-4b-8ES" id="mW9-dx-WkJ"/>
                         <outlet property="volumetricSnow" destination="Ezf-uK-bQq" id="g2s-T0-Blz"/>
@@ -883,7 +865,7 @@
         <image name="DashedLine" width="150" height="10"/>
         <image name="Info" width="48" height="48"/>
         <image name="Line" width="150" height="10"/>
-        <image name="Sun" width="94" height="92"/>
+        <image name="Sun" width="188" height="185"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QME-Fj-7nO"/>

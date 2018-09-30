@@ -45,6 +45,7 @@ class ViewController: UIViewController {
     
     //Ground Temperature Label
     private var groundTempLabel: UILabel
+    private var meanGroundSurfaceTemp: UILabel
     
     //Padding is for drawing within a view so it's not touching the edges (labels)
     private var padding: CGFloat = 40.0
@@ -80,6 +81,7 @@ class ViewController: UIViewController {
     private var Tair: CGFloat //Mean Annual temperature
     private var Aair : CGFloat //Amplitude of the air temperature
     private var ALT: CGFloat //Active Layer Thickness
+    private var Tvs: Double
     
     //Our location object so we can pass our values and load other locations from this UI easily
     var location: Location
@@ -124,6 +126,7 @@ class ViewController: UIViewController {
         //Labels
         permafrostLabel = UILabel()
         groundTempLabel = UILabel()
+        meanGroundSurfaceTemp = UILabel()
 
         //Our inputs for our permafrost formula
         Kvf = 0.25    //Thermal conductivity of frozen organic layer 
@@ -144,6 +147,7 @@ class ViewController: UIViewController {
         ALT = 0 //our ALT in meters
         Tair = 10.0 //Mean annual air temperature
         Aair = 25.0 //Amplitude of the air temperature
+        Tvs = 0.0 //Mean Ground Surface Temperature
         
         //Wait until views are loaded to set real value
         zeroInView = 0
@@ -182,21 +186,32 @@ class ViewController: UIViewController {
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
+        view.addSubview(meanGroundSurfaceTemp)
         
-//        UIGraphicsBeginImageContext(self.view.frame.size)
-//        UIImage(named: "Sky")?.draw(in: self.view.bounds)
-//
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "Sky")?.draw(in: self.view.bounds)
+
+        if let image = UIGraphicsGetImageFromCurrentImageContext(){
+            UIGraphicsEndImageContext()
+            self.view.backgroundColor = UIColor(patternImage: image)
+        }else{
+            UIGraphicsEndImageContext()
+            debugPrint("Image not available")
+        }
+
+//        UIGraphicsBeginImageContext(snowImageView.frame.size)
+//        UIImage(named: "Snow")?.draw(in: snowImageView.bounds)
+//        
 //        if let image = UIGraphicsGetImageFromCurrentImageContext(){
 //            UIGraphicsEndImageContext()
-//            self.view.backgroundColor = UIColor(patternImage: image)
+//            snowImageView.backgroundColor = UIColor(patternImage: image)
 //        }else{
 //            UIGraphicsEndImageContext()
 //            debugPrint("Image not available")
 //        }
-//
         
         //make the background/underneath view a sky color
-        self.view.backgroundColor = UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
+      //  self.view.backgroundColor = UIColor(patternImage: image) // UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
         
         //Initialize Temperature Label (Mean Temperature)
         tempLabel.text = "Mean Air Temp = " + String(describing: Tair) + " °C"
@@ -230,6 +245,10 @@ class ViewController: UIViewController {
         groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
         groundTempLabel.backgroundColor = .white
         groundTempLabel.sizeToFit()
+        
+        meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + String(describing: Tvs) + " °C"
+        meanGroundSurfaceTemp.backgroundColor = .white
+        meanGroundSurfaceTemp.sizeToFit()
         
         //update the permafrost view
         drawPermafrost()
@@ -314,7 +333,6 @@ class ViewController: UIViewController {
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and Conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
         copyrightGIUAF.textColor = .white
-    //    copyrightGIUAF.sizeToFit()
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         //Dynamically wrapping
         copyrightGIUAF.lineBreakMode = .byWordWrapping
@@ -341,8 +359,11 @@ class ViewController: UIViewController {
         groundLabel.frame.origin = CGPoint(x: organicLayer.frame.maxX - groundLabel.frame.width - padding/4, y: padding/4)
         //ALT
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
+        //Tvs
+       meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: permafrostLabel.frame.minY  - meanGroundSurfaceTemp.frame.height - padding/4  )
         //Tgs
-        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        
     }
     
     /**
@@ -358,6 +379,9 @@ class ViewController: UIViewController {
         maxSnowHeight = heightBasedOffPercentage - minimumHeight
         
         maxGroundHeight = screenHeight - heightBasedOffPercentage //the minimum the grey view can be
+        
+        //set the images sizes to draw to these heights
+        
     }
     
     /**
@@ -365,7 +389,7 @@ class ViewController: UIViewController {
     */
     private func updatePermafrostLabel(){
         //update the value
-        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), magt: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks))
+        ALT = CGFloat(computePermafrost(Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: (Cmf * 1000000), Cmt: (Cmt * 1000000), Cvf: (Cvf * 1000000), Cvt: (Cvt * 1000000), Hs: Hs, Hv: Hv, Cs: (Cs * 1000000), magt: &Tgs, tTemp: Double(Tair), aTemp: Double(Aair), eta: eta, Ks: Ks, Tvs: &Tvs))
         
         //update the display
         ALT = round(num: ALT, format: ".2")
@@ -379,7 +403,18 @@ class ViewController: UIViewController {
         else {
             Tgs = Double(round(num: CGFloat(Tgs), format: ".2"))
             groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
-            groundTempLabel.sizeToFit()
+        }
+        groundTempLabel.sizeToFit()
+        groundTempLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: groundTempLabel.frame.minY), size: CGSize(width: groundTempLabel.frame.width, height: groundTempLabel.frame.height))
+        
+        if(Tvs.isNaN){
+            meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + "NaN" + " °C"
+        }
+        else{
+            Tvs = Double(round(num: CGFloat(Tvs), format: ".2"))
+            meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + String(describing: Tvs) + " °C"
+            meanGroundSurfaceTemp.sizeToFit()
+            meanGroundSurfaceTemp.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY), size: CGSize(width: meanGroundSurfaceTemp.frame.width, height: meanGroundSurfaceTemp.frame.height))
         }
         
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
@@ -389,9 +424,9 @@ class ViewController: UIViewController {
         
         groundFrame.origin = CGPoint(x: 0, y: groundY)
 
-        if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame])){
+        if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame, meanGroundSurfaceTemp.frame])){
             //it intersects a label
-            newY = groundTempLabel.frame.maxY + padding/4
+            newY = meanGroundSurfaceTemp.frame.maxY + padding/4
         }
          permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
@@ -668,7 +703,7 @@ class ViewController: UIViewController {
     */
     @IBAction func handleSkyGesture(recognizer: UIPanGestureRecognizer){
         let translation = recognizer.translation(in: self.view)
-        let unitPerMovement:CGFloat = 1/5.0
+        let unitPerMovement:CGFloat = 1/10.0
         
         //Get the movement difference in degrees
         var temp = unitPerMovement * translation.x
@@ -704,8 +739,6 @@ class ViewController: UIViewController {
             Tair = temp
             Aair = atmosTemp
         }
-        Tair = temp
-        Aair = atmosTemp
         drawPermafrost()
     }
     
@@ -1062,6 +1095,7 @@ class ViewController: UIViewController {
         location.Tair = Double(Tair)
         location.Aair = Double(Aair)
         location.ALT = Double(ALT)
+       // location.Tvs = Tvs
     }
     
     /**

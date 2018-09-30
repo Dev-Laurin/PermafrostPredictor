@@ -19,11 +19,9 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var locationNameTextField: UITextField!
     
     //Temperature
-    @IBOutlet weak var aairStepper: UIStepper!
-    @IBOutlet weak var aairLabel: UILabel!
-    @IBOutlet weak var tairLabel: UILabel!
     @IBOutlet weak var tempUIView: UIView!
-    @IBOutlet weak var tairStepper: UIStepper!
+    @IBOutlet weak var aairTextField: UITextField!
+    @IBOutlet weak var tairTextField: UITextField!
     
     //Snow
     @IBOutlet weak var volumetricSnow: UITextField!
@@ -70,21 +68,6 @@ class LocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //steppers
-        //steppers wrap around to other value
-        tairStepper.wraps = true
-        aairStepper.wraps = true
-        
-        //if user holds down, the values will continue to change
-        tairStepper.autorepeat = true
-        aairStepper.autorepeat = true
-        
-        //stakeholder given values
-        tairStepper.maximumValue = 10.0
-        aairStepper.maximumValue = 25.0
-        tairStepper.minimumValue = -25.0 
-        aairStepper.minimumValue = 0.0
-        
         //update labels to include units in superscript form
         let bigFont = UIFont(name: "Helvetica", size: 17)!
         let smFont = UIFont(name: "Helvetica", size: 14)!
@@ -104,8 +87,8 @@ class LocationViewController: UIViewController {
             locationNameTextField.text = location.name
             
             //Temperature
-            aairLabel.text = String(describing: location.Aair)
-            tairLabel.text = String(describing: location.Tair)
+            aairTextField.text = String(describing: location.Aair)
+            tairTextField.text = String(describing: location.Tair)
             tempUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Sun")!)
             
             //Snow
@@ -170,21 +153,6 @@ class LocationViewController: UIViewController {
         return validate()
     }
     
-    //MARK: Public functions
-    /**
-     The Aair stepper changed values, update the Aair label.
-    */
-    @IBAction func aairStepperChanged(_ sender: UIStepper) {
-        aairLabel.text = String(describing: sender.value)
-    }
-    
-    /**
-     The Tair stepper changed values, update the Tair label.
-    */
-    @IBAction func tairStepperChanged(_ sender: UIStepper) {
-        tairLabel.text = String(describing: sender.value)
-    }
-    
     //MARK: Private functions
     /**
      An alert function that creates a popup. Used to alert the user that an input is invalid.
@@ -212,7 +180,7 @@ class LocationViewController: UIViewController {
         
         //Temperature
         //Air Amplitude
-        guard let aair = Double(aairLabel.text!) else {
+        guard let aair = Double(aairTextField.text!) else {
             //alert
             createAlert(title: "Invalid Input", errorMessage: "Air Amplitude must be a positive number.")
             return false
@@ -224,7 +192,7 @@ class LocationViewController: UIViewController {
         }
         
         //Mean Annual Air Temperature
-        guard let tair = Double(tairLabel.text!) else {
+        guard let tair = Double(tairTextField.text!) else {
             createAlert(title: "Invalid Tair Input", errorMessage: "Mean Annual Temperature must be a number.")
             return false
         }
