@@ -214,7 +214,7 @@ class ViewController: UIViewController {
       //  self.view.backgroundColor = UIColor(patternImage: image) // UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
         
         //Initialize Temperature Label (Mean Temperature)
-        tempLabel.text = "Mean Air Temp = " + String(describing: Tair) + " °C"
+        tempLabel.text = "Mean Air Temp: " + String(describing: Tair) + " °C"
         tempLabel.sizeToFit()
         tempLabel.backgroundColor = .white
         
@@ -231,22 +231,22 @@ class ViewController: UIViewController {
             //Have white "boxes" around the labels for better text readability
 
         snowLabel.backgroundColor = .white
-        snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
+        snowLabel.text = "Snow Height: " + String(describing: Hs) + " m"
         snowLabel.sizeToFit()
         
-        groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
+        groundLabel.text = "Organic Layer Thickness: " + String(describing: Hv) + " m"
         groundLabel.backgroundColor = .white
         groundLabel.sizeToFit()
         
-        permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
+        permafrostLabel.text = "Active Layer Thickness: " + String(describing: ALT) + " m"
         permafrostLabel.backgroundColor = .white
         permafrostLabel.sizeToFit()
         
-        groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
+        groundTempLabel.text = "Mean Annual Ground Temperature: " + String(describing: Tgs) + " °C"
         groundTempLabel.backgroundColor = .white
         groundTempLabel.sizeToFit()
         
-        meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + String(describing: Tvs) + " °C"
+        meanGroundSurfaceTemp.text = "Mean Ground Surface Temperature: " + String(describing: Tvs) + " °C"
         meanGroundSurfaceTemp.backgroundColor = .white
         meanGroundSurfaceTemp.sizeToFit()
         
@@ -331,7 +331,7 @@ class ViewController: UIViewController {
         
         let copyrightGIUAF = UILabel()
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and Conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
+        copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
         copyrightGIUAF.textColor = .white
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         //Dynamically wrapping
@@ -349,21 +349,80 @@ class ViewController: UIViewController {
      Draw the label locations initially
     */
     private func drawInitLabels(){
+        var maxFonts = [CGFloat]()
         //Aair label
         atmosphericTempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY)
+        maxFonts.append(findMaxFontForLabel(label: atmosphericTempLabel, maxSize: sunView.frame.minX - padding/2))
+
         //Tair
         tempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY + tempLabel.frame.height + padding/4)
+        maxFonts.append(findMaxFontForLabel(label: tempLabel, maxSize: sunView.frame.minX - padding/2))
+        
         //Snow
         snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        maxFonts.append(findMaxFontForLabel(label: snowLabel, maxSize: screenWidth - padding/2))
+        
         //Organic
         groundLabel.frame.origin = CGPoint(x: organicLayer.frame.maxX - groundLabel.frame.width - padding/4, y: padding/4)
+        maxFonts.append(findMaxFontForLabel(label: groundLabel, maxSize: screenWidth - padding/2))
+        
         //ALT
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
+        maxFonts.append(findMaxFontForLabel(label: permafrostLabel, maxSize: screenWidth - padding/2))
+        
         //Tvs
        meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: permafrostLabel.frame.minY  - meanGroundSurfaceTemp.frame.height - padding/4  )
+        maxFonts.append(findMaxFontForLabel(label: meanGroundSurfaceTemp, maxSize: screenWidth - padding/2))
+        
         //Tgs
         groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        maxFonts.append(findMaxFontForLabel(label: groundTempLabel, maxSize: screenWidth - padding/2))
         
+        //Find which font size is the minimum that all the labels can do
+        var minFont: CGFloat = maxFonts[0]
+        for font in maxFonts {
+            if font < minFont {
+                minFont = font
+            }
+        }
+
+        //Set all the labels to this new size
+        atmosphericTempLabel.font = atmosphericTempLabel.font.withSize(minFont)
+        atmosphericTempLabel.sizeToFit()
+        tempLabel.font = tempLabel.font.withSize(minFont)
+        tempLabel.sizeToFit()
+        snowLabel.font = snowLabel.font.withSize(minFont)
+        snowLabel.sizeToFit()
+        groundLabel.font = groundLabel.font.withSize(minFont)
+        groundLabel.sizeToFit()
+        permafrostLabel.font = permafrostLabel.font.withSize(minFont)
+        permafrostLabel.sizeToFit()
+        meanGroundSurfaceTemp.font = meanGroundSurfaceTemp.font.withSize(minFont)
+        meanGroundSurfaceTemp.sizeToFit()
+        groundTempLabel.font = groundTempLabel.font.withSize(minFont)
+        groundTempLabel.sizeToFit()
+        
+        //reset their origins
+        atmosphericTempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY)
+
+        //Tair
+        tempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY + tempLabel.frame.height + padding/4)
+
+        //Snow
+        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+ 
+        //Organic
+        groundLabel.frame.origin = CGPoint(x: organicLayer.frame.maxX - groundLabel.frame.width - padding/4, y: padding/4)
+  
+        //ALT
+        permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
+
+        //Tvs
+        meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: permafrostLabel.frame.minY  - meanGroundSurfaceTemp.frame.height - padding/4  )
+   
+        //Tgs
+        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY  - groundTempLabel.frame.height - padding/4 )
+ 
     }
     
     /**
@@ -393,26 +452,26 @@ class ViewController: UIViewController {
         
         //update the display
         ALT = round(num: ALT, format: ".2")
-        permafrostLabel.text = "Active Layer Thickness = " + String(describing: ALT) + " m"
+        permafrostLabel.text = "Active Layer Thickness: " + String(describing: ALT) + " m"
         permafrostLabel.sizeToFit()
         
         //update ground temperature label
         if(Tgs.isNaN){
-            groundTempLabel.text = "Mean Annual Ground Temp = " + "NaN" + " °C"
+            groundTempLabel.text = "Mean Annual Ground Temperature: " + "NaN" + " °C"
         }
         else {
             Tgs = Double(round(num: CGFloat(Tgs), format: ".2"))
-            groundTempLabel.text = "Mean Annual Ground Temp = " + String(describing: Tgs) + " °C"
+            groundTempLabel.text = "Mean Annual Ground Temperature: " + String(describing: Tgs) + " °C"
         }
         groundTempLabel.sizeToFit()
         groundTempLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: groundTempLabel.frame.minY), size: CGSize(width: groundTempLabel.frame.width, height: groundTempLabel.frame.height))
         
         if(Tvs.isNaN){
-            meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + "NaN" + " °C"
+            meanGroundSurfaceTemp.text = "Mean Ground Surface Temperature: " + "NaN" + " °C"
         }
         else{
             Tvs = Double(round(num: CGFloat(Tvs), format: ".2"))
-            meanGroundSurfaceTemp.text = "Mean Ground Surface Temp = " + String(describing: Tvs) + " °C"
+            meanGroundSurfaceTemp.text = "Mean Ground Surface Temperature: " + String(describing: Tvs) + " °C"
             meanGroundSurfaceTemp.sizeToFit()
             meanGroundSurfaceTemp.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY), size: CGSize(width: meanGroundSurfaceTemp.frame.width, height: meanGroundSurfaceTemp.frame.height))
         }
@@ -432,7 +491,7 @@ class ViewController: UIViewController {
  }
     
     /**
-     
+     Animate the sidebar opening and closing. 
     */
     @IBAction func infoButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -450,6 +509,7 @@ class ViewController: UIViewController {
         }
         
     }
+    
     /**
      Snow layer was tapped - display values for entering.
     */
@@ -722,7 +782,7 @@ class ViewController: UIViewController {
         else if(temp > 10){
             temp = 10
         }
-        tempLabel.text = String("Mean Air Temp = " + String(describing: temp) + " °C")
+        tempLabel.text = String("Mean Air Temperature: " + String(describing: temp) + " °C")
         tempLabel.sizeToFit()
         
         atmosTemp = round(num: atmosTemp, format: ".1")
@@ -893,7 +953,7 @@ class ViewController: UIViewController {
         ````
     */
     private func updateAairLabel(newText: String){
-        atmosphericTempLabel.text = "Air Temp Amplitude = " + newText + " °C"
+        atmosphericTempLabel.text = "Air Temperature Amplitude: " + newText + " °C"
         atmosphericTempLabel.sizeToFit()
     }
     
@@ -973,7 +1033,7 @@ class ViewController: UIViewController {
         ALT = CGFloat(location.ALT)
         
         //Update Temp labels
-        tempLabel.text = String("Mean Air Temp = " + String(describing: Tair) + " °C")
+        tempLabel.text = String("Mean Air Temperature: " + String(describing: Tair) + " °C")
         tempLabel.sizeToFit()
         updateAairLabel(newText: String(describing: Aair))
         
@@ -1048,7 +1108,7 @@ class ViewController: UIViewController {
             snowLabel.sizeToFit()
         }
         else{
-            snowLabel.text = "Snow Height = " + String(describing: Hs) + " m"
+            snowLabel.text = "Snow Height: " + String(describing: Hs) + " m"
             snowLabel.sizeToFit()
         }
         
@@ -1065,7 +1125,7 @@ class ViewController: UIViewController {
             Hv = 0.0
             groundLabel.text = "No Organic"
         }else{
-            groundLabel.text = "Organic Layer Thickness = " + String(describing: Hv) + " m"
+            groundLabel.text = "Organic Layer Thickness: " + String(describing: Hv) + " m"
         }
         groundLabel.sizeToFit()
         
@@ -1095,7 +1155,7 @@ class ViewController: UIViewController {
         location.Tair = Double(Tair)
         location.Aair = Double(Aair)
         location.ALT = Double(ALT)
-       // location.Tvs = Tvs
+        location.Tvs = Tvs
     }
     
     /**

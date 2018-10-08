@@ -375,3 +375,29 @@ func changeViewsYValue( view: UIView, newX: CGFloat, newY: CGFloat)->UIView{
     
     return view
 }
+
+/**
+ Find the maximum font the label's text can be without going off screen or viewing ontop of other elements.
+ 
+ - parameter label: A UILabel with text already assigned and position (frame).
+ - parameter maxSize: The biggest the label can be (the size of the screen - padding? Or it will run into this other object at ....).
+ 
+ # Usage Example: #
+ ````
+ //Padding for each side of label - find our maximum font size
+ var maxFontSize = findMaxFontForLabel(label: ourUILabel, maxSize: ObjectOnRight.frame.minX - (padding * 2))
+ ````
+ */
+func findMaxFontForLabel(label: UILabel, maxSize: CGFloat)->CGFloat{
+    label.font = label.font.withSize(1)
+    label.sizeToFit()
+    let sizeWithFont1 = label.frame.width
+    
+    if sizeWithFont1 > 0 {
+        let maxFontSize = maxSize/sizeWithFont1
+        return maxFontSize
+    }
+    
+    //can't divide by 0 
+    return 0.0
+}

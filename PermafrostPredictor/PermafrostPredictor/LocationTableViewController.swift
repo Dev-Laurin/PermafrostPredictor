@@ -44,7 +44,7 @@ class LocationTableViewController: UITableViewController {
      The default locations to be loaded into the array if the user hasn't stored any of their own.
     */
     private func loadDefaultLocations(){
-        guard let location = Location(name: "Fairbanks", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0) else {
+        guard let location = Location(name: "Fairbanks", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0, Tvs: 0) else {
             fatalError("Failed to initialize default location.")
         }
         locations += [location]

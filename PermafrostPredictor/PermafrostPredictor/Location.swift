@@ -33,6 +33,7 @@ class Location : NSObject, NSCoding {
     var Tair: Double //Mean Annual temperature
     var Aair : Double //Amplitude of the air temperature
     var ALT: Double //Active Layer Thickness
+    var Tvs: Double
     
     //default constructor
     override init() {
@@ -54,10 +55,11 @@ class Location : NSObject, NSCoding {
         self.Tair = 0.0
         self.Aair = 0.0
         self.ALT = 0.0
+        self.Tvs = 0.0
     }
     
     //constructor with parameters
-    init?(name: String, Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: Double, eta: Double, Ks: Double, Tair: Double, Aair: Double, ALT: Double){
+    init?(name: String, Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: Double, Cmt: Double, Cvf: Double, Cvt: Double, Hs: Double, Hv: Double, Cs: Double, Tgs: Double, eta: Double, Ks: Double, Tair: Double, Aair: Double, ALT: Double, Tvs: Double){
         
         //check if name exists
         guard !name.isEmpty else{
@@ -81,7 +83,7 @@ class Location : NSObject, NSCoding {
         self.Tair = Tair
         self.Aair = Aair
         self.ALT = ALT
-        
+        self.Tvs = Tvs
     }
     
     //MARK: types
@@ -104,6 +106,7 @@ class Location : NSObject, NSCoding {
         static let Tair = "Tair"
         static let Aair = "Aair"
         static let ALT = "ALT"
+        static let Tvs = "Tvs"
         
     }
     
@@ -134,6 +137,7 @@ class Location : NSObject, NSCoding {
         aCoder.encode(Tair, forKey: PropertyKey.Tair)
         aCoder.encode(Aair, forKey: PropertyKey.Aair)
         aCoder.encode(ALT, forKey: PropertyKey.ALT)
+        aCoder.encode(Tvs, forKey: PropertyKey.Tvs)
     }
     
     /**
@@ -214,8 +218,11 @@ class Location : NSObject, NSCoding {
             os_log("Unable to decode ALT number.", log: OSLog.default, type: .debug)
             return nil
         }
-        
-        self.init(name: name, Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: Tgs, eta: eta, Ks: Ks, Tair: Tair, Aair: Aair, ALT: ALT)
+        guard let Tvs = aDecoder.decodeDouble(forKey: PropertyKey.Tvs) as Double? else {
+            os_log("Unable to decode Tvs number.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        self.init(name: name, Kvf: Kvf, Kvt: Kvt, Kmf: Kmf, Kmt: Kmt, Cmf: Cmf, Cmt: Cmt, Cvf: Cvf, Cvt: Cvt, Hs: Hs, Hv: Hv, Cs: Cs, Tgs: Tgs, eta: eta, Ks: Ks, Tair: Tair, Aair: Aair, ALT: ALT, Tvs: Tvs)
     }
     
     //MARK: Archiving Paths

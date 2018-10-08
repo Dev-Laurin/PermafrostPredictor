@@ -292,15 +292,38 @@ class PermafrostPredictorTests: XCTestCase {
         _ = superscriptTheString(str: s, toSuper: stringToSuperscript, strAtEnd: "", bigFont: font,  smallFont: smallFont)
     }
     
+    func testFindMaxFontForLabel(){
+        //font based off screen size
+        let screenWidth: CGFloat = 500 - 20 //for padding
+        var label = UILabel()
+        label.text = "Hello"
+        label.font = label.font.withSize(1)
+        label.sizeToFit()
+        var fontSize1 = label.frame.width
+        let size = screenWidth/fontSize1
+        
+        XCTAssert(findMaxFontForLabel(label: label, maxSize: screenWidth) == size)
+        
+        //Empty string
+        label.text = ""
+        label.sizeToFit()
+        fontSize1 = label.frame.width
+        XCTAssert(findMaxFontForLabel(label: label, maxSize: screenWidth) == 0.0)
+        
+        label = UILabel()
+        XCTAssert(findMaxFontForLabel(label: label, maxSize: screenWidth) == 0.0)
+    }
+    
     //MARK: matlabConvertedFunctions.swift
     //test the permafrost calculating functions
     func testMatlabConvertedFunctions(){
         //test given by stakeholder - May 22, 2018
         var temp: Double = 0
-        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, magt: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15)), format: ".3") == 0.86)
+        var temp2: Double = 0
+        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, magt: &temp, tTemp: -2, aTemp: 17, eta: 0.45, Ks: 0.15, Tvs: &temp2)), format: ".3") == 0.86)
         
         //Test with units that cause NaN
-        XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, magt: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15).isNaN)
+        XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, magt: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15, Tvs: &temp2).isNaN)
         
     }
     
@@ -366,10 +389,10 @@ class PermafrostPredictorTests: XCTestCase {
     
     //MARK: Location.swift
     func testLocationClass(){
-        var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0)
+        var location = Location.init(name: "Fairbanks", Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, Tgs: 0.0, eta: 0.45, Ks: 0.15, Tair: -2, Aair: 17, ALT: 0, Tvs: 0.0)
         XCTAssertNotNil(location)
         
-        location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0)
+        location = Location.init(name: "", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0, Tvs: 0.0)
         XCTAssertNil(location)
         
     }

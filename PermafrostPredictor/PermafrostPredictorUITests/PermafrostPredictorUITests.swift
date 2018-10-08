@@ -54,25 +54,7 @@ class PermafrostPredictorUITests: XCTestCase {
         
         let element6 = app.scrollViews.children(matching: .other).element.children(matching: .other).element
         let element = element6.children(matching: .other).element(boundBy: 0).children(matching: .other).element
-        let steppersQuery = element.children(matching: .other).element(boundBy: 0).steppers
-        steppersQuery.buttons["Increment"].tap()
-        
-        let decrementButton = steppersQuery.buttons["Decrement"]
-        decrementButton.tap()
-        decrementButton.tap()
-        element.tap()
-        
-        let steppersQuery2 = element.children(matching: .other).element(boundBy: 1).steppers
-        let incrementButton = steppersQuery2.buttons["Increment"]
-        incrementButton.tap()
-        
-        let decrementButton2 = steppersQuery2.buttons["Decrement"]
-        decrementButton2.tap()
-        decrementButton2.tap()
-        incrementButton.tap()
-        incrementButton.tap()
-        incrementButton.tap()
-        
+
         let element2 = element6.children(matching: .other).element(boundBy: 1)
         element2.swipeUp()
         

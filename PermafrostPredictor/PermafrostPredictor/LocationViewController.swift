@@ -51,6 +51,7 @@ class LocationViewController: UIViewController {
     //inputs that are given from other view
     var ALT : Double = 0.0
     var Tgs: Double = 0.0
+    var Tvs: Double = 0.0 
     
     //Buttons
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -274,7 +275,7 @@ class LocationViewController: UIViewController {
             return false
         }
  
-        location = Location(name: name, Kvf: organicThermThawed, Kvt: organicThermFrozen, Kmf: mineralThermFrozen, Kmt: mineralThermThawed, Cmf: mineralVolFrozen, Cmt: mineralVolThawed, Cvf: organicVolFrozen, Cvt: organicVolThawed, Hs: snowHeight, Hv: organicThickness, Cs: volSnow, Tgs: Tgs, eta: mineralPorosity, Ks: therSnow, Tair: tair, Aair: aair, ALT: ALT)
+        location = Location(name: name, Kvf: organicThermFrozen, Kvt: organicThermThawed , Kmf: mineralThermFrozen, Kmt: mineralThermThawed, Cmf: mineralVolFrozen, Cmt: mineralVolThawed, Cvf: organicVolFrozen, Cvt: organicVolThawed, Hs: snowHeight, Hv: organicThickness, Cs: volSnow, Tgs: Tgs, eta: mineralPorosity, Ks: therSnow, Tair: tair, Aair: aair, ALT: ALT, Tvs: Tvs)
         
         return true
     }
