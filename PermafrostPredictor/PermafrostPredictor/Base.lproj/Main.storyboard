@@ -292,10 +292,10 @@
                                                         <rect key="frame" x="0.0" y="61" width="344" height="133"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Kxa-Yx-0xw">
-                                                                <rect key="frame" x="58" y="5" width="229" height="123"/>
+                                                                <rect key="frame" x="20" y="5" width="305" height="123"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Air Temperature Amplitude °C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ros-Ib-6oR">
-                                                                        <rect key="frame" x="1" y="0.0" width="227" height="21"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Air Temperature Amplitude °C" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ros-Ib-6oR">
+                                                                        <rect key="frame" x="1" y="0.0" width="303" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="qCt-e5-WxR"/>
                                                                         </constraints>
@@ -303,19 +303,14 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ll3-dF-oPX">
-                                                                        <rect key="frame" x="34" y="29" width="161" height="28"/>
-                                                                        <subviews>
-                                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uvk-ZN-jqc">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="161" height="28"/>
-                                                                                <nil key="textColor"/>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits"/>
-                                                                            </textField>
-                                                                        </subviews>
-                                                                    </stackView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mean Air Temperature °C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-vl-Hba">
-                                                                        <rect key="frame" x="18" y="65" width="193" height="21"/>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10.000" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uvk-ZN-jqc">
+                                                                        <rect key="frame" x="120" y="29" width="65" height="30"/>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mean Air Temperature °C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-vl-Hba">
+                                                                        <rect key="frame" x="18" y="67" width="269" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="ueY-FP-HLG"/>
                                                                         </constraints>
@@ -323,23 +318,15 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FZN-TP-juW">
-                                                                        <rect key="frame" x="34" y="94" width="161" height="29"/>
-                                                                        <subviews>
-                                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t0y-Mr-XL2">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="161" height="29"/>
-                                                                                <nil key="textColor"/>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits"/>
-                                                                            </textField>
-                                                                        </subviews>
-                                                                    </stackView>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10.000" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t0y-Mr-XL2">
+                                                                        <rect key="frame" x="120" y="96" width="65" height="27"/>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="Ll3-dF-oPX" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="34" id="0eR-zL-Q8i"/>
-                                                                    <constraint firstItem="FZN-TP-juW" firstAttribute="top" secondItem="Kxa-Yx-0xw" secondAttribute="top" constant="94" id="AYy-Hz-yhq"/>
                                                                     <constraint firstItem="Ros-Ib-6oR" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="1" id="EGK-jy-vgE"/>
-                                                                    <constraint firstItem="Ll3-dF-oPX" firstAttribute="leading" secondItem="FZN-TP-juW" secondAttribute="leading" id="v0y-7S-MGe"/>
                                                                     <constraint firstItem="8gr-vl-Hba" firstAttribute="leading" secondItem="Kxa-Yx-0xw" secondAttribute="leading" constant="18" id="w3k-tP-KGb"/>
                                                                 </constraints>
                                                             </stackView>
@@ -347,7 +334,7 @@
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="Kxa-Yx-0xw" firstAttribute="top" secondItem="VED-pj-YNn" secondAttribute="top" constant="5" id="3Nk-Bp-kMJ"/>
-                                                            <constraint firstItem="Kxa-Yx-0xw" firstAttribute="leading" secondItem="VED-pj-YNn" secondAttribute="leading" constant="58" id="Kom-bp-b14"/>
+                                                            <constraint firstItem="Kxa-Yx-0xw" firstAttribute="leading" secondItem="VED-pj-YNn" secondAttribute="leading" constant="20" id="Kom-bp-b14"/>
                                                             <constraint firstAttribute="bottom" secondItem="Kxa-Yx-0xw" secondAttribute="bottom" constant="5" id="PmK-2f-XQO"/>
                                                             <constraint firstItem="Kxa-Yx-0xw" firstAttribute="centerX" secondItem="VED-pj-YNn" secondAttribute="centerX" id="h8i-Fw-zNR"/>
                                                         </constraints>

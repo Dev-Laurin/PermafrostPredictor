@@ -90,21 +90,31 @@ class LocationViewController: UIViewController {
             //Temperature
             aairTextField.text = String(describing: location.Aair)
             tairTextField.text = String(describing: location.Tair)
-            tempUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Sun")!)
+            tempUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Sun")!) 
             
             //Snow
             volumetricSnow.text = String(describing: location.Cs)
             thermalSnow.text = String(describing: location.Ks)
             snowHeightTextField.text = String(describing: location.Hs)
             snowUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
-            
+
             //Organic
+            //Image is big, so tiling won't be what is expected - shrink it
+            //Changing Image Size solution from here: https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift
+            let img = UIImage(named: "Ground")
+            let newSize = CGSize(width: 150, height: 100)
+            let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: newSize)
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+            img?.draw(in: rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
             organicThermalThawedTextField.text = String(describing: location.Kvt)
             organicThermalFrozenTextField.text = String(describing: location.Kvf)
             organicVolumetricThawedTextField.text = String(describing: location.Cvt)
             organicVolumetricFrozenTextField.text = String(describing: location.Cvf)
             organicThicknessTextField.text = String(describing: location.Hv)
-            organicUIView.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
+            organicUIView.backgroundColor = UIColor(patternImage: newImage!)
             
             //Mineral
             mineralPorosityTextField.text = String(describing: location.eta)

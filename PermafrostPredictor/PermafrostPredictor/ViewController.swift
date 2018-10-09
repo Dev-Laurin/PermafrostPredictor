@@ -198,20 +198,17 @@ class ViewController: UIViewController {
             UIGraphicsEndImageContext()
             debugPrint("Image not available")
         }
-
-//        UIGraphicsBeginImageContext(snowImageView.frame.size)
-//        UIImage(named: "Snow")?.draw(in: snowImageView.bounds)
-//        
-//        if let image = UIGraphicsGetImageFromCurrentImageContext(){
-//            UIGraphicsEndImageContext()
-//            snowImageView.backgroundColor = UIColor(patternImage: image)
-//        }else{
-//            UIGraphicsEndImageContext()
-//            debugPrint("Image not available")
-//        }
         
-        //make the background/underneath view a sky color
-      //  self.view.backgroundColor = UIColor(patternImage: image) // UIColor(red: 0, green: 191/255, blue: 255/255, alpha: 1.0)
+        //Make the ground image repeat width wise, not height wise by setting the height to our
+        //maximum view size
+        //Changing Image Size solution from here: https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift
+        let img = UIImage(named: "Ground")
+        let newSize = CGSize(width: organicLayer.frame.width, height: maxOrganicLayerHeight)
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: organicLayer.frame.width, height: maxOrganicLayerHeight))
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        img?.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         
         //Initialize Temperature Label (Mean Temperature)
         tempLabel.text = "Mean Air Temp: " + String(describing: Tair) + " °C"
@@ -224,7 +221,7 @@ class ViewController: UIViewController {
 
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
-        organicLayer.backgroundColor = UIColor(patternImage: UIImage(named: "Ground")!)
+        organicLayer.backgroundColor = UIColor(patternImage: newImage!)
         groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
 
         //Initialize Labels
@@ -333,10 +330,25 @@ class ViewController: UIViewController {
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
         copyrightGIUAF.textColor = .white
+        
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         //Dynamically wrapping
         copyrightGIUAF.lineBreakMode = .byWordWrapping
         copyrightGIUAF.numberOfLines = 0
+
+        let maxHeight = sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height
+        let maxWidth = sidebar.frame.width - padding/2
+        //Make the text fit any screen
+        for i in 1...50 {
+            copyrightGIUAF.font = copyrightGIUAF.font.withSize(CGFloat(i))
+            copyrightGIUAF.frame.size = CGSize(width: maxWidth, height: maxHeight)
+            copyrightGIUAF.sizeToFit()
+            
+            if copyrightGIUAF.frame.height > maxHeight {
+                copyrightGIUAF.font = copyrightGIUAF.font.withSize(CGFloat(i - 1))
+                break
+            }
+        }
         
         //set the size
         sidebar.frame.origin = CGPoint(x: -sidebar.frame.width, y: 0)

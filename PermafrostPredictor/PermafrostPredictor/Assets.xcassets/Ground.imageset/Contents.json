@@ -2,7 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "root.png"
+      "filename" : "root_iPad-1.png"
+    },
+    {
+      "idiom" : "iphone",
+      "filename" : "root_iPhone.png"
+    },
+    {
+      "idiom" : "ipad",
+      "filename" : "root_iPad.png"
     }
   ],
   "info" : {
