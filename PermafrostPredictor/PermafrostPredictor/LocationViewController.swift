@@ -12,7 +12,7 @@ import os.log
 /**
     The location detail view. This is where the user can edit location values directly as well as save new locations to be added to the list.
  */
-class LocationViewController: UIViewController {
+class LocationViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Variables
     //items
@@ -68,6 +68,24 @@ class LocationViewController: UIViewController {
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //for exiting textfields
+        locationNameTextField.delegate = self
+        aairTextField.delegate = self
+        tairTextField.delegate = self
+        volumetricSnow.delegate = self
+        thermalSnow.delegate = self
+        snowHeightTextField.delegate = self
+        organicThermalThawedTextField.delegate = self
+        organicThermalFrozenTextField.delegate = self
+        organicVolumetricFrozenTextField.delegate = self
+        organicVolumetricThawedTextField.delegate = self
+        organicThicknessTextField.delegate = self
+        mineralPorosityTextField.delegate = self
+        mineralThermalThawedTextField.delegate = self
+        mineralThermalFrozenTextField.delegate = self
+        mineralVolumetricThawedTextField.delegate = self
+        mineralVolumetricFrozenTextField.delegate = self
         
         //update labels to include units in superscript form
         let bigFont = UIFont(name: "Helvetica", size: 17)!
@@ -177,8 +195,8 @@ class LocationViewController: UIViewController {
      ````
     */
     private func createAlert(title: String, errorMessage: String){
-        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -289,4 +307,11 @@ class LocationViewController: UIViewController {
         
         return true
     }
+    
+    //Have enter stop textfield editing
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+    
 }

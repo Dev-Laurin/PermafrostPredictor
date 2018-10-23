@@ -148,10 +148,8 @@ class PermafrostPredictorUITests: XCTestCase {
         let tablesQuery = app.tables
         tablesQuery.cells.containing(.staticText, identifier:"Fairbanks").buttons["Load"].tap()
         locationsButton.tap()
-        tablesQuery.cells.containing(.staticText, identifier:"Default").buttons["Load"].tap()
+        tablesQuery.cells.containing(.staticText, identifier:"Fairbanks").buttons["Load"].tap()
         locationsButton.tap()
-        tablesQuery.children(matching: .cell).element(boundBy: 7).buttons["Load"].tap()
-        
        
     }
     

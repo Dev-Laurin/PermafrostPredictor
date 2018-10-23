@@ -44,10 +44,18 @@ class LocationTableViewController: UITableViewController {
      The default locations to be loaded into the array if the user hasn't stored any of their own.
     */
     private func loadDefaultLocations(){
-        guard let location = Location(name: "Fairbanks", Kvf: 0, Kvt: 0, Kmf: 0, Kmt: 0, Cmf: 0, Cmt: 0, Cvf: 0, Cvt: 0, Hs: 0, Hv: 0, Cs: 0, Tgs: 0, eta: 0, Ks: 0, Tair: 0, Aair: 0, ALT: 0, Tvs: 0) else {
-            fatalError("Failed to initialize default location.")
+        guard let location = Location(name: "Fairbanks", Kvf: 1.68, Kvt: 1.48, Kmf: 1.17, Kmt: 0.55, Cmf: 1.5, Cmt: 2.1, Cvf: 1.0, Cvt: 2.0, Hs: 0.40, Hv: 0.12, Cs: 0.84, Tgs: 0, eta: 0.5, Ks: 0.27, Tair: -2.3, Aair: 18.0, ALT: 0, Tvs: 0) else {
+            fatalError("Failed to initialize default location: Fairbanks.")
         }
         locations += [location]
+        guard let location2 = Location(name: "Utqiagvik", Kvf: 1.24, Kvt: 0.29, Kmf: 1.13, Kmt: 0.51, Cmf: 1.6, Cmt: 2.2, Cvf: 1.0, Cvt: 2.0, Hs: 0.18, Hv: 0.17, Cs: 0.84, Tgs: 0, eta: 0.71, Ks: 0.5, Tair: -11, Aair: 16, ALT: 0, Tvs: 0) else {
+            fatalError("Failed to initialize default location: Utqiagvik.")
+        }
+        locations += [location2]
+        guard let location3 = Location(name: "Nome", Kvf: 1.24, Kvt: 0.29, Kmf: 1.25, Kmt: 0.67, Cmf: 1.5, Cmt: 2.5, Cvf: 1.0, Cvt: 2.00, Hs: 0.30, Hv: 0.17, Cs: 0.84, Tgs: 0, eta: 0.35, Ks: 0.34, Tair: -2.50, Aair: 13.0, ALT: 0, Tvs: 0) else {
+            fatalError("Failed to initialize default location: Nome.")
+        }
+        locations += [location3]
         
     }
 
@@ -114,7 +122,7 @@ class LocationTableViewController: UITableViewController {
     /**
         Override to support editing the table view.
      */
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             locations.remove(at: indexPath.row)

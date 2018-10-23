@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var snowImageView: UIView!
     @IBOutlet weak var snowLabel: UILabel!
     
+    
     //Middle solid line that determines ground level of 0
     @IBOutlet weak var staticLineGround: UIImageView!
     
@@ -45,7 +46,7 @@ class ViewController: UIViewController {
     
     //Ground Temperature Label
     private var groundTempLabel: UILabel
-    private var meanGroundSurfaceTemp: UILabel
+    @IBOutlet weak var meanGroundSurfaceTemp: UILabel!
     
     //Padding is for drawing within a view so it's not touching the edges (labels)
     private var padding: CGFloat = 40.0
@@ -105,7 +106,7 @@ class ViewController: UIViewController {
     */
     required init(coder: NSCoder){        
         //default
-        location = Location()
+        location = Location(name: "Fairbanks", Kvf: 1.68, Kvt: 1.48, Kmf: 1.17, Kmt: 0.55, Cmf: 1.5, Cmt: 2.1, Cvf: 1.0, Cvt: 2.0, Hs: 0.40, Hv: 0.12, Cs: 0.84, Tgs: 0, eta: 0.5, Ks: 0.27, Tair: -2.3, Aair: 18.0, ALT: 0, Tvs: 0) ?? Location()
 
         //screen size
         screenHeight = UIScreen.main.bounds.height 
@@ -126,8 +127,7 @@ class ViewController: UIViewController {
         //Labels
         permafrostLabel = UILabel()
         groundTempLabel = UILabel()
-        meanGroundSurfaceTemp = UILabel()
-
+        
         //Our inputs for our permafrost formula
         Kvf = 0.25    //Thermal conductivity of frozen organic layer 
         Kvt = 0.1     //Thermal conductivity of thawed organic layer
@@ -161,7 +161,7 @@ class ViewController: UIViewController {
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
-        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     /**
@@ -186,8 +186,7 @@ class ViewController: UIViewController {
         view.addSubview(permafrostImageView)
         view.addSubview(permafrostLabel)
         view.addSubview(groundTempLabel)
-        view.addSubview(meanGroundSurfaceTemp)
-        
+
         UIGraphicsBeginImageContext(self.view.frame.size)
         UIImage(named: "Sky")?.draw(in: self.view.bounds)
 
@@ -301,19 +300,19 @@ class ViewController: UIViewController {
         
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
 
-        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
+        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as? UIImageView
 
         snowImageView = changeViewsYValue(view: snowImageView, newX: 0.0, newY: staticLineGround.frame.minY - snowImageView.frame.height)
         
-        snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as! UIImageView
+        snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as? UIImageView
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
         
-        lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as! UIImageView
+        lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as? UIImageView
         
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
-        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as! UIImageView
+        staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as? UIImageView
         
         //Make the Sun in its own view
         skyView.frame = CGRect(origin: CGPoint(x: 0.0, y:0.0), size: CGSize(width: screenWidth, height: screenHeight -  snowImageView.frame.minY - snowLineView.frame.height))
@@ -328,7 +327,7 @@ class ViewController: UIViewController {
         
         let copyrightGIUAF = UILabel()
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        copyrightGIUAF.text = "©2018 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
+        copyrightGIUAF.text = "©2018 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
         copyrightGIUAF.textColor = .white
         
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
@@ -370,8 +369,12 @@ class ViewController: UIViewController {
         tempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY + tempLabel.frame.height + padding/4)
         maxFonts.append(findMaxFontForLabel(label: tempLabel, maxSize: sunView.frame.minX - padding/2))
         
+        //Tvs
+        meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - meanGroundSurfaceTemp.frame.height )
+        maxFonts.append(findMaxFontForLabel(label: meanGroundSurfaceTemp, maxSize: screenWidth - padding/2))
+        
         //Snow
-        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
         maxFonts.append(findMaxFontForLabel(label: snowLabel, maxSize: screenWidth - padding/2))
         
         //Organic
@@ -382,12 +385,8 @@ class ViewController: UIViewController {
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
         maxFonts.append(findMaxFontForLabel(label: permafrostLabel, maxSize: screenWidth - padding/2))
         
-        //Tvs
-       meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: permafrostLabel.frame.minY  - meanGroundSurfaceTemp.frame.height - padding/4  )
-        maxFonts.append(findMaxFontForLabel(label: meanGroundSurfaceTemp, maxSize: screenWidth - padding/2))
-        
         //Tgs
-        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: groundImageView.frame.maxY  - groundTempLabel.frame.height - padding/4 )
         maxFonts.append(findMaxFontForLabel(label: groundTempLabel, maxSize: screenWidth - padding/2))
         
         //Find which font size is the minimum that all the labels can do
@@ -420,8 +419,11 @@ class ViewController: UIViewController {
         //Tair
         tempLabel.frame.origin = CGPoint(x: skyView.frame.minX + padding/2, y: sunView.frame.minY + tempLabel.frame.height + padding/4)
 
+        //Tvs
+        meanGroundSurfaceTemp.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - meanGroundSurfaceTemp.frame.height  ), size: CGSize(width: meanGroundSurfaceTemp.frame.width, height: meanGroundSurfaceTemp.frame.height))
+
         //Snow
-        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        snowLabel.frame = CGRect(origin: CGPoint(x: skyView.frame.maxX - snowLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
  
         //Organic
         groundLabel.frame.origin = CGPoint(x: organicLayer.frame.maxX - groundLabel.frame.width - padding/4, y: padding/4)
@@ -429,11 +431,8 @@ class ViewController: UIViewController {
         //ALT
         permafrostLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4 , y: self.view.frame.maxY - permafrostLabel.frame.height - padding/4)
 
-        //Tvs
-        meanGroundSurfaceTemp.frame.origin = CGPoint(x:  groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: permafrostLabel.frame.minY  - meanGroundSurfaceTemp.frame.height - padding/4  )
-   
         //Tgs
-        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY  - groundTempLabel.frame.height - padding/4 )
+        groundTempLabel.frame.origin = CGPoint(x:  groundImageView.frame.maxX - groundTempLabel.frame.width - padding/4, y: permafrostLabel.frame.minY  - groundTempLabel.frame.height - padding/4 )
  
     }
     
@@ -444,15 +443,12 @@ class ViewController: UIViewController {
         let screenHeight = UIScreen.main.bounds.height
         
         //How much can snow grow based on sun?
-        var minimumHeight = sunView.frame.minY + sunView.frame.height + snowLabel.frame.height + padding/2
-        minimumHeight += padding/4
+        var minimumHeight = sunView.frame.minY + sunView.frame.height + snowLabel.frame.height + (padding/4)
+        minimumHeight += padding/2
         //minimumHeight is the minimum Height we have to draw the top elements
         maxSnowHeight = heightBasedOffPercentage - minimumHeight
         
         maxGroundHeight = screenHeight - heightBasedOffPercentage //the minimum the grey view can be
-        
-        //set the images sizes to draw to these heights
-        
     }
     
     /**
@@ -488,6 +484,21 @@ class ViewController: UIViewController {
             meanGroundSurfaceTemp.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY), size: CGSize(width: meanGroundSurfaceTemp.frame.width, height: meanGroundSurfaceTemp.frame.height))
         }
         
+        //Exception Air Amp < | Mean Air Temp |
+        //Ground temperatures = Mean Air Temp
+        if Aair < abs(Tair) {
+            Tvs = Double(Tair)
+            Tvs = Double(round(num: CGFloat(Tvs), format: ".2"))
+            meanGroundSurfaceTemp.text = "Mean Ground Surface Temperature: " + String(describing: Tvs) + " °C"
+            meanGroundSurfaceTemp.sizeToFit()
+            meanGroundSurfaceTemp.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - meanGroundSurfaceTemp.frame.width - padding/4, y: meanGroundSurfaceTemp.frame.minY), size: CGSize(width: meanGroundSurfaceTemp.frame.width, height: meanGroundSurfaceTemp.frame.height))
+
+            Tgs = Double(Tair)
+            Tgs = Double(round(num: CGFloat(Tgs), format: ".2"))
+            groundTempLabel.text = "Mean Annual Ground Temperature: " + String(describing: Tgs) + " °C"
+            
+        }
+        
         //if label is to intersect other labels so it is unreadable - go to the bottom of the screen
         var newY = permafrostImageView.frame.maxY + padding/4
         let groundY = groundImageView.frame.minY + groundLabel.frame.minY + zeroInView
@@ -495,9 +506,9 @@ class ViewController: UIViewController {
         
         groundFrame.origin = CGPoint(x: 0, y: groundY)
 
-        if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame, meanGroundSurfaceTemp.frame])){
+        if(intersects(newY: newY, label: permafrostLabel, frames: [groundFrame, groundTempLabel.frame])){
             //it intersects a label
-            newY = meanGroundSurfaceTemp.frame.maxY + padding/4
+            newY = groundTempLabel.frame.maxY + padding/4
         }
          permafrostLabel.frame = CGRect(origin: CGPoint(x: groundImageView.frame.maxX - permafrostLabel.frame.width - padding/4, y: newY), size: CGSize(width: permafrostLabel.frame.width, height: permafrostLabel.frame.height))
  }
@@ -745,8 +756,8 @@ class ViewController: UIViewController {
             return true
         }
         else {
-            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -764,8 +775,8 @@ class ViewController: UIViewController {
      ````
     */
     private func createAlert(title: String, errorMessage: String){
-        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -807,7 +818,7 @@ class ViewController: UIViewController {
         updateAairLabel(newText: String(describing: atmosTemp))
         
         //If the user has let go
-        if recognizer.state == UIGestureRecognizerState.ended {
+        if recognizer.state == UIGestureRecognizer.State.ended {
             Tair = temp
             Aair = atmosTemp
         }
@@ -896,7 +907,9 @@ class ViewController: UIViewController {
         skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
         
         //Update label position
-        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - snowLabel.frame.height - padding/4), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        meanGroundSurfaceTemp.frame.origin =  CGPoint(x: snowLabel.frame.minX, y: previousViewHeight - padding/4 - meanGroundSurfaceTemp.frame.height)
+        
+        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: meanGroundSurfaceTemp.frame.minY - snowLabel.frame.height - padding/4 ), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
         
         //update the values
         Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
@@ -1126,7 +1139,7 @@ class ViewController: UIViewController {
         
         //redraw the label to end in the same place on the screen
         let snowLabelNewX: CGFloat = organicLayer.frame.maxX - snowLabel.frame.width - padding/4
-        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: snowLineView.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
+        snowLabel.frame = CGRect(origin: CGPoint(x: snowLabelNewX, y: meanGroundSurfaceTemp.frame.minY - padding/4 - snowLabel.frame.height), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
     }
     
     /**

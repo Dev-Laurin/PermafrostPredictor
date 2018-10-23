@@ -15,7 +15,7 @@ class PermafrostPredictorTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController //as! ViewController
+        vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as? ViewController //as! ViewController
         vc.loadView()
     }
     
@@ -325,6 +325,18 @@ class PermafrostPredictorTests: XCTestCase {
         //Test with units that cause NaN
         XCTAssert(!computePermafrost(Kvf: 0.25, Kvt: 0.1, Kmf: 1.8, Kmt: 1.0, Cmf: 2000000, Cmt: 3000000, Cvf: 1000000, Cvt: 2000000, Hs: 0.3, Hv: 0.25, Cs: 500000, magt: &temp, tTemp: -25, aTemp: 25, eta: 0.45, Ks: 0.15, Tvs: &temp2).isNaN)
         
+        //Utqiagvik
+        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 1.24, Kvt: 0.29, Kmf: 1.13, Kmt: 0.51, Cmf: 1600000.00, Cmt: 2200000.00, Cvf: 1000000.00, Cvt: 2000000.00, Hs: 0.18, Hv: 0.17, Cs: 840000.00, magt: &temp, tTemp: -11, aTemp: 16, eta: 0.71, Ks: 0.5, Tvs: &temp2)), format: ".2") == 0.17)
+        
+        XCTAssert(round(num: CGFloat(temp), format: ".2") == -9.14)
+        
+        //Fairbanks
+        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 1.68, Kvt: 1.48, Kmf: 1.17, Kmt: 0.55, Cmf: 1.5 * 1000000, Cmt: 2.1 * 1000000, Cvf: 1.0 * 1000000, Cvt: 2.0 * 1000000, Hs: 0.40, Hv: 0.12, Cs: 0.84, magt: &temp, tTemp: -2.3, aTemp: 18.0, eta: 0.5, Ks: 0.27, Tvs: &temp2)), format: ".2") == 0.91)
+        XCTAssert(round(num: CGFloat(temp), format: ".1") == -0.4)
+        
+        //Nome
+        XCTAssert(round(num: CGFloat(computePermafrost(Kvf: 1.24, Kvt: 0.29, Kmf: 1.25, Kmt: 0.67, Cmf: 1500000.0, Cmt: 2500000.0, Cvf: 1000000.00, Cvt: 2000000.00, Hs: 0.30, Hv: 0.17, Cs: 0.84, magt: &temp, tTemp: -2.50, aTemp: 13.0, eta: 0.35, Ks: 0.34, Tvs: &temp2)), format: ".2") == 0.80)
+        XCTAssert(round(num: CGFloat(temp), format: ".1") == -1.6)
     }
     
     //MARK: PopUpView.swift

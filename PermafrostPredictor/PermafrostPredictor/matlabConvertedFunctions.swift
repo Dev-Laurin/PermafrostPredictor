@@ -139,6 +139,8 @@ func computePermafrost(Kvf: Double, Kvt: Double, Kmf: Double, Kmt: Double, Cmf: 
         }
     }
     else{
+        magt = Tgs
+        ALD = 0.01
         //Phase change processes do not occur in the mineral soil, vegetation layer is too insulative
         return ALD//ALT is within the organic layer. Remember that there phase change processes are not assumed in this layer.
     }
