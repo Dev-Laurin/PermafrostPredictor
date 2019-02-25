@@ -26,7 +26,7 @@ import UIKit
  ````
  
  */
-class PopUpView: UIView{
+class PopUpView: UIView, UITextFieldDelegate{
     //MARK: Class Variables
     //keep track of the current position
     private var currentX:CGFloat = 0
@@ -260,6 +260,8 @@ popup.addTextField(text: "0.0", tag: 1)
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 5
         
+        textfield.delegate = self
+        
         //calculate spacing so field is in the middle of the popup
         let space = self.frame.width - textfield.frame.width
         let pad = space/2
@@ -300,6 +302,8 @@ popup.addTextField(text: "0.0", tag: 1)
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         
+        textField.delegate = self
+        
         let textField2 = UITextField()
         textField2.text = "enter here"
         textField2.sizeToFit()
@@ -310,6 +314,8 @@ popup.addTextField(text: "0.0", tag: 1)
         textField2.layer.borderColor = UIColor.black.cgColor
         textField2.layer.borderWidth = 1
         textField2.layer.cornerRadius = 5
+        
+        textField2.delegate = self
         
         //find spacing
         let space = self.frame.width - textField2.frame.width - textField.frame.width
@@ -453,11 +459,22 @@ popup.addTextField(text: "0.0", tag: 1)
  */
     func exit(){
         //remove greyed out view
-        if let greyView = self.superview?.viewWithTag(100) {
+        if let greyView = self.superview?.viewWithTag(1000)!.superview?.viewWithTag(100) {
             greyView.removeFromSuperview()
+        }
+        if let scrollView = self.superview?.viewWithTag(1000){
+            scrollView.removeFromSuperview()
         }
         //remove self
         self.removeFromSuperview()
+    }
+    
+    /** Text field dismiss keyboard delegate functions
+ 
+ */
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false 
     }
 
 }

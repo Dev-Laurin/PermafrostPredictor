@@ -12,7 +12,7 @@ import os
 /**
     Our one-page app. This is where everything happens, the view controller.
 */
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var navBar: UINavigationItem!
     //View containing Sun
@@ -325,26 +325,31 @@ class ViewController: UIViewController {
         sidebar.addSubview(gi_logo)
         sidebar.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
         
-        let copyrightGIUAF = UILabel()
+        let copyrightGIUAF = UITextView()
+        copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        copyrightGIUAF.text = "©2018 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is apart of the Snow, Ice, and Permafrost research group at the GI. \n\nDeveloped by Laurin Fisher."
+        let text = NSMutableAttributedString.init(string: "©2018 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin Fisher.")
+        //set hyperlink
+        text.addAttribute(.link, value: "www.permafrostwatch.org", range: NSRange(188...211))
+        copyrightGIUAF.attributedText = text
+        copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0)]
         copyrightGIUAF.textColor = .white
         
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
         //Dynamically wrapping
-        copyrightGIUAF.lineBreakMode = .byWordWrapping
-        copyrightGIUAF.numberOfLines = 0
+//        copyrightGIUAF.lineBreakMode = .byWordWrapping
+//        copyrightGIUAF.numberOfLines = 0
 
         let maxHeight = sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height
         let maxWidth = sidebar.frame.width - padding/2
         //Make the text fit any screen
         for i in 1...50 {
-            copyrightGIUAF.font = copyrightGIUAF.font.withSize(CGFloat(i))
+            copyrightGIUAF.font = copyrightGIUAF.font!.withSize(CGFloat(i))
             copyrightGIUAF.frame.size = CGSize(width: maxWidth, height: maxHeight)
             copyrightGIUAF.sizeToFit()
             
             if copyrightGIUAF.frame.height > maxHeight {
-                copyrightGIUAF.font = copyrightGIUAF.font.withSize(CGFloat(i - 1))
+                copyrightGIUAF.font = copyrightGIUAF.font!.withSize(CGFloat(i - 1))
                 break
             }
         }
@@ -537,6 +542,10 @@ class ViewController: UIViewController {
      Snow layer was tapped - display values for entering.
     */
     @IBAction func snowLayerTapGesture(_ sender: UITapGestureRecognizer){
+        let scrollView = UIScrollView(frame: UIScreen.main.bounds)
+        scrollView.contentSize = CGSize(width: screenWidth, height: screenHeight*(3/2))
+        scrollView.tag = 1000
+        
         //make popup
         let textBoxPopup = PopUpView()
         textBoxPopup.addTitle(title: "Snow Layer")
@@ -560,7 +569,8 @@ class ViewController: UIViewController {
         //resize view to fit elements
         textBoxPopup.resizeView(navBarHeight: zeroInView)
         
-        self.view.addSubview(textBoxPopup)
+        scrollView.addSubview(textBoxPopup)
+        self.view.addSubview(scrollView)
     }
     
     /**
@@ -608,6 +618,9 @@ class ViewController: UIViewController {
         The organic layer was tapped - display popup.
     */
     @IBAction func organicLayerTapGesture(_ sender: UITapGestureRecognizer) {
+        let scrollView = UIScrollView(frame: UIScreen.main.bounds)
+        scrollView.contentSize = CGSize(width: screenWidth, height: screenHeight*(3/2))
+        scrollView.tag = 1000
         
         //Make a new popup - give position on screen x & y
         let textBoxPopup = PopUpView()
@@ -639,7 +652,8 @@ class ViewController: UIViewController {
         
         //create a greyed out view to go underneath so user knows this popup is active
         addGreyedOutView()
-        self.view.addSubview(textBoxPopup)
+        scrollView.addSubview(textBoxPopup)
+        self.view.addSubview(scrollView)
     }
     
     /**
@@ -671,6 +685,10 @@ class ViewController: UIViewController {
         The mineral layer was tapped (grey bottom most layer). Show the popup with values.
     */
     @IBAction func mineralLayerTapGesture(_ sender: UITapGestureRecognizer){
+        let scrollView = UIScrollView(frame: UIScreen.main.bounds)
+        scrollView.contentSize = CGSize(width: screenWidth, height: screenHeight*(3/2))
+        scrollView.tag = 1000
+        
         let textBoxPopup = PopUpView()
         
         textBoxPopup.addTitle(title: "Mineral Layer")
@@ -697,7 +715,8 @@ class ViewController: UIViewController {
         textBoxPopup.resizeView(navBarHeight: zeroInView)
         
         addGreyedOutView()
-        self.view.addSubview(textBoxPopup)
+        scrollView.addSubview(textBoxPopup)
+        self.view.addSubview(scrollView)
     }
     
     /**

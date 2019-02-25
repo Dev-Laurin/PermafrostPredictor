@@ -3,109 +3,109 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "iPad_icon_spotlight_small-2.png",
+      "filename" : "iPad_icon_spotlight_small.jpg",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "iPhone_notification_big.png",
+      "filename" : "iPhone_notification_big.jpg",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "iPhone5_small.png",
+      "filename" : "iPhone5_small.jpg",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "iPhone5_big.png",
+      "filename" : "iPhone5_big.jpg",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "iPad_icon_spotlight_big-1.png",
+      "filename" : "iPad_icon_spotlight_big.jpg",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "iPhone_spotlight_big.png",
+      "filename" : "iPhone_spotlight_big.jpg",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "iPhone_spotlight_big-1.png",
+      "filename" : "iPhone_spotlight_big-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "iPhone_big.png",
+      "filename" : "iPhone_big.jpg",
       "scale" : "3x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_notification_small.png",
+      "filename" : "iPad_icon_notification_small.jpg",
       "scale" : "1x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_spotlight_small-1.png",
+      "filename" : "iPad_icon_spotlight_small-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "iPad5_icon.png",
+      "filename" : "iPad5_icon.jpg",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "iPad5_icon_big.png",
+      "filename" : "iPad5_icon_big.jpg",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_spotlight_small.png",
+      "filename" : "iPad_icon_spotlight_small-2.jpg",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_spotlight_big.png",
+      "filename" : "iPad_icon_spotlight_big-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_small.png",
+      "filename" : "iPad_icon_small.jpg",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "iPad_icon_big.png",
+      "filename" : "iPad_icon_big.jpg",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "iPad_pro_icon.png",
+      "filename" : "iPad_pro_icon.jpg",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "app_store_icon.png",
+      "filename" : "app_store_icon.jpg",
       "scale" : "1x"
     }
   ],

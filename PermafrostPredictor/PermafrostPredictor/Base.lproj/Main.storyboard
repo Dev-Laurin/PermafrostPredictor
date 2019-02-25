@@ -132,7 +132,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Permafrost Predictor" id="5cX-WY-RkT">
-                        <barButtonItem key="leftBarButtonItem" image="Info" id="HtM-58-T9O">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="Info" id="HtM-58-T9O">
                             <connections>
                                 <action selector="infoButtonPressed:" destination="BYZ-38-t0r" id="HjA-Sz-f89"/>
                             </connections>
@@ -851,7 +851,7 @@
     </scenes>
     <resources>
         <image name="DashedLine" width="150" height="10"/>
-        <image name="Info" width="48" height="48"/>
+        <image name="Info" width="8" height="24"/>
         <image name="Line" width="150" height="10"/>
         <image name="Sun" width="188" height="185"/>
     </resources>
