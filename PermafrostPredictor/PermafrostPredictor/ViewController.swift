@@ -332,7 +332,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "©2019 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin Fisher.")
+        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin McKenna.")
         copyrightGIUAF.attributedText = text
         //make hyperlink a different blue color for better matching of the background and underlined
         copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  .underlineStyle: NSUnderlineStyle.single.rawValue]
