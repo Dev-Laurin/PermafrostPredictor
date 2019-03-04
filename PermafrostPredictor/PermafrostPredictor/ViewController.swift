@@ -289,6 +289,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         findMaxHeightsBasedOnScreen()
     }
     
+    func clickHyperlink(sender: UITapGestureRecognizer){
+        print("clicked hyperlink")
+    }
+    
     /**
         Draw the views initially with respect to each other (non-overlapping)
     */
@@ -328,17 +332,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "©2018 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin Fisher.")
-        //set hyperlink
-        text.addAttribute(.link, value: "www.permafrostwatch.org", range: NSRange(188...211))
+        let text = NSMutableAttributedString.init(string: "©2019 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin Fisher.")
         copyrightGIUAF.attributedText = text
-        copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0)]
+        //make hyperlink a different blue color for better matching of the background and underlined
+        copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  .underlineStyle: NSUnderlineStyle.single.rawValue]
         copyrightGIUAF.textColor = .white
-        
+        //Don't let user edit text - it's static
+        copyrightGIUAF.isEditable = false
+        //Automatically find links and open them in a browser 
+        copyrightGIUAF.dataDetectorTypes = UIDataDetectorTypes.link
          copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        //Dynamically wrapping
-//        copyrightGIUAF.lineBreakMode = .byWordWrapping
-//        copyrightGIUAF.numberOfLines = 0
 
         let maxHeight = sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height
         let maxWidth = sidebar.frame.width - padding/2
