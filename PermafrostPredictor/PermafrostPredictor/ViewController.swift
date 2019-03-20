@@ -289,10 +289,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         findMaxHeightsBasedOnScreen()
     }
     
-    func clickHyperlink(sender: UITapGestureRecognizer){
-        print("clicked hyperlink")
-    }
-    
     /**
         Draw the views initially with respect to each other (non-overlapping)
     */
