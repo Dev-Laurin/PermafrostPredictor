@@ -161,7 +161,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
-        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     /**
@@ -335,7 +335,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin McKenna.")
         copyrightGIUAF.attributedText = text
         //make hyperlink a different blue color for better matching of the background and underlined
-        copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  .underlineStyle: NSUnderlineStyle.single.rawValue]
+        copyrightGIUAF.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue]
         copyrightGIUAF.textColor = .white
         //Don't let user edit text - it's static
         copyrightGIUAF.isEditable = false
@@ -778,8 +778,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return true
         }
         else {
-            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
+            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -797,8 +797,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
      ````
     */
     private func createAlert(title: String, errorMessage: String){
-        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -840,7 +840,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateAairLabel(newText: String(describing: atmosTemp))
         
         //If the user has let go
-        if recognizer.state == UIGestureRecognizer.State.ended {
+        if recognizer.state == UIGestureRecognizerState.ended {
             Tair = temp
             Aair = atmosTemp
         }
