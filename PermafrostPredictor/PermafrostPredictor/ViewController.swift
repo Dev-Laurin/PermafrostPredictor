@@ -9,6 +9,31 @@
 import UIKit
 import os
 
+//Create a bigger hitbox for the moving the line views - but nothing else
+extension UIImageView {
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.isHidden || !self.isUserInteractionEnabled || self.alpha < 0.01 { return nil }
+        
+        //Only lineviews should have this tag
+        if(self.tag == 111){
+            let minHitArea = CGSize(width: 0, height: 50)
+            let viewSize = self.bounds.size
+            let heightToAdd = max(minHitArea.height - viewSize.height, 0)
+            let largerFrame = self.bounds.insetBy(dx: 0, dy: -heightToAdd)
+            return (largerFrame.contains(point)) ? self : nil
+        }
+        //we are an imageview directly below a line view
+        else if(self.tag == 222){
+            return self.frame.contains(point) ? self : nil
+        }
+        else{
+            return self.frame.contains(point) ? self : nil 
+        }
+        
+
+    }
+}
+
 /**
     Our one-page app. This is where everything happens, the view controller.
 */
@@ -220,8 +245,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         //Set the backgrounds of the views
         snowImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Snow")!)
+        snowImageView.tag = 222
+        
         organicLayer.backgroundColor = UIColor(patternImage: newImage!)
         groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
+        groundImageView.tag = 222
 
         //Initialize Labels
             //Have white "boxes" around the labels for better text readability
@@ -305,10 +333,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         snowImageView = changeViewsYValue(view: snowImageView, newX: 0.0, newY: staticLineGround.frame.minY - snowImageView.frame.height)
         
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as? UIImageView
+        snowLineView.tag = 111 //set as line view for hit bound increase
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
         
         lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as? UIImageView
+        lineGround.tag = 111
         
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
