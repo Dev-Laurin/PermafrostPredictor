@@ -17,7 +17,7 @@ extension UIImageView {
         
         //Only lineviews should have this tag
         if(self.tag == 111){
-            let minHitArea = CGSize(width: 0, height: self.bounds.height * 2)
+            let minHitArea = CGSize(width: 0, height: 50)
             let viewSize = self.bounds.size
             let heightToAdd = max(minHitArea.height - viewSize.height, 0)
             let largerFrame = self.bounds.insetBy(dx: 0, dy: -heightToAdd/2)
@@ -243,7 +243,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         snowImageView.tag = 222
         
         organicLayer.backgroundColor = UIColor(patternImage: newImage!)
-        groundImageView.backgroundColor = UIColor(patternImage: UIImage(named: "Empty")!)
+        groundImageView.backgroundColor = .gray //UIColor(patternImage: UIImage(named: "Empty")!)
         groundImageView.tag = 222
 
         //Initialize Labels
@@ -491,6 +491,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         ALT = round(num: ALT, format: ".2")
         permafrostLabel.text = "Active Layer Thickness: " + String(describing: ALT) + " m"
         permafrostLabel.sizeToFit()
+        //update ground layer background color
+        if(Tgs > 0){
+            groundImageView.backgroundColor = UIColor(red: 205/255, green: 92/255, blue: 92/255, alpha: 1.0)
+        }
+        else{
+            groundImageView.backgroundColor = UIColor(red: 100/255, green: 149/255, blue: 237/255, alpha: 1.0)
+        }
         
         //update ground temperature label
         if(Tgs.isNaN){
