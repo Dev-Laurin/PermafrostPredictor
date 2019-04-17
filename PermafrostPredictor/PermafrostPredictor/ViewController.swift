@@ -10,27 +10,22 @@ import UIKit
 import os
 
 //Create a bigger hitbox for the moving the line views - but nothing else
+//inspired by this answer: https://stackoverflow.com/questions/15553810/how-to-enlarge-hit-area-of-uigesturerecognizer 
 extension UIImageView {
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if self.isHidden || !self.isUserInteractionEnabled || self.alpha < 0.01 { return nil }
         
         //Only lineviews should have this tag
         if(self.tag == 111){
-            let minHitArea = CGSize(width: 0, height: 50)
+            let minHitArea = CGSize(width: 0, height: self.bounds.height * 2)
             let viewSize = self.bounds.size
             let heightToAdd = max(minHitArea.height - viewSize.height, 0)
-            let largerFrame = self.bounds.insetBy(dx: 0, dy: -heightToAdd)
+            let largerFrame = self.bounds.insetBy(dx: 0, dy: -heightToAdd/2)
             return (largerFrame.contains(point)) ? self : nil
-        }
-        //we are an imageview directly below a line view
-        else if(self.tag == 222){
-            return self.frame.contains(point) ? self : nil
         }
         else{
             return self.frame.contains(point) ? self : nil 
         }
-        
-
     }
 }
 
