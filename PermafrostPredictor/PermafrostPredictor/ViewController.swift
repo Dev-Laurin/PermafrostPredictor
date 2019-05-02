@@ -258,7 +258,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         drawPermafrost()
         
         //The navigation bar size for some of the views for drawing
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+        if let navBarHeight: CGFloat = (UIApplication.shared.statusBarFrame.size.height +
+            self.navigationController!.navigationBar.frame.height){
             barHeight = navBarHeight
         }
         else {
@@ -296,10 +297,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         findMaxHeightsBasedOnScreen()
     }
     
-    func clickHyperlink(sender: UITapGestureRecognizer){
-        print("clicked hyperlink")
-    }
-    
     /**
         Draw the views initially with respect to each other (non-overlapping)
     */
@@ -307,8 +304,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Draw views on screen
         //make transparent
         skyView.backgroundColor = UIColor(white: 1, alpha: 0)
-        snowLineGestureAreaView.backgroundColor = .red
-        groundLineGestureAreaView.backgroundColor = .blue // UIColor(white: 1, alpha: 0)
+        snowLineGestureAreaView.backgroundColor = UIColor(white: 1, alpha: 0)
+        groundLineGestureAreaView.backgroundColor = UIColor(white: 1, alpha: 0)
         
         let sunViewSize: CGFloat = skyView.frame.width/3
         
@@ -320,12 +317,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         snowLineView = changeViewsYValue(view: snowLineView, newX: 0.0, newY: snowImageView.frame.minY - snowLineView.frame.height) as? UIImageView
         //make overlapping uiview a gesture recognizer box fitting the snow line
-        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: (snowLineView.frame.maxY) + snowLineView.frame.height + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
+        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: (snowLineView.frame.minY) - snowLineView.frame.height + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
         
         organicLayer = changeViewsYValue(view: organicLayer, newX: 0.0, newY: staticLineGround.frame.maxY)
         
         lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as? UIImageView
-        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.maxY + lineGround.frame.height + barHeight, width: screenWidth, height: lineGround.frame.height*3)
+        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - lineGround.frame.height + barHeight, width: screenWidth, height: lineGround.frame.height*4)
         
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
@@ -876,11 +873,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
             //We are moving the ground layer
             if view == groundLineGestureAreaView {
-               drawOrganic(view: view, newY: newLineYValue)
+               drawOrganic(view: view, newY: newLineYValue, translation: translation.y)
             }
             //We are moving the snow layer
             else if view == snowLineGestureAreaView {
-                drawSnow(view: view, newY: newLineYValue)
+                drawSnow(view: view, newY: newLineYValue, translation: translation.y)
             }
             //update our ALT
             drawPermafrost()
@@ -923,11 +920,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
      drawSnow(lineView, 400.0)
      ````
     */
-    private func drawSnow(view: UIView, newY: CGFloat){
-        var newLineYValue = newY
+    private func drawSnow(view: UIView, newY: CGFloat, translation: CGFloat){
+        
         //the view above/before this one (will get resized because snow grows up)
         let previousView = skyView
         let lineView = snowLineView
+        var newLineYValue = lineView!.frame.minY + translation
 
         let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
         let heightBound: CGFloat = 0.0
@@ -940,8 +938,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         lineView!.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
             y: newLineYValue)
         view.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
-            y: newLineYValue)
-        
+                y: lineView!.frame.minY + barHeight - lineView!.frame.height)
+
         snowImageView.frame = CGRect(origin: CGPoint(x: lineView!.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
         skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
         
@@ -978,10 +976,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
      drawOrganic(lineView, 400)
      ````
     */
-    private func drawOrganic(view: UIView, newY: CGFloat){
-        var newLineYValue = newY
+    private func drawOrganic(view: UIView, newY: CGFloat, translation: CGFloat){
         let previousView = organicLayer
         let lineView = lineGround
+        var newLineYValue = translation + lineView!.frame.minY
         
         //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
         let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - lineView!.frame.height - staticLineGround.frame.height
@@ -992,12 +990,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         _ = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: lineView!.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
         
-        view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
-            y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: view.frame.height))
         lineView!.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
             y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineView!.frame.height))
+        view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
+            y: lineView!.frame.minY + barHeight - lineView!.frame.height), size: CGSize(width: lineGround.frame.width, height: view.frame.height))
         
-        groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
+        groundImageView.frame = CGRect(origin: CGPoint(x: lineView!.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
         organicLayer.frame = CGRect(origin: CGPoint(x: organicLayer.frame.minX, y: organicLayer.frame.minY), size: CGSize(width: (organicLayer.frame.width),height: previousViewHeight))
         
         //Re-draw label with new coordinates and values
