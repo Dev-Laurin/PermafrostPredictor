@@ -47,6 +47,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var snowLineView: UIImageView!
     @IBOutlet weak var snowImageView: UIView!
     @IBOutlet weak var snowLabel: UILabel!
+    @IBOutlet weak var snowLineGestureAreaView: UIView!
     
     
     //Middle solid line that determines ground level of 0
@@ -59,6 +60,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Mineral layer
     @IBOutlet weak var lineGround: UIImageView!
     @IBOutlet weak var groundImageView: UIView!
+    @IBOutlet weak var groundLineGestureAreaView: UIView!
     
     //Permafrost Layer
     private var permafrostLabel: UILabel
@@ -113,6 +115,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Keep track of the info popup - is it visible or not?
     private var infoShowing: Bool
     private var sidebar: UIView
+    
+    //nav bar height
+    private var barHeight: CGFloat
 
     //MARK: Initialization
     /**
@@ -178,10 +183,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //create a new view that is like a sidebar
         sidebar = UIView()
         
+        //nav bar height
+        barHeight = 44.0
+        
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
-        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     /**
@@ -273,8 +281,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         drawPermafrost()
         
         //The navigation bar size for some of the views for drawing
-        var barHeight: CGFloat = 44.0
-        if let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height){
+        //solution from: https://stackoverflow.com/questions/7312059/programmatically-get-height-of-navigation-bar
+        if let navBarHeight: CGFloat = (UIApplication.shared.statusBarFrame.size.height +
+            self.navigationController!.navigationBar.frame.height){
             barHeight = navBarHeight
         }
         else {
@@ -319,6 +328,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Draw views on screen
         //make transparent
         skyView.backgroundColor = UIColor(white: 1, alpha: 0)
+        snowLineGestureAreaView.backgroundColor = UIColor(white: 1, alpha: 0)
+        groundLineGestureAreaView.backgroundColor = UIColor(white: 1, alpha: 0)
+        
         let sunViewSize: CGFloat = skyView.frame.width/3
         
         sunView.frame = CGRect(origin: CGPoint(x:skyView.frame.width - sunViewSize, y: padding/2), size: CGSize(width: sunViewSize, height: sunViewSize))
@@ -334,7 +346,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         lineGround = changeViewsYValue(view: lineGround, newX: 0.0, newY: organicLayer.frame.maxY) as? UIImageView
         lineGround.tag = 111
-        
+
+        //make overlapping uiview a gesture recognizer box fitting the snow line
+        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*3/2) + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
+        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*3/2) + barHeight, width: screenWidth, height: lineGround.frame.height*4)
+
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
         staticLineGround = changeViewsYValue(view: staticLineGround, newX: 0.0, newY: heightBasedOffPercentage) as? UIImageView
@@ -353,10 +369,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute (GI), University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the GI. Visit www.permafrostwatch.org \n\nDeveloped by Laurin McKenna.")
+        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Visit www.permafrostwatch.org \n\nDeveloped by Laurin McKenna.")
         copyrightGIUAF.attributedText = text
         //make hyperlink a different blue color for better matching of the background and underlined
         copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  NSAttributedString.Key.underlineStyle.rawValue: NSUnderlineStyle.single.rawValue] as? [NSAttributedString.Key : Any]
+
         copyrightGIUAF.textColor = .white
         //Don't let user edit text - it's static
         copyrightGIUAF.isEditable = false
@@ -811,8 +828,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return true
         }
         else {
-            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
+            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -830,8 +847,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
      ````
     */
     private func createAlert(title: String, errorMessage: String){
-        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -873,7 +890,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateAairLabel(newText: String(describing: atmosTemp))
         
         //If the user has let go
-        if recognizer.state == UIGestureRecognizer.State.ended {
+        if recognizer.state == UIGestureRecognizerState.ended {
             Tair = temp
             Aair = atmosTemp
         }
@@ -895,12 +912,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let newLineYValue = view.frame.minY + translation.y
 
             //We are moving the ground layer
-            if view == lineGround {
-               drawOrganic(view: view, newY: newLineYValue)
+            if view == groundLineGestureAreaView {
+               drawOrganic(view: view, newY: newLineYValue, translation: translation.y)
             }
             //We are moving the snow layer
-            else if view == snowLineView {
-                drawSnow(view: view, newY: newLineYValue)
+            else if view == snowLineGestureAreaView {
+                drawSnow(view: view, newY: newLineYValue, translation: translation.y)
             }
             //update our ALT
             drawPermafrost()
@@ -943,22 +960,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
      drawSnow(lineView, 400.0)
      ````
     */
-    private func drawSnow(view: UIView, newY: CGFloat){
-        var newLineYValue = newY
+    private func drawSnow(view: UIView, newY: CGFloat, translation: CGFloat){
+        
         //the view above/before this one (will get resized because snow grows up)
         let previousView = skyView
+        let lineView = snowLineView
+        var newLineYValue = lineView!.frame.minY + translation
 
         let skyViewHeightBound: CGFloat = sunView.frame.maxY + tempLabel.frame.height + padding/2
         let heightBound: CGFloat = 0.0
-        var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + view.frame.height)
+        var newImageViewHeight = staticLineGround.frame.minY - (newLineYValue + lineView!.frame.height)
         
         var previousViewHeight: CGFloat = (previousView?.frame.height)!
         
-        _ = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        _ = getMovement(previousViewMinY: skyView.frame.minY, previousViewHeight: skyView.frame.height, previousHeightBound: skyViewHeightBound, heightBound: heightBound, newLineYValue: &newLineYValue, viewHeight: lineView!.frame.height, followingMinY: staticLineGround.frame.minY, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
         
-        view.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
+        lineView!.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
             y: newLineYValue)
-        snowImageView.frame = CGRect(origin: CGPoint(x: view.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
+        view.frame.origin = CGPoint(x: snowLineView.frame.minX, //only move vertically, don't change x
+                y: lineView!.frame.minY + barHeight - lineView!.frame.height)
+
+        snowImageView.frame = CGRect(origin: CGPoint(x: lineView!.center.x - snowImageView.frame.width/2, y: newLineYValue + snowLineView.frame.height), size: CGSize(width: (snowImageView.frame.width),height: newImageViewHeight))
         skyView.frame = CGRect(origin: CGPoint(x: (skyView.frame.minX), y: (skyView.frame.minY)), size: CGSize(width: (skyView.frame.width), height: previousViewHeight))
         
         //Update label position
@@ -994,23 +1016,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
      drawOrganic(lineView, 400)
      ````
     */
-    private func drawOrganic(view: UIView, newY: CGFloat){
-        var newLineYValue = newY
+    private func drawOrganic(view: UIView, newY: CGFloat, translation: CGFloat){
         let previousView = organicLayer
+        let lineView = lineGround
+        var newLineYValue = translation + lineView!.frame.minY
         
         //have to take into account the line heights into the height bound, or else previous view will be smaller than planned
-        let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - view.frame.height - staticLineGround.frame.height
+        let groundLayerHeightBound: CGFloat = maxGroundHeight - maxOrganicLayerHeight - lineView!.frame.height - staticLineGround.frame.height
         
-        var newImageViewHeight = screenHeight - (newLineYValue + view.frame.height)
+        var newImageViewHeight = screenHeight - (newLineYValue + lineView!.frame.height)
         
         var previousViewHeight: CGFloat = (previousView?.frame.height)!
         
-        _ = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: view.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
+        _ = getMovement(previousViewMinY: organicLayer.frame.minY, previousViewHeight: organicLayer.frame.height, previousHeightBound: 0.0, heightBound: groundLayerHeightBound, newLineYValue: &newLineYValue, viewHeight: lineView!.frame.height, followingMinY: screenHeight, previousViewNewHeight: &previousViewHeight, newHeight: &newImageViewHeight)
         
+        lineView!.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
+            y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineView!.frame.height))
         view.frame = CGRect(origin: CGPoint(x: lineGround.frame.minX, //only move vertically, don't change x
-            y: newLineYValue), size: CGSize(width: lineGround.frame.width, height: lineGround.frame.height))
+            y: lineView!.frame.minY + barHeight - lineView!.frame.height), size: CGSize(width: lineGround.frame.width, height: view.frame.height))
         
-        groundImageView.frame = CGRect(origin: CGPoint(x: view.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
+        groundImageView.frame = CGRect(origin: CGPoint(x: lineView!.center.x - groundImageView.frame.width/2, y: newLineYValue + lineGround.frame.height), size: CGSize(width: (groundImageView.frame.width),height: newImageViewHeight))
         organicLayer.frame = CGRect(origin: CGPoint(x: organicLayer.frame.minX, y: organicLayer.frame.minY), size: CGSize(width: (organicLayer.frame.width),height: previousViewHeight))
         
         //Re-draw label with new coordinates and values
@@ -1154,6 +1179,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func redrawSnowBasedOnNewHeight(newHeight: CGFloat){
          snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.minY - newHeight), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
         snowLineView.frame.origin = CGPoint(x: 0.0, y: snowImageView.frame.minY - snowLineView.frame.height)
+        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*3/2) + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
     }
     
     /**
@@ -1169,6 +1195,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
         organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
         lineGround.frame.origin = CGPoint(x: 0.0, y: organicLayer.frame.maxY )
+        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*3/2) + barHeight, width: screenWidth, height: lineGround.frame.height*4)
     }
     
     /**

@@ -116,7 +116,7 @@ class PopUpView: UIView, UITextFieldDelegate{
         //make the button rounded
         button.layer.cornerRadius = 10
         //make the text white and the button blue
-        button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControl.State.normal)
+        button.setTitleColor(UIColor(white: 1, alpha: 1), for: UIControlState.normal)
         button.backgroundColor = UIColor(red: 11/255, green: 181/255, blue: 1, alpha: 1)
         
         //An animation so the user knows the button was pressed. (Turns grey)
