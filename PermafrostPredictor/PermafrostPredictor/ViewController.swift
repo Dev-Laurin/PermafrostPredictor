@@ -189,7 +189,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
-        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     /**
@@ -828,8 +828,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return true
         }
         else {
-            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Input Error", message: errorMessage, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -847,8 +847,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
      ````
     */
     private func createAlert(title: String, errorMessage: String){
-        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -890,7 +890,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateAairLabel(newText: String(describing: atmosTemp))
         
         //If the user has let go
-        if recognizer.state == UIGestureRecognizerState.ended {
+        if recognizer.state == UIGestureRecognizer.State.ended {
             Tair = temp
             Aair = atmosTemp
         }
