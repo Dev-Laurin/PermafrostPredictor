@@ -189,7 +189,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
-        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: .UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     /**
