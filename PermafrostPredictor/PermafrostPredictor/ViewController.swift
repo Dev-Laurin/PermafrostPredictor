@@ -118,6 +118,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //nav bar height
     private var barHeight: CGFloat
+    
+    //gesture recognizer size
+    var sizeMultiplierForGesture: CGFloat
+    var gestureSizeOffset: CGFloat //for making the view center for gesture recog.
 
     //MARK: Initialization
     /**
@@ -185,6 +189,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //nav bar height
         barHeight = 44.0
+        
+        sizeMultiplierForGesture = 6.0
+        if sizeMultiplierForGesture.truncatingRemainder(dividingBy: 2.0) == 0 {
+            gestureSizeOffset = (sizeMultiplierForGesture - 1 ) / 2
+        }
+        else {
+            gestureSizeOffset = sizeMultiplierForGesture / 2 + 1
+        }
         
         //Call the super version, recommended
         super.init(coder: coder )!
@@ -348,8 +360,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         lineGround.tag = 111
 
         //make overlapping uiview a gesture recognizer box fitting the snow line
-        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*3/2) + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
-        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*3/2) + barHeight, width: screenWidth, height: lineGround.frame.height*4)
+        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: snowLineView.frame.height*sizeMultiplierForGesture)
+        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: lineGround.frame.height*sizeMultiplierForGesture)
 
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
@@ -1179,7 +1191,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func redrawSnowBasedOnNewHeight(newHeight: CGFloat){
          snowImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.minY - newHeight), size: CGSize(width: (snowImageView.frame.width), height: newHeight))
         snowLineView.frame.origin = CGPoint(x: 0.0, y: snowImageView.frame.minY - snowLineView.frame.height)
-        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*3/2) + barHeight, width: screenWidth, height: snowLineView.frame.height*4)
+        snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: snowLineView.frame.height*sizeMultiplierForGesture)
     }
     
     /**
@@ -1195,7 +1207,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private func redrawOrganicBasedOnNewHeight(newHeight: CGFloat){
         organicLayer.frame = CGRect(origin: CGPoint(x: 0.0, y: staticLineGround.frame.maxY), size: CGSize(width: (organicLayer.frame.width), height: newHeight))
         lineGround.frame.origin = CGPoint(x: 0.0, y: organicLayer.frame.maxY )
-        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*3/2) + barHeight, width: screenWidth, height: lineGround.frame.height*4)
+        groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: lineGround.frame.height*sizeMultiplierForGesture)
     }
     
     /**
