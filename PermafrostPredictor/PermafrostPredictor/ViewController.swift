@@ -48,6 +48,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var snowImageView: UIView!
     @IBOutlet weak var snowLabel: UILabel!
     @IBOutlet weak var snowLineGestureAreaView: UIView!
+    var maxSnowValue: CGFloat
     
     
     //Middle solid line that determines ground level of 0
@@ -198,6 +199,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             gestureSizeOffset = sizeMultiplierForGesture / 2 + 1
         }
         
+        maxSnowValue = 0.5 //meters
+        
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
@@ -294,9 +297,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //The navigation bar size for some of the views for drawing
         //solution from: https://stackoverflow.com/questions/7312059/programmatically-get-height-of-navigation-bar
-        if let navBarHeight: CGFloat = (UIApplication.shared.statusBarFrame.size.height +
-            self.navigationController!.navigationBar.frame.height){
-            barHeight = navBarHeight
+        if let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.height {
+            barHeight = navBarHeight + UIApplication.shared.statusBarFrame.size.height
         }
         else {
             barHeight = 44.0
@@ -1001,7 +1003,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         snowLabel.frame = CGRect(origin: CGPoint(x: snowLabel.frame.minX, y: meanGroundSurfaceTemp.frame.minY - snowLabel.frame.height - padding/4 ), size: CGSize(width: snowLabel.frame.width, height: snowLabel.frame.height))
         
         //update the values
-        Hs = Double(getUnits(topAverageValue: 1.0, maxValue: 5.0, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
+        Hs = Double(getUnits(topAverageValue: 0.4, maxValue: maxSnowValue, maxHeight: maxSnowHeight, newHeight: newImageViewHeight, percentage: 0.66))
         Hs = Double(round(num: CGFloat(Hs), format: ".2"))
         
         if(Hs == 0.0){
@@ -1159,7 +1161,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //Update Snow Layer
         //change the positions of the views to match
-        var newHeight = getHeightFromUnits(unit: CGFloat(Hs), maxHeight: maxSnowHeight, maxValue: 5.0, percentage: 0.66, topAverageValue: 1.0)
+        var newHeight = getHeightFromUnits(unit: CGFloat(Hs), maxHeight: maxSnowHeight, maxValue: maxSnowValue, percentage: 0.66, topAverageValue: 0.4)
         //draw views based on new heights
         redrawSnowBasedOnNewHeight(newHeight: newHeight)
         //update label

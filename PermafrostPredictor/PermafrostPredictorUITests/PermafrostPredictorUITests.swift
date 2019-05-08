@@ -69,6 +69,61 @@ class PermafrostPredictorUITests: XCTestCase {
        
     }
     
-    
+    //test that the view detecting the line gesture stays in place
+    func testLineGestureRecognizerView(){
+        
+        //test normal dragging works
+        //test snow line
+        let app = XCUIApplication()
+        let element3 = app.otherElements.containing(.navigationBar, identifier:"Permafrost Predictor").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+        let element = element3.children(matching: .other).element(boundBy: 2)
+        element/*@START_MENU_TOKEN@*/.press(forDuration: 1.9);/*[[".tap()",".press(forDuration: 1.9);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        element/*@START_MENU_TOKEN@*/.press(forDuration: 1.1);/*[[".tap()",".press(forDuration: 1.1);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        
+            //is snow line within this view?
+        let snowLine = app.otherElements["snowLine"]
+        XCTAssert(element.frame.contains(snowLine.frame));
+        //TODO: -------------did the snow line move?
+        
+        //test organic line works
+        let element2 = element3.children(matching: .other).element(boundBy: 3)
+        element2.swipeUp()
+        element2.swipeDown()
+        
+        let lineGround = app.otherElements["lineGround"]
+            //is the line ground within this view?
+        XCTAssert(element2.frame.contains(lineGround.frame))
+        //TODO: -------------did the ground line move?
+        
+        //See if recognizer works after loading new location
+        let permafrostPredictorNavigationBar = app.navigationBars["Permafrost Predictor"]
+        permafrostPredictorNavigationBar.buttons["Locations"].tap()
+        app.tables.cells.containing(.staticText, identifier:"Nome").buttons["Load"].tap()
+        element.swipeUp()
+        element.swipeDown()
+        
+        element2.swipeUp()
+        element2.swipeDown()
+        
+        //are the line views still contained under the gesture recognizer?
+        XCTAssert(element.frame.contains(snowLine.frame));
+        XCTAssert(element2.frame.contains(lineGround.frame))
+        
+        //TODO -------- did the lines move?
+        
+        //see if it still works after opening info window
+        let itemButton = permafrostPredictorNavigationBar.buttons["Item"]
+        itemButton.tap()
+        itemButton.tap()
+        element3.children(matching: .other).element(boundBy: 1).children(matching: .image).matching(identifier: "DashedLine").element(boundBy: 1).swipeUp()
+        element2.swipeUp()
+        
+        //are the line views still contained under the gesture recognizer?
+        XCTAssert(element.frame.contains(snowLine.frame));
+        XCTAssert(element2.frame.contains(lineGround.frame))
+        
+        //TODO -------- did the lines move?
+        
+    }
     
 }
