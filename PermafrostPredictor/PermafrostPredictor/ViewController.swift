@@ -374,16 +374,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //Make Info sidebar view
         sidebar.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenWidth/2, height: screenHeight))
+        
+            //gi logo
         let gi_logo = UIImageView(image: UIImage(named: "GI_Logo"))
-        let logoWidth = screenWidth/2 - padding/2
+        let logoWidth = (screenWidth/2 - padding/2) / 2
         gi_logo.frame = CGRect(origin: CGPoint(x: padding/4, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
         sidebar.addSubview(gi_logo)
+    
+            //us permafrost logo
+        let us_permafrost_logo = UIImageView(image: UIImage(named: "USPermafrostAssocLogo"))
+        us_permafrost_logo.frame = CGRect(origin: CGPoint(x: padding/4 + logoWidth, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
+        sidebar.addSubview(us_permafrost_logo)
+        
         sidebar.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
         
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Additional Information about the model could be found here. \n\nDeveloped by Laurin McKenna.")
+        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Additional Information about the model could be found here.")
         var urlString = "https://www.permafrostwatch.org"
         let giPermafrostURL = URL(string: urlString)
         text.setAttributes([.link: giPermafrostURL!], range: NSMakeRange(127, 25))
@@ -403,7 +411,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         copyrightGIUAF.isEditable = false
         //Automatically find links and open them in a browser 
         copyrightGIUAF.dataDetectorTypes = UIDataDetectorTypes.link
-         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
+        copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
 
         let maxHeight = sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height
         let maxWidth = sidebar.frame.width - padding/2
