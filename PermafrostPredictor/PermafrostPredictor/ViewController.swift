@@ -383,7 +383,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Visit www.permafrostwatch.org \n\nDeveloped by Laurin McKenna.")
+        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Additional Information about the model could be found here. \n\nDeveloped by Laurin McKenna.")
+        var urlString = "https://www.permafrostwatch.org"
+        let giPermafrostURL = URL(string: urlString)
+        text.setAttributes([.link: giPermafrostURL!], range: NSMakeRange(127, 25))
+        urlString = "https://www.uspermafrost.org"
+        let usPermafrostAssocURL = URL(string: urlString)
+        text.setAttributes([.link: usPermafrostAssocURL!], range: NSMakeRange(225, 27))
+        urlString = "https://www.google.com"
+        let additionalInfoURL = URL(string: urlString)
+        text.setAttributes([.link: additionalInfoURL!], range: NSMakeRange(335, 5))
+        
         copyrightGIUAF.attributedText = text
         //make hyperlink a different blue color for better matching of the background and underlined
         copyrightGIUAF.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0),  NSAttributedString.Key.underlineStyle.rawValue: NSUnderlineStyle.single.rawValue] as? [NSAttributedString.Key : Any]
