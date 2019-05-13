@@ -383,7 +383,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
             //us permafrost logo
         let us_permafrost_logo = UIImageView(image: UIImage(named: "USPermafrostAssocLogo"))
-        us_permafrost_logo.frame = CGRect(origin: CGPoint(x: padding/4 + logoWidth, y: screenHeight - padding/4 - logoWidth), size: CGSize(width: logoWidth, height: logoWidth))
+        us_permafrost_logo.frame = CGRect(origin: CGPoint(x: padding/4 + logoWidth, y: screenHeight - padding/4 - logoWidth - 1), size: CGSize(width: logoWidth + 3, height: logoWidth + 3))
         sidebar.addSubview(us_permafrost_logo)
         
         sidebar.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
@@ -391,16 +391,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let copyrightGIUAF = UITextView()
         copyrightGIUAF.backgroundColor = UIColor.clear
         copyrightGIUAF.frame = CGRect(origin: CGPoint(x: padding/4, y: zeroInView), size: CGSize(width: sidebar.frame.width - padding/2, height: sidebar.frame.height - zeroInView - (3*padding/4) - gi_logo.frame.height))
-        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the additional support. Additional Information about the model could be found here.")
+        let text = NSMutableAttributedString.init(string: "\n©2019 Geophysical Institute, University of Alaska Fairbanks. \n\nDesigned and conceived by Dmitry Nicolsky who is a part of the Snow, Ice, and Permafrost research group at the Geophysical Institute. We would like to thank the U.S. Permafrost Association for the support of Laurin McKenna to make this tool ready for the final release. More information about the employed model could be found at the Permafrost Laboratory website.")
         var urlString = "https://www.permafrostwatch.org"
         let giPermafrostURL = URL(string: urlString)
         text.setAttributes([.link: giPermafrostURL!], range: NSMakeRange(127, 25))
         urlString = "https://www.uspermafrost.org"
         let usPermafrostAssocURL = URL(string: urlString)
         text.setAttributes([.link: usPermafrostAssocURL!], range: NSMakeRange(225, 27))
-        urlString = "https://www.google.com"
+        urlString = "http://permafrost.gi.alaska.edu/"
         let additionalInfoURL = URL(string: urlString)
-        text.setAttributes([.link: additionalInfoURL!], range: NSMakeRange(335, 5))
+        text.setAttributes([.link: additionalInfoURL!], range: NSMakeRange(398, 21))
         
         copyrightGIUAF.attributedText = text
         //make hyperlink a different blue color for better matching of the background and underlined
