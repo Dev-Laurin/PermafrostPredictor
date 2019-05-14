@@ -9,26 +9,6 @@
 import UIKit
 import os
 
-//Create a bigger hitbox for the moving the line views - but nothing else
-//inspired by this answer: https://stackoverflow.com/questions/15553810/how-to-enlarge-hit-area-of-uigesturerecognizer 
-extension UIImageView {
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if self.isHidden || !self.isUserInteractionEnabled || self.alpha < 0.01 { return nil }
-        
-        //Only lineviews should have this tag
-        if(self.tag == 111){
-            let minHitArea = CGSize(width: 0, height: 50)
-            let viewSize = self.bounds.size
-            let heightToAdd = max(minHitArea.height - viewSize.height, 0)
-            let largerFrame = self.bounds.insetBy(dx: 0, dy: -heightToAdd/2)
-            return (largerFrame.contains(point)) ? self : nil
-        }
-        else{
-            return self.frame.contains(point) ? self : nil 
-        }
-    }
-}
-
 /**
     Our one-page app. This is where everything happens, the view controller.
 */
@@ -200,11 +180,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         maxSnowValue = 0.5 //meters
-        
+
         //Call the super version, recommended
         super.init(coder: coder )!
        //Call our function when the app goes into the background so we can save our configuration
         NotificationCenter.default.addObserver(self, selector: #selector(suspending), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        
     }
     
     /**
@@ -306,6 +288,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         //the actual 'zero' in the view if we discount the navbar
         zeroInView = barHeight + padding/2
+        
+        let launchView = UIView()
+        launchView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenWidth, height: screenHeight))
+        launchView.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.0)
+        launchView.tag = 1024
+        view.addSubview(launchView)
     }
     
     /**
@@ -333,6 +321,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         drawInitLabels()
         //Get the maximum our view heights can be based on this screen/device
         findMaxHeightsBasedOnScreen()
+        
+        //done loading - hide popup
+        let launchView = self.view.viewWithTag(1024)
+        launchView?.removeFromSuperview()
     }
     
     /**
