@@ -291,8 +291,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         let launchView = UIView()
         launchView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenWidth, height: screenHeight))
-        launchView.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.0)
+        launchView.backgroundColor = UIColor(red: 183/255, green: 190/255, blue: 200/255, alpha: 1.0)
         launchView.tag = 1024
+        //add icon/logo so users know it is loading
+        let iconImageView = UIImageView(image: UIImage(named: "SplashIcon"))
+        launchView.addSubview(iconImageView)
+        iconImageView.frame = CGRect(origin: CGPoint(x: launchView.frame.width/2 - iconImageView.frame.width/2, y: launchView.frame.height/2 - iconImageView.frame.height/2), size: CGSize(width: iconImageView.frame.width, height: iconImageView.frame.height))
         view.addSubview(launchView)
     }
     
