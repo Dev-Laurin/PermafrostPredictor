@@ -359,7 +359,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         //make overlapping uiview a gesture recognizer box fitting the snow line
         snowLineGestureAreaView.frame = CGRect(x: 0.0, y: snowLineView.frame.minY - (snowLineView.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: snowLineView.frame.height*sizeMultiplierForGesture)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleSnowLineTapGesture(sender:)))
+        snowLineGestureAreaView.addGestureRecognizer(tap)
+        
         groundLineGestureAreaView.frame = CGRect(x: 0.0, y: lineGround.frame.minY - (lineGround.frame.height*gestureSizeOffset) + barHeight, width: screenWidth, height: lineGround.frame.height*sizeMultiplierForGesture)
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(handleOrganicLineTapGesture(sender:)))
+        groundLineGestureAreaView.addGestureRecognizer(tap2)
 
         groundImageView.frame = CGRect(origin: CGPoint(x: 0.0, y: lineGround.frame.maxY), size: CGSize(width: screenWidth, height: screenHeight - lineGround.frame.maxY))
 
@@ -952,6 +957,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         //Don't have image keep moving, set translation to zero because we are done
         recognizer.setTranslation(CGPoint.zero, in: self.view)
+    }
+    
+    @objc func handleSnowLineTapGesture(sender:UITapGestureRecognizer){
+        //open snow popup
+        snowLayerTapGesture(sender)
+    }
+    @objc func handleOrganicLineTapGesture(sender:UITapGestureRecognizer){
+        organicLayerTapGesture(sender)
     }
     
     //MARK: Navigation
